@@ -14,3 +14,8 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+  customHeaders:
+    - pattern: '**/*.png'
+      headers: [ { key: 'Cache-Control', value: 'public,max-age=31536000,immutable' } ]
+    - pattern: '**/*.jpg'
+      headers: [ { key: 'Cache-Control', value: 'public,max-age=31536000,immutable' } ]
