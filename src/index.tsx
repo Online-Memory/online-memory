@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from './theme';
-import * as serviceWorker from './serviceWorker';
-import './index.css';
 import { Router } from './router';
+import './index.css';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>

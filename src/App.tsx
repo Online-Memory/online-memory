@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as LinkUI } from 'react-router-dom';
 import { Container, Typography, AppBar, Toolbar, Grid, Button, Link } from '@material-ui/core';
-import './App.css';
 
 const useStyles = makeStyles(theme => ({
   icon: {
