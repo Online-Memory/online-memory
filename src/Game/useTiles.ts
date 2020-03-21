@@ -51,10 +51,25 @@ export const useTiles = (rows: number, columns: number) => {
     return tiles[id];
   };
 
+  const checkoutTile = (tile: Tile) => {
+    setGameTiles(tiles => {
+      return tiles.map(currTile => {
+        if (tile.id === currTile.id) {
+          return {
+            ...currTile,
+            status: 'show',
+          };
+        }
+        return currTile;
+      });
+    });
+  };
+
   return {
     gridX,
     gridY,
     gameTiles,
     getTile,
+    checkoutTile,
   };
 };
