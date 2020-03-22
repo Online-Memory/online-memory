@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { withAuthenticator } from 'aws-amplify-react';
 import { App } from './App';
 import { Game } from './Game/Game';
 
-export const Router = () => {
+const RouterComponent = () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -17,3 +18,9 @@ export const Router = () => {
     </BrowserRouter>
   );
 };
+
+export const Router = withAuthenticator(RouterComponent, {
+  signUpConfig: {
+    hiddenDefaults: ['phone_number'],
+  },
+} as any);

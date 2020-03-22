@@ -8,12 +8,23 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn workspace client start"
+    "start": "yarn workspace client start",
+    "build": "yarn workspace client build",
+    "server:dev:deploy": "yarn workspace server dev:deploy",
+    "server:prod:deploy": "yarn workspace server prod:deploy",
+    "server:dev:remove": "yarn workspace server dev:remove",
+    "server:prod:remove": "yarn workspace server prod:remove",
+    "server:dev:info": "yarn workspace server dev:info",
+    "server:prod:info": "yarn workspace server prod:info"
   },
   "npmClient": "yarn",
   "workspaces": {
     "packages": [
       "packages/*"
+    ],
+    "nohoist": [
+      "server",
+      "server/**"
     ]
   },
   "dependencies": {},
@@ -44,6 +55,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "graphql": "^14.6.0",
     "jest": "24.9.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
@@ -54,6 +66,9 @@
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
     "prettier": "^1.19.1",
+    "serverless": "^1.67.0",
+    "serverless-appsync-plugin": "^1.2.0",
+    "serverless-dynamodb-client": "^0.0.2",
     "typescript": "~3.7.2",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.10.3",

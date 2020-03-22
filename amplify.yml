@@ -3,10 +3,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - yarn install
+        - yarn
     build:
       commands:
-        - yarn workspace online-scoreboard-client build
+        - yarn build
   artifacts:
     baseDirectory: /packages/client/build
     files:

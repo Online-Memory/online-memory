@@ -1,0 +1,219 @@
+service:
+  name: online-memory-server
+
+frameworkVersion: '>=1.21.0 <2.0.0'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  graphql:
+    description: 'Online Memory ${self:provider.stage} function'
+    handler: handler.graphqlHandler
+    role: GraphQLServiceRole
+    environment:
+      TABLE_NAME: ${self:custom.tableName}
+
+plugins:
+  - serverless-appsync-plugin
+
+custom:
+  accountId: ${opt:accountId}
+  tableName: 'OnlineMemory-${self:provider.stage}'
+  appSync:
+    name: OnlineMemory-${self:provider.stage}
+    authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported
+    serviceRole: 'OnlineMemory-${self:provider.stage}'
+
+    userPoolConfig:
+      awsRegion: ${self:provider.region}
+      defaultAction: ALLOW
+      userPoolId: { Ref: CognitoUserPoolUsers }
+
+    # mappingTemplatesLocation: # defaults to mapping-templates
+    mappingTemplates:
+      - dataSource: OnlineMemory
+        type: Query
+        field: whoAmI
+        request: 'whoAmI-request-mapping-template.vtl'
+        response: 'whoAmI-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Query
+        field: getUser
+        request: 'getUser-request-mapping-template.vtl'
+        response: 'getUser-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Query
+        field: getGame
+        request: 'getGame-request-mapping-template.vtl'
+        response: 'getGame-response-mapping-template.vtl'
+
+    dataSources:
+      - type: AMAZON_DYNAMODB
+        name: OnlineMemory
+        description: 'Online Memory ${self:provider.stage}'
+        config:
+          tableName: { Ref: OnlineMemoryTable }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncDynamoDBServiceRole, Arn] }
+      - type: AWS_LAMBDA
+        name: graphqlLambda
+        description: 'Lambda DataSource'
+        config:
+          functionName: graphql
+          lambdaFunctionArn: { Fn::GetAtt: [GraphqlLambdaFunction, Arn] } # Where GraphqlLambdaFunction is the lambda function cloudformation resource created by serverless for the serverless function named graphql
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] } # Where AppSyncLambdaServiceRole is an IAM role defined in Resources
+
+resources:
+  Resources:
+    CognitoUserPoolUsers:
+      Type: AWS::Cognito::UserPool
+      DeletionPolicy: Delete
+      Properties:
+        UserPoolName: OnlineMemory-${self:provider.stage}
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 6
+            RequireLowercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+            RequireUppercase: false
+        UsernameAttributes:
+          - email
+
+    WebUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: 'Web'
+        GenerateSecret: false
+        RefreshTokenValidity: 30
+        UserPoolId: { Ref: CognitoUserPoolUsers }
+
+    OnlineMemoryTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: __typename
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: __typename
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: TypenameGSI
+            KeySchema:
+              - AttributeName: __typename
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 2
+              WriteCapacityUnits: 2
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    AppSyncDynamoDBServiceRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: '${self:custom.appSync.serviceRole}-Dynamo'
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: 'Allow'
+              Principal:
+                Service:
+                  - 'appsync.amazonaws.com'
+              Action:
+                - 'sts:AssumeRole'
+        Policies:
+          - PolicyName: '${self:custom.appSync.serviceRole}-Dynamo-Policy'
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: 'Allow'
+                  Action:
+                    - 'dynamodb:Query'
+                    - 'dynamodb:Scan'
+                    - 'dynamodb:GetItem'
+                    - 'dynamodb:UpdateItem'
+                    - 'dynamodb:PutItem'
+                    - 'dynamodb:DeleteItem'
+                  Resource:
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
+
+    AppSyncLambdaServiceRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: '${self:custom.appSync.serviceRole}-Lambda'
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: 'Allow'
+              Principal:
+                Service:
+                  - 'appsync.amazonaws.com'
+              Action:
+                - 'sts:AssumeRole'
+        Policies:
+          - PolicyName: '${self:custom.appSync.serviceRole}-Lambda-Policy'
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: 'Allow'
+                  Action:
+                    - 'lambda:invokeFunction'
+                  Resource:
+                    - 'arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:online-memory-server-${self:provider.stage}-graphql'
+                    - 'arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:online-memory-server-${self:provider.stage}-graphql:*'
+
+    GraphQLServiceRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: '${self:custom.appSync.serviceRole}-GraphQL-Function'
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: 'Allow'
+              Principal:
+                Service:
+                  - 'lambda.amazonaws.com'
+              Action:
+                - 'sts:AssumeRole'
+        Policies:
+          - PolicyName: '${self:custom.appSync.serviceRole}-GraphQL-Dynamo-Policy'
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: 'Allow'
+                  Action:
+                    - 'dynamodb:Query'
+                  Resource:
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
+          # Uncomment to enable Cloudwatch on the GraphQL Lambda Function
+          # -
+          #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
+          #   PolicyDocument:
+          #     Version: "2012-10-17"
+          #     Statement:
+          #       -
+          #         Effect: "Allow"
+          #         Action:
+          #           - "logs:CreateLogGroup"
+          #           - "logs:CreateLogStream"
+          #           - "logs:PutLogEvents"
+          #         Resource:
+          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
+          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"

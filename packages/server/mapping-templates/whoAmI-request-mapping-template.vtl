@@ -1,0 +1,14 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+
+#if( $util.isNullOrEmpty($identityValue) )
+    $util.unauthorized()
+#end
+
+{
+    "version": "2017-02-28",
+    "operation": "GetItem",
+    "key": {
+        "id" : $util.dynamodb.toDynamoDBJson($identityValue),
+        "__typename": $util.dynamodb.toDynamoDBJson("User")
+    }
+}

@@ -7,6 +7,7 @@ export const Game = memo(() => {
   const gridSize = [10, 10];
   const classes = useStyles();
   const { gameTiles, gridX, gridY, getTile, checkoutTile } = useTiles(gridSize[0], gridSize[1]);
+
   const handleTileSelected = useCallback(
     tile => () => {
       checkoutTile(tile);

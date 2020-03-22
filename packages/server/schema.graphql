@@ -1,0 +1,26 @@
+type Game {
+  id: String!
+  createdAt: String!
+  updatedAt: String!
+  status: String!
+  owner: String!
+  name: String!
+  teams: Int!
+	users: [User]
+}
+
+type User {
+  id: String!
+  username: String!
+  createdAt: String!
+}
+
+type Query {
+  whoAmI: User
+  getUser(userId: String!): User
+  getGame(gameId: String!): Game
+}
+
+schema {
+  query: Query
+}
