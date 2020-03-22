@@ -73,6 +73,10 @@ resources:
       DeletionPolicy: Delete
       Properties:
         UserPoolName: OnlineMemory-${self:provider.stage}
+        AutoVerifiedAttributes:
+          - email
+        EmailVerificationMessage: "Hello from Online Memory.\nHere's your verification code: {####}"
+        EmailVerificationSubject: 'Online Memory'
         Policies:
           PasswordPolicy:
             MinimumLength: 6
