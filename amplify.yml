@@ -6,9 +6,9 @@ frontend:
         - yarn install
     build:
       commands:
-        - yarn build
+        - yarn workspace online-scoreboard-client build
   artifacts:
-    baseDirectory: /build
+    baseDirectory: /packages/client/build
     files:
       - '**/*'
   cache:
