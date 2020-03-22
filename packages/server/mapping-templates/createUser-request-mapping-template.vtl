@@ -1,0 +1,28 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+
+#if( $util.isNullOrEmpty($identityValue) )
+    $util.unauthorized()
+#end
+
+#set ($args = {})
+$util.qr($args.put("createdAt", $util.time.nowISO8601()))
+$util.qr($args.put("updatedAt", $util.time.nowISO8601()))
+$util.qr($args.put("username", "user"))
+$util.qr($args.put("__typename", "User"))
+
+#set( $condition = {
+    "expression": "attribute_not_exists(#id)",
+    "expressionNames": {
+        "#id": "id"
+    }
+} )
+
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "id": $util.dynamodb.toDynamoDBJson($identityValue),
+    },
+    "attributeValues" : $util.dynamodb.toMapValuesJson($args),
+    "condition": $util.toJson($condition)
+}

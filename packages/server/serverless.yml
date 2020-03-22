@@ -19,6 +19,7 @@ functions:
 
 plugins:
   - serverless-appsync-plugin
+  - serverless-dynamodb-local
 
 custom:
   accountId: ${opt:accountId}
@@ -50,6 +51,12 @@ custom:
         field: getGame
         request: 'getGame-request-mapping-template.vtl'
         response: 'getGame-response-mapping-template.vtl'
+
+      - dataSource: OnlineMemory
+        type: Mutation
+        field: createUser
+        request: 'createUser-request-mapping-template.vtl'
+        response: 'createUser-response-mapping-template.vtl'
 
     dataSources:
       - type: AMAZON_DYNAMODB

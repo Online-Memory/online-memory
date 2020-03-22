@@ -21,6 +21,11 @@ type Query {
   getGame(gameId: String!): Game
 }
 
+type Mutation {
+  createUser: User
+}
+
 schema {
   query: Query
+	mutation: Mutation
 }
