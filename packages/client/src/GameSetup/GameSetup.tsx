@@ -110,7 +110,7 @@ export const GameSetup = memo(() => {
     );
   }
 
-  if (!loading) {
+  if (loading) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">
