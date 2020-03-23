@@ -1,51 +1,71 @@
-import React, { memo, useCallback } from 'react';
-import { Container, Grid } from '@material-ui/core';
-import { useTiles } from './useTiles';
+import React, { memo } from 'react';
+import { GET_GAME } from './Game.graphql';
+import { useQuery } from '@apollo/react-hooks';
+import { useParams } from 'react-router-dom';
+import { GameComponent } from './GameComponent';
+import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { useStyles } from './styles';
 
-export const Game = memo(() => {
-  const gridSize = [10, 10];
+export const Game: React.FC = memo(() => {
+  const { id } = useParams();
   const classes = useStyles();
-  const { gameTiles, gridX, gridY, getTile, checkoutTile } = useTiles(gridSize[0], gridSize[1]);
+  const { data, loading, error } = useQuery(GET_GAME, {
+    variables: { gameId: id || '' },
+  });
 
-  const handleTileSelected = useCallback(
-    tile => () => {
-      checkoutTile(tile);
-    },
-    [checkoutTile]
-  );
-
-  if (!gameTiles || !gameTiles.length) {
-    return <div className="Game">Loading...</div>;
+  if (error) {
+    return (
+      <div className={`GameSetup ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>{error}</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
   }
 
-  return (
-    <div className={`Game ${classes.container}`}>
-      <Container maxWidth="lg">
-        <Grid className={classes.container} direction="column" justify="center" spacing={1} container>
-          {gridY.map((_, indexY) => (
-            <Grid key={`col-${indexY}`} spacing={1} justify="center" container item>
-              {gridX.map((_, indexX) => {
-                const tile = getTile(gameTiles, indexX, indexY, gridSize[1]);
-                return (
-                  <Grid item key={`col-${indexY}-row-${indexX}`}>
-                    <div className={classes.tileBox}>
-                      {!tile.owner && (
-                        <img
-                          className={classes.tile}
-                          src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
-                          alt="Memory Tile"
-                          onClick={handleTileSelected(tile)}
-                        />
-                      )}
-                    </div>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className={`GameSetup ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>Loading...</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  if (!data.getGame || !data.getGame.id) {
+    return (
+      <div className={`GameSetup ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>Invalid game. Please make sure this game id exists</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  return <GameComponent gameData={data.getGame} />;
 });

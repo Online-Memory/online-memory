@@ -15,4 +15,8 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: '8px',
     cursor: 'pointer',
   },
+  loading: {
+    marginTop: theme.spacing(20),
+    marginBottom: theme.spacing(20),
+  },
 }));
