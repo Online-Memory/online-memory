@@ -1,12 +1,28 @@
+input PlayerInput {
+	id: Int!
+	active: Boolean!
+	name: String
+}
+
+input CreateGameInput {
+  name: String!
+  size: Int!
+  players: [PlayerInput]
+}
+
+type Player {
+	name: String
+}
+
 type Game {
   id: String!
   createdAt: String!
   updatedAt: String!
-  status: String!
   owner: String!
   name: String!
   teams: Int!
 	users: [User]
+	players: [Player]
 }
 
 type User {
@@ -23,6 +39,7 @@ type Query {
 
 type Mutation {
   createUser: User
+  createGame(input: CreateGameInput!): Game
 }
 
 schema {

@@ -68,21 +68,29 @@ exports.graphqlHandler = async (event, context, callback) => {
 
   switch (field) {
     case 'createGame': {
-      const { teams, setup } = input;
+      const { name, size, players } = input;
 
+      const gamePlayers = players
+        .filter(player => player.active)
+        .map(player => ({
+          name: player.name,
+        }));
       const randomName = await generateUniqueName(TABLE_NAME);
       const createdAt = new Date().toISOString();
       const values = {
         __typename: 'Game',
-        status: 'new',
-        name: setup.gameName,
         users: [owner],
         createdAt,
+        teams: size,
+        players: gamePlayers,
+        name,
         owner,
-        teams,
       };
+      console.log('randomName', randomName);
+      console.log('values', values);
+
       if (randomName) {
-        callback(null, { id: randomName, values, isValid });
+        callback(null, { id: randomName, values });
       } else {
         callback(null, { error: 'Cannot find an available game name' });
       }

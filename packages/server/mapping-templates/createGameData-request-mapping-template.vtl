@@ -1,0 +1,36 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+
+#if( $util.isNullOrEmpty($identityValue) )
+  $util.unauthorized()
+#end
+
+#set( $gameId = $context.prev.result.id )
+#set( $values = $context.prev.result.values )
+
+#if( $util.isNullOrEmpty( $gameId ) )
+  $utils.error("Error: Cannot update game information with missing game id", "ERROR")
+#end
+
+#if( $util.isNullOrEmpty( $values ) )
+  $utils.error("Error: Cannot update a game with missing game information", "ERROR")
+#end
+
+$util.qr($values.put("updatedAt", $util.time.nowISO8601()))
+
+#set( $condition = {
+    "expression": "attribute_not_exists(#id)",
+    "expressionNames": {
+    "#id": "id"
+    }
+} )
+
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "id": $util.dynamodb.toDynamoDBJson($gameId),
+        "__typename": $util.dynamodb.toDynamoDBJson("Game")
+    },
+    "attributeValues": $util.dynamodb.toMapValuesJson($values),
+    "condition": $util.toJson($condition)
+}
