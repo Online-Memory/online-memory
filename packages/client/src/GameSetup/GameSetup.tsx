@@ -1,4 +1,5 @@
 import React, { memo, useState, useCallback } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -90,6 +91,48 @@ export const GameSetup = memo(() => {
       }))
     );
   }, []);
+
+  if (error) {
+    return (
+      <div className={`GameSetup ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>{error}</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  if (!loading) {
+    return (
+      <div className={`GameSetup ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>Loading...</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  if (data && data.createGame) {
+    const { id } = data.createGame;
+
+    return <Redirect to={`/game/${id}`} />;
+  }
 
   return (
     <div className={`GameSetup ${classes.container}`}>

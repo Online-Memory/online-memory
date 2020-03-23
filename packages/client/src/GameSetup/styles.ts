@@ -10,4 +10,8 @@ export const useStyles = makeStyles(theme => ({
   slider: {
     marginTop: theme.spacing(5),
   },
+  loading: {
+    marginTop: theme.spacing(20),
+    marginBottom: theme.spacing(20),
+  },
 }));
