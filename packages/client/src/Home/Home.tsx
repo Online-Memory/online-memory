@@ -19,7 +19,7 @@ export const Home = () => {
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
               <Grid item>
-                <LinkUI to="/game" className={classes.linkButon}>
+                <LinkUI to="/new" className={classes.linkButon}>
                   <Button variant="contained" color="primary">
                     Start new game
                   </Button>

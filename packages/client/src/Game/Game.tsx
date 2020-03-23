@@ -33,7 +33,7 @@ export const Game = memo(() => {
                       {!tile.owner && (
                         <img
                           className={classes.tile}
-                          src={`tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
+                          src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
                           alt="Memory Tile"
                           onClick={handleTileSelected(tile)}
                         />
