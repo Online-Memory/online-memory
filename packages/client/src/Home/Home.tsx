@@ -26,11 +26,8 @@ export const Home = () => {
     <div className="Home">
       <div className={classes.heroContent}>
         <Container maxWidth="sm">
-          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          <Typography component="h1" variant="h2" align="center" color="textPrimary">
             OnLine Memory
-          </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            COVID-19 solution for playing memory online with your friends while you're home
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={4} justify="center">
@@ -75,9 +72,18 @@ export const Home = () => {
       </div>
 
       <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center" spacing={4}>
           <Grid item>
-            <img alt="Memory Italia" src="./memory-italia.jpg" width="100%" className={classes.image} />
+            <Typography component="h3" variant="h3" align="center" color="textPrimary">
+              Let's play memory!
+            </Typography>
+
+            <Typography component="h4" variant="h4" align="center" color="textSecondary" gutterBottom>
+              Spread the love, not the virus
+            </Typography>
+          </Grid>
+          <Grid item>
+            <img alt="Memory Italia" src="./logo.png" width="100%" className={classes.image} />
           </Grid>
         </Grid>
       </Container>

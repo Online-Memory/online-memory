@@ -32,7 +32,7 @@ export const AppComponent = () => {
           <Link color="inherit" href="https://github.com/andreasonny83/">
             andreasonny83
           </Link>
-          {' ' + new Date().getFullYear()}. Built with ❤️.
+          {' ' + new Date().getFullYear()}. Built with ❤️
         </Typography>
       </footer>
     </div>

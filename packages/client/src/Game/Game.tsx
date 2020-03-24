@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { GET_GAME } from './Game.graphql';
 import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
-import { GameComponent } from './GameComponent';
 import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { GET_GAME } from '../graphql';
+import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
 export const Game: React.FC = memo(() => {
