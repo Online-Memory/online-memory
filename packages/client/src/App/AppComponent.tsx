@@ -28,11 +28,11 @@ export const AppComponent = () => {
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom></Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Copyright&copy;{' '}
+          Copyright &copy;{' '}
           <Link color="inherit" href="https://github.com/andreasonny83/">
             andreasonny83
           </Link>
-          {' ' + new Date().getFullYear()}. Built with ❤️
+          {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" alt="cat butt" />
         </Typography>
       </footer>
     </div>
