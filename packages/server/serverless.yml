@@ -65,6 +65,14 @@ custom:
         functions:
           - CreateGame
           - CreateGameData
+      - type: Mutation
+        field: claimPlayer
+        request: 'claimPlayer-request-mapping-template-before.vtl'
+        response: 'claimPlayer-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - ClaimPlayer
+          - UpdateGameData
 
     functionConfigurations:
       - dataSource: graphqlLambda
@@ -75,6 +83,14 @@ custom:
         name: 'CreateGameData'
         request: 'createGameData-request-mapping-template.vtl'
         response: 'createGameData-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'ClaimPlayer'
+        request: 'claimPlayer-request-mapping-template.vtl'
+        response: 'claimPlayer-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        name: 'UpdateGameData'
+        request: 'updateGameData-request-mapping-template.vtl'
+        response: 'updateGameData-response-mapping-template.vtl'
 
     dataSources:
       - type: AMAZON_DYNAMODB

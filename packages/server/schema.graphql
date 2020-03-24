@@ -1,7 +1,7 @@
 input PlayerInput {
-	id: Int!
-	active: Boolean!
-	name: String
+  id: Int!
+  active: Boolean!
+  name: String
 }
 
 input CreateGameInput {
@@ -10,8 +10,15 @@ input CreateGameInput {
   players: [PlayerInput]
 }
 
+input ClaimPlayerInput {
+  gameId: String!
+  playerId: String!
+}
+
 type Player {
-	name: String
+  name: String!
+  id: String!
+  userId: String
 }
 
 type Game {
@@ -21,8 +28,8 @@ type Game {
   owner: String!
   name: String!
   teams: Int!
-	users: [User]
-	players: [Player]
+  users: [User]
+  players: [Player]
 }
 
 type User {
@@ -40,9 +47,15 @@ type Query {
 type Mutation {
   createUser: User
   createGame(input: CreateGameInput!): Game
+  claimPlayer(input: ClaimPlayerInput!): Game
+}
+
+type Subscription {
+  gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer"])
 }
 
 schema {
   query: Query
-	mutation: Mutation
+  mutation: Mutation
+  subscription: Subscription
 }

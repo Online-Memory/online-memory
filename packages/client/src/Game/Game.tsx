@@ -1,19 +1,45 @@
-import React, { memo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { memo, useCallback } from 'react';
+import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
-import { GET_GAME } from '../graphql';
+import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
+import { useAuth } from '../Auth/useAuth';
+import { Player } from './types';
 import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
 export const Game: React.FC = memo(() => {
-  const { id } = useParams();
   const classes = useStyles();
+  const { user } = useAuth();
+  const { id } = useParams();
+
   const { data, loading, error } = useQuery(GET_GAME, {
     variables: { gameId: id || '' },
+    errorPolicy: 'ignore',
+  });
+  const [claimPlayer, { loading: claimPlayerLoading }] = useMutation(CLAIM_PLAYER, {
+    onError: err => {
+      console.warn(err);
+    },
   });
 
-  if (error) {
+  useSubscription(GAME_UPDATED, { variables: { id } });
+
+  const handleClaimPlayer = useCallback(
+    (player: Player) => {
+      claimPlayer({
+        variables: {
+          claimPlayerInput: {
+            gameId: id,
+            playerId: player.id,
+          },
+        },
+      });
+    },
+    [claimPlayer, id]
+  );
+
+  if (error || (!loading && !data)) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">
@@ -21,7 +47,7 @@ export const Game: React.FC = memo(() => {
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
                 <Grid item>
-                  <Typography>{error}</Typography>
+                  <Typography>{(error && error.message) || error || 'Ops! Something went wrong'}</Typography>
                 </Grid>
               </Grid>
             </CardContent>
@@ -31,7 +57,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (loading) {
+  if (loading || claimPlayerLoading) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">
@@ -67,5 +93,5 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} />;
+  return <GameComponent gameData={data.getGame} userId={user.id || ''} onClaimPlayer={handleClaimPlayer} />;
 });

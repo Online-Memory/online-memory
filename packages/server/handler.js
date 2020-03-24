@@ -72,7 +72,8 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       const gamePlayers = players
         .filter(player => player.active)
-        .map(player => ({
+        .map((player, index) => ({
+          id: index + 1,
           name: player.name,
         }));
       const randomName = await generateUniqueName(TABLE_NAME);
@@ -94,6 +95,40 @@ exports.graphqlHandler = async (event, context, callback) => {
       } else {
         callback(null, { error: 'Cannot find an available game name' });
       }
+
+      break;
+    }
+    case 'claimPlayer': {
+      console.log('event', event);
+      const { input, userId } = event;
+      const { gameId, playerId } = input;
+      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameExists = doesItemExist(gameData);
+
+      if (!gameExists) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+      }
+
+      const gameDataItem = gameData.Items[0];
+      const players = (gameDataItem && gameDataItem.players) || [];
+
+      const playersUpdated = players.map(player => {
+        if (`${player.id}` === `${playerId}`) {
+          return {
+            ...player,
+            userId,
+          };
+        }
+        return player;
+      });
+
+      const values = {
+        players: playersUpdated,
+      };
+
+      console.log('values', values);
+
+      callback(null, { id: gameId, values });
 
       break;
     }
