@@ -8,4 +8,5 @@ export interface GameData {
   id: string;
   name: string;
   players: Player[];
+  playerTurn: Player;
 }

@@ -16,6 +16,11 @@ export const CLAIM_PLAYER = gql`
       owner
       teams
       createdAt
+      playerTurn {
+        id
+        name
+        userId
+      }
       players {
         id
         name
@@ -33,6 +38,11 @@ export const GET_GAME = gql`
       owner
       teams
       createdAt
+      playerTurn {
+        id
+        name
+        userId
+      }
       players {
         id
         name
@@ -50,6 +60,11 @@ export const GAME_UPDATED = gql`
       owner
       teams
       createdAt
+      playerTurn {
+        id
+        name
+        userId
+      }
       players {
         id
         name

@@ -15,6 +15,9 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: '8px',
     cursor: 'pointer',
   },
+  tileDisabled: {
+    cursor: 'not-allowed',
+  },
   loading: {
     marginTop: theme.spacing(20),
     marginBottom: theme.spacing(20),

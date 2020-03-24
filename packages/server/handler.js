@@ -84,10 +84,11 @@ exports.graphqlHandler = async (event, context, callback) => {
         createdAt,
         teams: size,
         players: gamePlayers,
+        playerTurn: gamePlayers[0],
         name,
         owner,
       };
-      console.log('randomName', randomName);
+
       console.log('values', values);
 
       if (randomName) {

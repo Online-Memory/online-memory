@@ -27,6 +27,7 @@ type Game {
   updatedAt: String!
   owner: String!
   name: String!
+	playerTurn: Player
   teams: Int!
   users: [User]
   players: [Player]

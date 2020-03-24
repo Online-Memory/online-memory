@@ -14,7 +14,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   const classes = useStyles();
   const gridSize = [10, 10];
   const { gameTiles, gridX, gridY, getTile, checkoutTile } = useTiles(gridSize[0], gridSize[1]);
-  const { name, players } = gameData;
+  const { name, players, playerTurn } = gameData;
 
   const handleTileSelected = useCallback(
     tile => () => {
@@ -74,6 +74,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   ) : (
     <div className={`Game ${classes.container}`}>
       <Container maxWidth="lg">
+        <Typography paragraph>It's {playerTurn.name} turn!</Typography>
         <Typography align="center" component="h2" variant="h4">
           {name}
         </Typography>
@@ -87,12 +88,19 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
                   return (
                     <Grid item key={`col-${indexY}-row-${indexX}`}>
                       <div className={classes.tileBox}>
-                        {!tile.owner && (
+                        {!tile.owner && playerTurn.userId === userId && (
                           <img
                             className={classes.tile}
                             src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
                             alt="Memory Tile"
                             onClick={handleTileSelected(tile)}
+                          />
+                        )}
+                        {!tile.owner && playerTurn.userId !== userId && (
+                          <img
+                            className={`${classes.tile} ${classes.tileDisabled}`}
+                            src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
+                            alt="Memory Tile"
                           />
                         )}
                       </div>
