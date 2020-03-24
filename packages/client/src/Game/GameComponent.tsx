@@ -1,17 +1,13 @@
 import React, { memo, useCallback } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
 import { ClaimPlayer } from './ClaimPlayer/ClaimPlayer';
 import { useTiles } from './useTiles';
 import { useStyles } from './styles';
-import { Player } from './types';
+import { Player, GameData } from './types';
 
 interface Props {
   userId: string;
-  gameData: {
-    id: string;
-    name: string;
-    players: Player[];
-  };
+  gameData: GameData;
   onClaimPlayer: (player: Player) => void;
 }
 export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
@@ -39,8 +35,43 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   }
 
   const isAPlayer = Boolean(players.find(player => player.userId === userId));
+  const pendingPlayers = players.filter(player => !player.userId);
 
-  return (
+  return isAPlayer && pendingPlayers.length ? (
+    <div className={`Game ${classes.container}`}>
+      <Container maxWidth="lg">
+        <Card>
+          <CardHeader title={name} subheader={`Game ID: ${gameData.id}`} />
+          <CardContent>
+            <Grid container direction="column" spacing={2} justify="center">
+              <Grid item>
+                <Typography align="center" paragraph>
+                  Waiting for other players to join this game
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography align="center" paragraph>
+                  Share this game id with the other players to start this game: <strong>{gameData.id}</strong>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography align="center" paragraph>
+                  Pending players:
+                </Typography>
+              </Grid>
+              {pendingPlayers.map(player => (
+                <Grid item key={`pendingPlayer-${player.id}`}>
+                  <Typography align="center" paragraph>
+                    {player.name}
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
+          </CardContent>
+        </Card>
+      </Container>
+    </div>
+  ) : (
     <div className={`Game ${classes.container}`}>
       <Container maxWidth="lg">
         <Typography align="center" component="h2" variant="h4">

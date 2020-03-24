@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
-import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Container, Card, CardContent, Grid, Typography, CardHeader } from '@material-ui/core';
 import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
 import { useAuth } from '../Auth/useAuth';
-import { Player } from './types';
+import { Player, GameData } from './types';
 import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
@@ -13,7 +13,7 @@ export const Game: React.FC = memo(() => {
   const { user } = useAuth();
   const { id } = useParams();
 
-  const { data, loading, error } = useQuery(GET_GAME, {
+  const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
     errorPolicy: 'ignore',
   });
@@ -75,7 +75,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (!data.getGame || !data.getGame.id) {
+  if (!data || !data.getGame || !data.getGame.id) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">

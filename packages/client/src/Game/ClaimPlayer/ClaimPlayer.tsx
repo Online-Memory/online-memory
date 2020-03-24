@@ -23,13 +23,15 @@ export const ClaimPlayer: React.FC<Props> = memo(({ players, onPlayerSelected })
           <Grid container justify="center">
             <Grid item xs={6}>
               <List aria-label="players">
-                {players.map(player => {
-                  return (
-                    <ListItem key={`player-${player.id}`} button>
-                      <ListItemText primary={player.name} onClick={handlePlayerSelected(player)} />
-                    </ListItem>
-                  );
-                })}
+                {players
+                  .filter(player => !player.userId)
+                  .map(player => {
+                    return (
+                      <ListItem key={`player-${player.id}`} button>
+                        <ListItemText primary={player.name} onClick={handlePlayerSelected(player)} />
+                      </ListItem>
+                    );
+                  })}
               </List>
             </Grid>
           </Grid>

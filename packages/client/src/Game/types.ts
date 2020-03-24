@@ -3,3 +3,9 @@ export interface Player {
   name: string;
   userId: string;
 }
+
+export interface GameData {
+  id: string;
+  name: string;
+  players: Player[];
+}
