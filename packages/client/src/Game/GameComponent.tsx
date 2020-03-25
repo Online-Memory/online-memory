@@ -1,5 +1,17 @@
-import React, { memo, useCallback } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import React, { memo, useCallback, useMemo } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import {
+  Container,
+  Grid,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@material-ui/core';
+import { PLAY_TURN } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
 import { TileComponent } from './Tile';
@@ -13,8 +25,28 @@ interface Props {
 }
 
 export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
-  const classes = useStyles();
   const { name, players, playerTurn, board, tiles } = gameData;
+  const classes = useStyles();
+
+  const [playTurn] = useMutation(PLAY_TURN, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const open = useMemo(() => {
+    return playerTurn.userId === userId && !playerTurn.turn;
+  }, [playerTurn.turn, playerTurn.userId, userId]);
+
+  const handleClose = () => {
+    playTurn({
+      variables: {
+        playTurnInput: {
+          gameId: gameData.id,
+        },
+      },
+    });
+  };
 
   const gridX = new Array(board.gridX).fill('');
   const gridY = new Array(board.gridY).fill('');
@@ -51,6 +83,27 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
           {name}
         </Typography>
 
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"It's your turn!"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              It's your turn to play!
+              <br />
+              Press 'Play' to make your move
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Play
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         {isAPlayer ? (
           <Grid className={classes.container} direction="column" justify="center" spacing={1} container>
             {gridY.map((_, indexY) => (
@@ -59,6 +112,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
                   <Grid item key={`col-${indexY}-row-${indexX}`}>
                     <TileComponent
                       userId={userId}
+                      gameId={gameData.id}
                       playerTurn={playerTurn}
                       tile={getTile(tiles, indexX, indexY, board.gridX)}
                     />

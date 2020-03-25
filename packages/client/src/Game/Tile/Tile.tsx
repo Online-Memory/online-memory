@@ -7,14 +7,15 @@ import { useStyles } from '../styles';
 
 interface Props {
   userId: string;
+  gameId: string;
   playerTurn: Player;
   tile: Tile;
 }
 
-export const TileComponent: React.FC<Props> = memo(({ userId, playerTurn, tile }) => {
+export const TileComponent: React.FC<Props> = memo(({ userId, gameId, playerTurn, tile }) => {
   const classes = useStyles();
 
-  const [checkoutTile, { loading: checkoutTileLoading }] = useMutation(CHECKOUT_TILE, {
+  const [checkoutTile] = useMutation(CHECKOUT_TILE, {
     onError: err => {
       console.warn(err);
     },
@@ -23,8 +24,16 @@ export const TileComponent: React.FC<Props> = memo(({ userId, playerTurn, tile }
   const handleCheckOutTile = useCallback(
     tile => () => {
       console.warn('checkout tile', tile);
+      checkoutTile({
+        variables: {
+          checkoutTileInput: {
+            tileId: tile.id,
+            gameId,
+          },
+        },
+      });
     },
-    []
+    [checkoutTile, gameId]
   );
 
   return (

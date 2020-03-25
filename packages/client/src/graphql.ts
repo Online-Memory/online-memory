@@ -17,6 +17,40 @@ export const CLAIM_PLAYER = gql`
       teams
       createdAt
       playerTurn {
+        turn
+        id
+        name
+        userId
+      }
+      players {
+        id
+        name
+        userId
+      }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
+      }
+    }
+  }
+`;
+
+export const PLAY_TURN = gql`
+  mutation PlayTurn($playTurnInput: PlayTurnInput!) {
+    playTurn(input: $playTurnInput) {
+      id
+      name
+      owner
+      teams
+      createdAt
+      playerTurn {
+        turn
         id
         name
         userId
@@ -42,13 +76,14 @@ export const CLAIM_PLAYER = gql`
 
 export const CHECKOUT_TILE = gql`
   mutation CheckoutTile($checkoutTileInput: CheckoutTileInput!) {
-    claimPlayer(input: $checkoutTileInput) {
+    checkoutTile(input: $checkoutTileInput) {
       id
       name
       owner
       teams
       createdAt
       playerTurn {
+        turn
         id
         name
         userId
@@ -81,6 +116,7 @@ export const GET_GAME = gql`
       teams
       createdAt
       playerTurn {
+        turn
         id
         name
         userId
@@ -113,6 +149,7 @@ export const GAME_UPDATED = gql`
       teams
       createdAt
       playerTurn {
+        turn
         id
         name
         userId

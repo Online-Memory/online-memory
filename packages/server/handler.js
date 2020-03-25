@@ -98,6 +98,7 @@ const generateUniqueName = async tableName => {
 
 exports.graphqlHandler = async (event, context, callback) => {
   const { field, owner, input } = event;
+  console.log('event', event);
 
   switch (field) {
     case 'createGame': {
@@ -121,15 +122,15 @@ exports.graphqlHandler = async (event, context, callback) => {
         createdAt,
         teams: size,
         players: gamePlayers,
-        playerTurn: gamePlayers[0],
+        playerTurn: {
+          ...gamePlayers[0],
+          turn: 0,
+        },
         board,
         tiles,
         name,
         owner,
       };
-
-      console.log('values', values);
-      console.log('board tiles', tiles);
 
       if (randomName) {
         callback(null, { id: randomName, values });
@@ -139,8 +140,8 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       break;
     }
+
     case 'claimPlayer': {
-      console.log('event', event);
       const { input, userId } = event;
       const { gameId, playerId } = input;
       const gameData = await findItem(TABLE_NAME, gameId);
@@ -152,6 +153,7 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       const gameDataItem = gameData.Items[0];
       const players = (gameDataItem && gameDataItem.players) || [];
+      const teams = gameDataItem.teams;
 
       const playersUpdated = players.map(player => {
         if (`${player.id}` === `${playerId}`) {
@@ -163,8 +165,105 @@ exports.graphqlHandler = async (event, context, callback) => {
         return player;
       });
 
+      const assignedPlayers = playersUpdated.filter(player => player.userId);
+      let playerTurnUpdated = gameDataItem.playerTurn;
+
+      if (assignedPlayers.length === teams) {
+        playerTurnUpdated = playersUpdated[0];
+      }
+
       const values = {
         players: playersUpdated,
+        playerTurn: {
+          ...playerTurnUpdated,
+          turn: 0,
+        },
+      };
+
+      callback(null, { id: gameId, values });
+
+      break;
+    }
+
+    case 'checkoutTile': {
+      const { input, userId } = event;
+      const { gameId, tileId } = input;
+      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameExists = doesItemExist(gameData);
+
+      if (!gameExists) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+      }
+
+      const gameDataItem = gameData.Items[0];
+      const tiles = gameDataItem.tiles;
+      const playerTurn = gameDataItem.playerTurn;
+      const players = gameDataItem.players;
+
+      const shouldUpdate = tiles.find(tile => `${tile.id}` === `${tileId}`).status === 'hidden';
+
+      if (!shouldUpdate) {
+        // Only hidden tile can be checked out. if already in show state. don't take any action
+        return {};
+      }
+
+      const tilesUpdated = tiles.map(tile => {
+        if (`${tile.id}` === `${tileId}`) {
+          return {
+            ...tile,
+            status: 'show',
+          };
+        }
+        return tile;
+      });
+
+      const currPlayer = players.findIndex(player => player.id === playerTurn.id);
+      const nextPlayer = currPlayer < players.length - 1 ? players[currPlayer + 1] : players[0];
+
+      const updatePlayerTurn = () => {
+        if (playerTurn.turn > 1) {
+          return {
+            ...nextPlayer,
+            turn: 0,
+          };
+        }
+
+        return {
+          ...playerTurn,
+          turn: (playerTurn.turn || 0) + 1,
+        };
+      };
+
+      const playerTurnUpdated = updatePlayerTurn();
+
+      const values = {
+        tiles: tilesUpdated,
+        playerTurn: playerTurnUpdated,
+      };
+
+      callback(null, { id: gameId, values });
+
+      break;
+    }
+
+    case 'playTurn': {
+      const { input, userId } = event;
+      const { gameId } = input;
+      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameExists = doesItemExist(gameData);
+
+      if (!gameExists) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+      }
+
+      const gameDataItem = gameData.Items[0];
+      const playerTurnUpdated = {
+        ...gameDataItem.playerTurn,
+        turn: 1,
+      };
+
+      const values = {
+        playerTurn: playerTurnUpdated,
       };
 
       console.log('values', values);

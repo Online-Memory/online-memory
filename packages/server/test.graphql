@@ -1,20 +1,32 @@
 mutation CreateGame($createGameInput: CreateGameInput!) {
 	createGame(input: $createGameInput) {
 		id
+	}
+}
+
+query GetGame {
+	getGame(gameId: "nuclear_white_mollusk") {
+		id
+		yname
+		playerTurn {
+			name
+			id
+			userId
+		}
 		players {
 			name
 			id
 			userId
 		}
 		board {
-			tiles {
-				id
-				ref
-				status
-				owner
-			}
 			gridX
 			gridY
+		}
+		tiles {
+			id
+			ref
+			status
+			owner
 		}
 	}
 }

@@ -16,14 +16,12 @@ dotenv.config();
 Amplify.configure(AMPLIFY);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
-        <CssBaseline />
-        <App />
-      </ApolloProvider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <ApolloProvider client={client}>
+      <CssBaseline />
+      <App />
+    </ApolloProvider>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

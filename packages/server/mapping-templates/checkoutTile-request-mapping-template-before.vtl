@@ -1,0 +1,7 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+
+#if($util.isNullOrEmpty($identityValue))
+    $util.unauthorized()
+#end
+
+{}
