@@ -186,7 +186,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'checkoutTile': {
-      const { input, userId } = event;
+      const { input } = event;
       const { gameId, tileId } = input;
       const gameData = await findItem(TABLE_NAME, gameId);
       const gameExists = doesItemExist(gameData);
@@ -247,7 +247,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'playTurn': {
-      const { input, userId } = event;
+      const { input } = event;
       const { gameId } = input;
       const gameData = await findItem(TABLE_NAME, gameId);
       const gameExists = doesItemExist(gameData);
@@ -257,6 +257,11 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       const gameDataItem = gameData.Items[0];
+      const tiles = gameDataItem.tiles.map(tile => ({
+        ...tile,
+        status: 'hidden',
+      }));
+
       const playerTurnUpdated = {
         ...gameDataItem.playerTurn,
         turn: 1,
@@ -264,10 +269,10 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       const values = {
         playerTurn: playerTurnUpdated,
+        tiles,
       };
 
       console.log('values', values);
-
       callback(null, { id: gameId, values });
 
       break;

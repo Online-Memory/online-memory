@@ -23,7 +23,6 @@ export const TileComponent: React.FC<Props> = memo(({ userId, gameId, playerTurn
 
   const handleCheckOutTile = useCallback(
     tile => () => {
-      console.warn('checkout tile', tile);
       checkoutTile({
         variables: {
           checkoutTileInput: {
