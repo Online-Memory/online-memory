@@ -1,17 +1,6 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import {
-  Container,
-  Grid,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Snackbar,
-} from '@material-ui/core';
+import { Container, Grid, Typography, Button, Snackbar } from '@material-ui/core';
 import { PLAY_TURN } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
@@ -93,6 +82,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
         <Snackbar
           message="It's your turn!"
           open={open}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           action={
             <Button color="secondary" size="small" onClick={handleClose}>
               PLAY
