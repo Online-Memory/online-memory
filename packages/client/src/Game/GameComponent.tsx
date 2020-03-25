@@ -10,6 +10,7 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Snackbar,
 } from '@material-ui/core';
 import { PLAY_TURN } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
@@ -89,26 +90,15 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
           </Typography>
         ))}
 
-        <Dialog
+        <Snackbar
+          message="It's your turn!"
           open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"It's your turn!"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              It's your turn to play!
-              <br />
-              Press 'Play' to make your move
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Play
+          action={
+            <Button color="secondary" size="small" onClick={handleClose}>
+              PLAY
             </Button>
-          </DialogActions>
-        </Dialog>
+          }
+        />
 
         {isAPlayer ? (
           <Grid className={classes.container} direction="column" justify="center" spacing={1} container>
