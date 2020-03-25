@@ -1,62 +1,75 @@
 input PlayerInput {
-  id: Int!
-  active: Boolean!
-  name: String
+	id: Int!
+	active: Boolean!
+	name: String
 }
 
 input CreateGameInput {
-  name: String!
-  size: Int!
-  players: [PlayerInput]
+	name: String!
+	size: Int!
+	players: [PlayerInput]
 }
 
 input ClaimPlayerInput {
-  gameId: String!
-  playerId: String!
+	gameId: String!
+	playerId: String!
 }
 
 type Player {
-  name: String!
-  id: String!
-  userId: String
+	name: String!
+	id: String!
+	userId: String
+}
+
+type Tile {
+	id: Int
+	ref: String
+	status: String
+	owner: String
+}
+
+type Board {
+	gridX: Int
+	gridY: Int
 }
 
 type Game {
-  id: String!
-  createdAt: String!
-  updatedAt: String!
-  owner: String!
-  name: String!
+	id: String!
+	createdAt: String!
+	updatedAt: String!
+	owner: String!
+	name: String!
+	teams: Int!
+	board: Board
 	playerTurn: Player
-  teams: Int!
-  users: [User]
-  players: [Player]
+	players: [Player]
+	tiles: [Tile]
 }
 
 type User {
-  id: String!
-  username: String!
-  createdAt: String!
+	id: String!
+	username: String!
+	createdAt: String!
 }
 
 type Query {
-  whoAmI: User
-  getUser(userId: String!): User
-  getGame(gameId: String!): Game
+	whoAmI: User
+	getUser(userId: String!): User
+	getGame(gameId: String!): Game
 }
 
 type Mutation {
-  createUser: User
-  createGame(input: CreateGameInput!): Game
-  claimPlayer(input: ClaimPlayerInput!): Game
+	createUser: User
+	createGame(input: CreateGameInput!): Game
+	claimPlayer(input: ClaimPlayerInput!): Game
 }
 
 type Subscription {
-  gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer"])
+	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer"])
 }
 
 schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
 }

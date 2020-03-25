@@ -1,0 +1,33 @@
+mutation CreateGame($createGameInput: CreateGameInput!) {
+	createGame(input: $createGameInput) {
+		id
+		players {
+			name
+			id
+			userId
+		}
+		board {
+			tiles {
+				id
+				ref
+				status
+				owner
+			}
+			gridX
+			gridY
+		}
+	}
+}
+
+# Variables
+
+{
+	"createGameInput": {
+		"name":"asdasdsa",
+		"size":2,
+		"players":[
+			{ "id":1, "name":"dasasdas", "active":true },
+			{ "id":2, "name":"asdasds", "active":true },
+		]
+	}
+}

@@ -16,6 +16,39 @@ const randomNameConfig = {
   style: 'lowerCase',
 };
 
+const tilesBase = {
+  id: 0,
+  ref: '01',
+  status: 'hidden',
+};
+
+const shuffle = input => {
+  return input.sort(() => Math.random() - 0.5);
+};
+
+const getRef = index => {
+  const ref = Math.floor((index + 2) / 2);
+  return ref < 10 ? `00${ref}` : `0${ref}`;
+};
+
+const newBoard = (rows, columns) => {
+  const items = rows * columns;
+
+  const tiles = new Array(items).fill('').reduce(
+    (acc, _, currIndex) => [
+      ...acc,
+      {
+        ...tilesBase,
+        id: currIndex,
+        ref: getRef(currIndex),
+      },
+    ],
+    []
+  );
+
+  return shuffle(tiles);
+};
+
 const doesItemExist = data => {
   if (data && data.Items && data.Count && data.Count > 0 && data.Items.length && data.Items[0]) {
     return data.Items[0];
@@ -78,18 +111,25 @@ exports.graphqlHandler = async (event, context, callback) => {
         }));
       const randomName = await generateUniqueName(TABLE_NAME);
       const createdAt = new Date().toISOString();
+      const board = {
+        gridX: 10,
+        gridY: 10,
+      };
+      const tiles = newBoard(10, 10);
       const values = {
         __typename: 'Game',
-        users: [owner],
         createdAt,
         teams: size,
         players: gamePlayers,
         playerTurn: gamePlayers[0],
+        board,
+        tiles,
         name,
         owner,
       };
 
       console.log('values', values);
+      console.log('board tiles', tiles);
 
       if (randomName) {
         callback(null, { id: randomName, values });
