@@ -1,27 +1,25 @@
 import React, { memo, useCallback } from 'react';
-import { Container, Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
-import { ClaimPlayer } from './ClaimPlayer/ClaimPlayer';
-import { useTiles } from './useTiles';
+import { Container, Grid, Typography } from '@material-ui/core';
+import { ClaimPlayer } from './ClaimPlayer';
+import { WaitOpponents } from './WaitOpponents';
+import { TileComponent } from './Tile';
+import { Player, GameData, Tile } from './types';
 import { useStyles } from './styles';
-import { Player, GameData } from './types';
 
 interface Props {
   userId: string;
   gameData: GameData;
   onClaimPlayer: (player: Player) => void;
 }
+
 export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
   const classes = useStyles();
-  const gridSize = [10, 10];
-  const { gameTiles, gridX, gridY, getTile, checkoutTile } = useTiles(gridSize[0], gridSize[1]);
-  const { name, players, playerTurn } = gameData;
+  const { name, players, playerTurn, board, tiles } = gameData;
 
-  const handleTileSelected = useCallback(
-    tile => () => {
-      checkoutTile(tile);
-    },
-    [checkoutTile]
-  );
+  const gridX = new Array(board.gridX).fill('');
+  const gridY = new Array(board.gridY).fill('');
+  const isAPlayer = Boolean(players.find(player => player.userId === userId));
+  const pendingPlayers = players.filter(player => !player.userId);
 
   const handlePlayerSelected = useCallback(
     (player: Player) => {
@@ -30,52 +28,26 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
     [onClaimPlayer]
   );
 
-  if (!gameTiles || !gameTiles.length) {
-    return <div className={`Game ${classes.container}`}>Loading...</div>;
-  }
+  const getTile = useCallback((tiles: Tile[], posX: number, posY: number, boardX: number) => {
+    const id = boardX * posY + posX;
 
-  const isAPlayer = Boolean(players.find(player => player.userId === userId));
-  const pendingPlayers = players.filter(player => !player.userId);
+    return tiles[id];
+  }, []);
 
   return isAPlayer && pendingPlayers.length ? (
     <div className={`Game ${classes.container}`}>
-      <Container maxWidth="lg">
-        <Card>
-          <CardHeader title={name} subheader={`Game ID: ${gameData.id}`} />
-          <CardContent>
-            <Grid container direction="column" spacing={2} justify="center">
-              <Grid item>
-                <Typography align="center" paragraph>
-                  Waiting for other players to join this game
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography align="center" paragraph>
-                  Share this game id with the other players to start this game: <strong>{gameData.id}</strong>
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography align="center" paragraph>
-                  Pending players:
-                </Typography>
-              </Grid>
-              {pendingPlayers.map(player => (
-                <Grid item key={`pendingPlayer-${player.id}`}>
-                  <Typography align="center" paragraph>
-                    {player.name}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Container>
+      <WaitOpponents gameId={gameData.id} gameName={name} pendingPlayers={pendingPlayers} />
     </div>
   ) : (
     <div className={`Game ${classes.container}`}>
       <Container maxWidth="lg">
-        <Typography paragraph>It's {playerTurn.name} turn!</Typography>
-        <Typography align="center" component="h2" variant="h4">
+        {!pendingPlayers.length && (
+          <Typography paragraph gutterBottom>
+            It's <strong>{playerTurn.name.toUpperCase()}</strong> turn!
+          </Typography>
+        )}
+
+        <Typography align="center" component="h2" variant="h4" gutterBottom>
           {name}
         </Typography>
 
@@ -83,30 +55,15 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
           <Grid className={classes.container} direction="column" justify="center" spacing={1} container>
             {gridY.map((_, indexY) => (
               <Grid key={`col-${indexY}`} spacing={1} justify="center" container item>
-                {gridX.map((_, indexX) => {
-                  const tile = getTile(gameTiles, indexX, indexY, gridSize[1]);
-                  return (
-                    <Grid item key={`col-${indexY}-row-${indexX}`}>
-                      <div className={classes.tileBox}>
-                        {!tile.owner && playerTurn.userId === userId && (
-                          <img
-                            className={classes.tile}
-                            src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
-                            alt="Memory Tile"
-                            onClick={handleTileSelected(tile)}
-                          />
-                        )}
-                        {!tile.owner && playerTurn.userId !== userId && (
-                          <img
-                            className={`${classes.tile} ${classes.tileDisabled}`}
-                            src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
-                            alt="Memory Tile"
-                          />
-                        )}
-                      </div>
-                    </Grid>
-                  );
-                })}
+                {gridX.map((_, indexX) => (
+                  <Grid item key={`col-${indexY}-row-${indexX}`}>
+                    <TileComponent
+                      userId={userId}
+                      playerTurn={playerTurn}
+                      tile={getTile(tiles, indexX, indexY, board.gridX)}
+                    />
+                  </Grid>
+                ))}
               </Grid>
             ))}
           </Grid>

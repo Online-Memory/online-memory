@@ -26,6 +26,48 @@ export const CLAIM_PLAYER = gql`
         name
         userId
       }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
+      }
+    }
+  }
+`;
+
+export const CHECKOUT_TILE = gql`
+  mutation CheckoutTile($checkoutTileInput: CheckoutTileInput!) {
+    claimPlayer(input: $checkoutTileInput) {
+      id
+      name
+      owner
+      teams
+      createdAt
+      playerTurn {
+        id
+        name
+        userId
+      }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
+      }
+      players {
+        id
+        name
+        userId
+      }
     }
   }
 `;
@@ -48,6 +90,16 @@ export const GET_GAME = gql`
         name
         userId
       }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
+      }
     }
   }
 `;
@@ -69,6 +121,16 @@ export const GAME_UPDATED = gql`
         id
         name
         userId
+      }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
       }
     }
   }

@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
-import { Container, Card, CardContent, Grid, Typography, CardHeader } from '@material-ui/core';
+import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
 import { useAuth } from '../Auth/useAuth';
 import { Player, GameData } from './types';
