@@ -26,6 +26,7 @@ export const CLAIM_PLAYER = gql`
         id
         name
         userId
+        score
       }
       board {
         gridX
@@ -59,6 +60,7 @@ export const PLAY_TURN = gql`
         id
         name
         userId
+        score
       }
       board {
         gridX
@@ -102,6 +104,7 @@ export const CHECKOUT_TILE = gql`
         id
         name
         userId
+        score
       }
     }
   }
@@ -125,6 +128,7 @@ export const GET_GAME = gql`
         id
         name
         userId
+        score
       }
       board {
         gridX

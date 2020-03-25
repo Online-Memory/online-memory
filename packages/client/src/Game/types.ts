@@ -3,6 +3,7 @@ export interface Player {
   name: string;
   userId: string;
   turn?: number;
+  score?: number;
 }
 
 export interface Tile {

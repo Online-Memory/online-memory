@@ -28,12 +28,14 @@ type Player {
 	name: String!
 	id: String!
 	userId: String
+	score: Int
 }
 
 type PlayerTurn {
 	name: String!
 	id: String!
 	turn: Int
+	tileRef: String
 	userId: String
 }
 

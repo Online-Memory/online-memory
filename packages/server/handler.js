@@ -186,7 +186,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'checkoutTile': {
-      const { input } = event;
+      const { input, userId } = event;
       const { gameId, tileId } = input;
       const gameData = await findItem(TABLE_NAME, gameId);
       const gameExists = doesItemExist(gameData);
@@ -199,16 +199,23 @@ exports.graphqlHandler = async (event, context, callback) => {
       const tiles = gameDataItem.tiles;
       const playerTurn = gameDataItem.playerTurn;
       const players = gameDataItem.players;
+      let playersUpdated = players;
 
-      const shouldUpdate = tiles.find(tile => `${tile.id}` === `${tileId}`).status === 'hidden';
+      if (userId !== playerTurn.userId) {
+        callback(null, { error: `Invalid move` });
+      }
+
+      const currTile = tiles.find(tile => `${tile.id}` === `${tileId}`);
+      const shouldUpdate = currTile.status === 'hidden';
+      const isWin = playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
 
       if (!shouldUpdate) {
         // Only hidden tile can be checked out. if already in show state. don't take any action
         return {};
       }
 
-      const tilesUpdated = tiles.map(tile => {
-        if (`${tile.id}` === `${tileId}`) {
+      let tilesUpdated = tiles.map(tile => {
+        if (`${tile.id}` === `${tileId}` && !isWin) {
           return {
             ...tile,
             status: 'show',
@@ -221,24 +228,54 @@ exports.graphqlHandler = async (event, context, callback) => {
       const nextPlayer = currPlayer < players.length - 1 ? players[currPlayer + 1] : players[0];
 
       const updatePlayerTurn = () => {
-        if (playerTurn.turn > 1) {
+        if (playerTurn.turn > 1 && !isWin) {
           return {
             ...nextPlayer,
             turn: 0,
+          };
+        } else if (playerTurn.turn > 1 && isWin) {
+          return {
+            ...playerTurn,
+            turn: 1,
           };
         }
 
         return {
           ...playerTurn,
           turn: (playerTurn.turn || 0) + 1,
+          tileRef: `${currTile.ref}`,
         };
       };
 
       const playerTurnUpdated = updatePlayerTurn();
 
+      if (isWin) {
+        tilesUpdated = tiles.map(tile => {
+          if (`${tile.ref}` === `${currTile.ref}`) {
+            return {
+              ...tile,
+              status: 'taken',
+            };
+          }
+          return tile;
+        });
+
+        playersUpdated = players.map(player => {
+          if (player.userId === userId) {
+            return {
+              ...player,
+              score: (player.score || 0) + 1,
+            };
+          }
+
+          return player;
+        });
+      }
+
       const values = {
         tiles: tilesUpdated,
         playerTurn: playerTurnUpdated,
+        players: playersUpdated,
       };
 
       callback(null, { id: gameId, values });
@@ -259,7 +296,7 @@ exports.graphqlHandler = async (event, context, callback) => {
       const gameDataItem = gameData.Items[0];
       const tiles = gameDataItem.tiles.map(tile => ({
         ...tile,
-        status: 'hidden',
+        status: tile.status === 'taken' ? 'taken' : 'hidden',
       }));
 
       const playerTurnUpdated = {

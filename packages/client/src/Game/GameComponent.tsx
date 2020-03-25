@@ -75,13 +75,19 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
       <Container maxWidth="lg">
         {!pendingPlayers.length && (
           <Typography paragraph gutterBottom>
-            It's <strong>{playerTurn.name.toUpperCase()}</strong> turn!
+            It's <strong>{playerTurn.name.toUpperCase()}'s</strong> turn!
           </Typography>
         )}
 
         <Typography align="center" component="h2" variant="h4" gutterBottom>
           {name}
         </Typography>
+
+        {players.map(player => (
+          <Typography key={`player-score-${player.id}`} gutterBottom>
+            {player.name} - {player.score || 0}
+          </Typography>
+        ))}
 
         <Dialog
           open={open}
