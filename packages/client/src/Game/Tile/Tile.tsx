@@ -24,7 +24,9 @@ export const TileComponent: React.FC<Props> = memo(({ tile, onCheckout, disabled
   return (
     <div className={classes.tileBox}>
       <div
-        className={`tile ${tile.ref} ${tile.status} ${disabled ? classes.tileLoading : ''}`}
+        className={`tile ${tile.ref} ${tile.status} ${disabled ? 'disabled' : ''} ${
+          disabled ? classes.tileLoading : ''
+        }`}
         style={{ backgroundPosition: `-${x}px -${y}px` }}
         onClick={!disabled ? handleCheckOutTile(tile.id) : () => null}
       />

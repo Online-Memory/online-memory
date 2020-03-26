@@ -23,7 +23,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   const isAPlayer = Boolean(players.find(player => player.userId === userId));
   const pendingPlayers = players.filter(player => !player.userId);
 
-  const [playTurn] = useMutation(PLAY_TURN, {
+  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
     onError: err => {
       console.warn(err);
     },
@@ -63,6 +63,10 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   );
 
   const handleClose = () => {
+    if (playTurnLoading) {
+      return;
+    }
+
     playTurn({
       variables: {
         playTurnInput: {
@@ -128,7 +132,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
                     <Grid item key={`col-${indexY}-row-${indexX}`}>
                       <TileComponent
                         tile={getTile(tiles, indexX, indexY, board.gridX)}
-                        disabled={checkoutTIleLoading || playerTurn.userId !== userId}
+                        disabled={checkoutTIleLoading || playerTurn.userId !== userId || !playerTurn.turn}
                         onCheckout={handleCheckOutTile}
                       />
                     </Grid>
