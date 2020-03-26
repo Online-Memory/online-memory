@@ -1,53 +1,32 @@
 import React, { memo, useCallback } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-
-import { CHECKOUT_TILE } from '../../graphql';
-import { Player, Tile } from '../types';
+import { Tile } from '../types';
 import { useStyles } from '../styles';
 
 interface Props {
-  userId: string;
-  gameId: string;
-  playerTurn: Player;
   tile: Tile;
+  disabled: boolean;
+  onCheckout: (tileId: number) => void;
 }
 
-export const TileComponent: React.FC<Props> = memo(({ userId, gameId, playerTurn, tile }) => {
+export const TileComponent: React.FC<Props> = memo(({ tile, onCheckout, disabled }) => {
   const classes = useStyles();
 
-  const [checkoutTile] = useMutation(CHECKOUT_TILE, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
   const handleCheckOutTile = useCallback(
-    tile => () => {
-      checkoutTile({
-        variables: {
-          checkoutTileInput: {
-            tileId: tile.id,
-            gameId,
-          },
-        },
-      });
+    (tileId: number) => () => {
+      onCheckout(tileId);
     },
-    [checkoutTile, gameId]
+    [onCheckout]
   );
+
+  const x = tile.status === 'hidden' ? 0 : (Number(tile.ref) % 8) * 80;
+  const y = tile.status === 'hidden' ? 0 : Math.floor(Number(tile.ref) / 8) * 80;
 
   return (
     <div className={classes.tileBox}>
-      <img
-        className={`${classes.tile} ${tile.status} tile`}
-        src={`/tiles/${tile.status === 'show' || tile.status === 'taken' ? tile.ref : '000'}.png`}
-        alt="Memory Tile"
-        onClick={
-          playerTurn.userId === userId
-            ? handleCheckOutTile(tile)
-            : () => {
-                //
-              }
-        }
+      <div
+        className={`tile ${tile.ref} ${tile.status} ${disabled ? classes.tileLoading : ''}`}
+        style={{ backgroundPosition: `-${x}px -${y}px` }}
+        onClick={!disabled ? handleCheckOutTile(tile.id) : () => null}
       />
     </div>
   );

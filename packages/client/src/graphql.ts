@@ -90,6 +90,12 @@ export const CHECKOUT_TILE = gql`
         name
         userId
       }
+      players {
+        id
+        name
+        userId
+        score
+      }
       board {
         gridX
         gridY
@@ -99,12 +105,6 @@ export const CHECKOUT_TILE = gql`
         ref
         status
         owner
-      }
-      players {
-        id
-        name
-        userId
-        score
       }
     }
   }
@@ -162,6 +162,7 @@ export const GAME_UPDATED = gql`
         id
         name
         userId
+        score
       }
       board {
         gridX

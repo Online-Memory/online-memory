@@ -15,15 +15,18 @@ export const Game: React.FC = memo(() => {
 
   const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
-    errorPolicy: 'ignore',
+    onError: err => {
+      console.warn(err);
+    },
   });
+
   const [claimPlayer, { loading: claimPlayerLoading }] = useMutation(CLAIM_PLAYER, {
     onError: err => {
       console.warn(err);
     },
   });
 
-  useSubscription(GAME_UPDATED, { variables: { id } });
+  const { error: subError } = useSubscription(GAME_UPDATED, { variables: { id } });
 
   const handleClaimPlayer = useCallback(
     (player: Player) => {
@@ -39,7 +42,7 @@ export const Game: React.FC = memo(() => {
     [claimPlayer, id]
   );
 
-  if (error || (!loading && !data)) {
+  if (error || subError || (!loading && !data)) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">

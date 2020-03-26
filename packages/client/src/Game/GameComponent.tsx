@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Container, Grid, Typography, Button, Snackbar } from '@material-ui/core';
-import { PLAY_TURN } from '../graphql';
+import { PLAY_TURN, CHECKOUT_TILE } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
 import { TileComponent } from './Tile';
@@ -18,30 +18,22 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   const { name, players, playerTurn, board, tiles } = gameData;
   const classes = useStyles();
 
+  const gridX = new Array(board.gridX).fill('');
+  const gridY = new Array(board.gridY).fill('');
+  const isAPlayer = Boolean(players.find(player => player.userId === userId));
+  const pendingPlayers = players.filter(player => !player.userId);
+
   const [playTurn] = useMutation(PLAY_TURN, {
     onError: err => {
       console.warn(err);
     },
   });
 
-  const open = useMemo(() => {
-    return playerTurn.userId === userId && !playerTurn.turn;
-  }, [playerTurn.turn, playerTurn.userId, userId]);
-
-  const handleClose = () => {
-    playTurn({
-      variables: {
-        playTurnInput: {
-          gameId: gameData.id,
-        },
-      },
-    });
-  };
-
-  const gridX = new Array(board.gridX).fill('');
-  const gridY = new Array(board.gridY).fill('');
-  const isAPlayer = Boolean(players.find(player => player.userId === userId));
-  const pendingPlayers = players.filter(player => !player.userId);
+  const [checkoutTile, { loading: checkoutTIleLoading }] = useMutation(CHECKOUT_TILE, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
 
   const handlePlayerSelected = useCallback(
     (player: Player) => {
@@ -55,6 +47,34 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
 
     return tiles[id];
   }, []);
+
+  const handleCheckOutTile = useCallback(
+    (tileId: number) => {
+      checkoutTile({
+        variables: {
+          checkoutTileInput: {
+            gameId: gameData.id,
+            tileId,
+          },
+        },
+      });
+    },
+    [checkoutTile, gameData.id]
+  );
+
+  const handleClose = () => {
+    playTurn({
+      variables: {
+        playTurnInput: {
+          gameId: gameData.id,
+        },
+      },
+    });
+  };
+
+  const open = useMemo(() => {
+    return playerTurn.userId === userId && !playerTurn.turn;
+  }, [playerTurn.turn, playerTurn.userId, userId]);
 
   return isAPlayer && pendingPlayers.length ? (
     <div className={`Game ${classes.container}`}>
@@ -106,10 +126,9 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
                   {gridX.map((_, indexX) => (
                     <Grid item key={`col-${indexY}-row-${indexX}`}>
                       <TileComponent
-                        userId={userId}
-                        gameId={gameData.id}
-                        playerTurn={playerTurn}
                         tile={getTile(tiles, indexX, indexY, board.gridX)}
+                        disabled={checkoutTIleLoading || playerTurn.userId !== userId}
+                        onCheckout={handleCheckOutTile}
                       />
                     </Grid>
                   ))}
