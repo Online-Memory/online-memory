@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Container, Grid, Typography, Button, Snackbar } from '@material-ui/core';
+import { Container, Grid, Typography, Button, Snackbar, Card, CardHeader, CardContent } from '@material-ui/core';
 import { PLAY_TURN, CHECKOUT_TILE } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
@@ -80,6 +80,42 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
     return playerTurn.userId === userId && !playerTurn.turn;
   }, [playerTurn.turn, playerTurn.userId, userId]);
 
+  const isGameGoing = tiles.filter(tile => tile.status !== 'taken').length;
+
+  if (!isGameGoing) {
+    const winningPlayer = players.sort((playerA, playerB) => (playerB.score || 0) - (playerA.score || 0))[0];
+
+    return (
+      <div className={`Game ${classes.container}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardHeader title={name} subheader="This game is over" />
+            <CardContent>
+              <Grid container justify="center">
+                <Grid item xs={6}>
+                  <Typography align="center" component="h2" variant="h4" gutterBottom>
+                    This game is over
+                  </Typography>
+
+                  <Typography component="h6" variant="h6" gutterBottom>
+                    {winningPlayer.name} won the game with {winningPlayer.score} points!
+                  </Typography>
+                  {players
+                    .filter(player => player.id !== winningPlayer.id)
+                    .map(player => (
+                      <Typography key={`player_score-${player.id}`} component="h6" variant="h6" gutterBottom>
+                        {player.name} score: {player.score} points
+                      </Typography>
+                    ))}
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
   return isAPlayer && pendingPlayers.length ? (
     <div className={`Game ${classes.container}`}>
       <WaitOpponents gameId={gameData.id} gameName={name} pendingPlayers={pendingPlayers} />
@@ -104,7 +140,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
       />
 
       <Container maxWidth="lg">
-        {isAPlayer ? (
+        {isAPlayer || !pendingPlayers.length ? (
           <Grid container spacing={1}>
             <Grid item xs={12} lg={2}>
               <Typography align="center" component="h2" variant="h4" gutterBottom>
