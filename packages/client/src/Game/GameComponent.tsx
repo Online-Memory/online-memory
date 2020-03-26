@@ -85,6 +85,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
       <Snackbar
         message="It's your turn!"
         open={open}
+        onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         action={
           <Button color="secondary" size="small" onClick={handleClose}>

@@ -11,4 +11,7 @@ export const useStyles = makeStyles(theme => ({
   linkButon: {
     textDecoration: 'none',
   },
+  gitHubLogo: {
+    height: '42px',
+  },
 }));

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, AppBar, Toolbar, Button, Link } from '@material-ui/core';
+import { Typography, AppBar, Toolbar, Button, Link, Grid, Container } from '@material-ui/core';
 import { useAuth } from '../Auth/useAuth';
 import { Router } from './router';
+import gitHub from './github.svg';
 import { useStyles } from './styles';
 
 export const AppComponent = () => {
@@ -26,14 +27,25 @@ export const AppComponent = () => {
         <Router />
       </main>
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom></Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Copyright &copy;{' '}
-          <Link color="inherit" href="https://github.com/andreasonny83/">
-            andreasonny83
-          </Link>
-          {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" alt="cat butt" />
-        </Typography>
+        <Container maxWidth="sm">
+          <Grid container justify="space-between" alignItems="baseline" spacing={4}>
+            <Grid item>
+              <Typography variant="h6" align="center" gutterBottom></Typography>
+              <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                Copyright &copy;{' '}
+                <Link color="inherit" href="https://github.com/andreasonny83/">
+                  andreasonny83
+                </Link>
+                {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" alt="cat butt" />
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/">
+                <img src={gitHub} className={classes.gitHubLogo} alt="GitHub-logo" />
+              </Link>
+            </Grid>
+          </Grid>
+        </Container>
       </footer>
     </div>
   );
