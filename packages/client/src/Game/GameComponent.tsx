@@ -62,50 +62,60 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
     </div>
   ) : (
     <div className={`Game ${classes.container}`}>
+      <Snackbar
+        message="It's your turn!"
+        open={open}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        action={
+          <Button color="secondary" size="small" onClick={handleClose}>
+            PLAY
+          </Button>
+        }
+      />
+      <Snackbar
+        open={Boolean(playerTurn.userId)}
+        message={playerTurn.userId !== userId ? `${playerTurn.name.toUpperCase()} is playing` : `It's your turn`}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      />
+
       <Container maxWidth="lg">
-        {!pendingPlayers.length && (
-          <Typography paragraph gutterBottom>
-            It's <strong>{playerTurn.name.toUpperCase()}'s</strong> turn!
-          </Typography>
-        )}
-
-        <Typography align="center" component="h2" variant="h4" gutterBottom>
-          {name}
-        </Typography>
-
-        {players.map(player => (
-          <Typography key={`player-score-${player.id}`} gutterBottom>
-            {player.name} - {player.score || 0}
-          </Typography>
-        ))}
-
-        <Snackbar
-          message="It's your turn!"
-          open={open}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          action={
-            <Button color="secondary" size="small" onClick={handleClose}>
-              PLAY
-            </Button>
-          }
-        />
-
         {isAPlayer ? (
-          <Grid className={classes.container} direction="column" justify="center" spacing={1} container>
-            {gridY.map((_, indexY) => (
-              <Grid key={`col-${indexY}`} spacing={1} justify="center" container item>
-                {gridX.map((_, indexX) => (
-                  <Grid item key={`col-${indexY}-row-${indexX}`}>
-                    <TileComponent
-                      userId={userId}
-                      gameId={gameData.id}
-                      playerTurn={playerTurn}
-                      tile={getTile(tiles, indexX, indexY, board.gridX)}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ))}
+          <Grid container spacing={1}>
+            <Grid item xs={12} lg={2}>
+              <Typography align="center" component="h2" variant="h4" gutterBottom>
+                {name}
+              </Typography>
+
+              <Typography component="h6" variant="h6" gutterBottom>
+                Scoreboard
+              </Typography>
+              {players.map(player => (
+                <Typography
+                  key={`player-score-${player.id}`}
+                  className={player.userId === userId ? classes.scoreCurrentPlayer : ''}
+                  gutterBottom
+                >
+                  <strong>{player.name}</strong>: {player.score || 0}
+                </Typography>
+              ))}
+            </Grid>
+
+            <Grid className={classes.container} direction="column" justify="center" item container xs={12} lg={10}>
+              {gridY.map((_, indexY) => (
+                <Grid key={`col-${indexY}`} justify="center" container item>
+                  {gridX.map((_, indexX) => (
+                    <Grid item key={`col-${indexY}-row-${indexX}`}>
+                      <TileComponent
+                        userId={userId}
+                        gameId={gameData.id}
+                        playerTurn={playerTurn}
+                        tile={getTile(tiles, indexX, indexY, board.gridX)}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         ) : (
           <ClaimPlayer players={players} onPlayerSelected={handlePlayerSelected} />

@@ -211,7 +211,12 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       if (!shouldUpdate) {
         // Only hidden tile can be checked out. if already in show state. don't take any action
-        return {};
+        callback(null, { id: gameId, values: {} });
+      }
+
+      if (!playerTurn.turn) {
+        // Avoid player checking out more than 2 cards per turn
+        callback(null, { id: gameId, values: {} });
       }
 
       let tilesUpdated = tiles.map(tile => {

@@ -37,22 +37,18 @@ export const TileComponent: React.FC<Props> = memo(({ userId, gameId, playerTurn
 
   return (
     <div className={classes.tileBox}>
-      {tile.status !== 'taken' && !tile.owner && playerTurn.turn && playerTurn.userId === userId ? (
-        <img
-          className={`${classes.tile} ${tile.status}`}
-          src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
-          alt="Memory Tile"
-          onClick={handleCheckOutTile(tile)}
-        />
-      ) : null}
-      {(tile.status !== 'taken' && !tile.owner && playerTurn.userId !== userId) ||
-      (tile.status !== 'taken' && !tile.owner && !playerTurn.turn && playerTurn.userId === userId) ? (
-        <img
-          className={`${classes.tile} ${classes.tileDisabled} ${tile.status}`}
-          src={`/tiles/${tile.status === 'show' ? tile.ref : '000'}.png`}
-          alt="Memory Tile"
-        />
-      ) : null}
+      <img
+        className={`${classes.tile} ${tile.status} tile`}
+        src={`/tiles/${tile.status === 'show' || tile.status === 'taken' ? tile.ref : '000'}.png`}
+        alt="Memory Tile"
+        onClick={
+          playerTurn.userId === userId
+            ? handleCheckOutTile(tile)
+            : () => {
+                //
+              }
+        }
+      />
     </div>
   );
 });

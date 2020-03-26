@@ -7,3 +7,15 @@ html, body {
   overflow: auto;
   background: #96005912;
 }
+
+.tile {
+  transition: transform .3s linear, opacity 1s linear 1.5s;
+}
+
+.tile.taken {
+  opacity: 0;
+  transform: scale(1.5);
+}
+.tile.show {
+  transform: scale(1.1);
+}
