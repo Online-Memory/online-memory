@@ -10,7 +10,7 @@ export const AppComponent = () => {
   const { logOut } = useAuth();
 
   return (
-    <div className="App">
+    <Grid className={`App ${classes.app}`} direction="column" container>
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.title} noWrap>
@@ -23,12 +23,12 @@ export const AppComponent = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <main>
+      <main className={classes.main}>
         <Router />
       </main>
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Grid container justify="space-between" alignItems="baseline" spacing={4}>
+          <Grid container direction="column" alignItems="center" spacing={4}>
             <Grid item>
               <Typography variant="h6" align="center" gutterBottom></Typography>
               <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
@@ -47,6 +47,6 @@ export const AppComponent = () => {
           </Grid>
         </Container>
       </footer>
-    </div>
+    </Grid>
   );
 };

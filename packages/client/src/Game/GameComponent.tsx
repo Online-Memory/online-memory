@@ -63,7 +63,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   );
 
   const handleClose = () => {
-    if (playTurnLoading) {
+    if (playTurnLoading || playerTurn.turn) {
       return;
     }
 
@@ -161,20 +161,25 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
               ))}
             </Grid>
 
-            <Grid className={classes.container} direction="column" justify="center" item container xs={12} lg={10}>
-              {gridY.map((_, indexY) => (
-                <Grid key={`col-${indexY}`} justify="center" container item>
-                  {gridX.map((_, indexX) => (
-                    <Grid item key={`col-${indexY}-row-${indexX}`}>
-                      <TileComponent
-                        tile={getTile(tiles, indexX, indexY, board.gridX)}
-                        disabled={checkoutTIleLoading || playerTurn.userId !== userId || !playerTurn.turn}
-                        onCheckout={handleCheckOutTile}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              ))}
+            <Grid className={classes.container} justify="center" xs={12} lg={10} item container>
+              <Grid direction="column" className={classes.boardContainer} item container>
+                {gridY.map((_, indexY) => (
+                  <Grid key={`col-${indexY}`} container item>
+                    {gridX.map((_, indexX) => (
+                      <Grid item key={`col-${indexY}-row-${indexX}`} className="tileItem">
+                        <TileComponent
+                          tile={getTile(tiles, indexX, indexY, board.gridX)}
+                          disabled={
+                            playTurnLoading || checkoutTIleLoading || playerTurn.userId !== userId || !playerTurn.turn
+                          }
+                          loading={checkoutTIleLoading || playTurnLoading}
+                          onCheckout={handleCheckOutTile}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         ) : (

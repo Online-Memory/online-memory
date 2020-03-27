@@ -5,31 +5,37 @@ html, body {
 #root {
   height: 100%;
   overflow: auto;
-  background: #96005912;
 }
 
 .tile {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25), 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-  transition: transform .3s linear, box-shadow .3s linear, opacity 1s linear 1.5s;
-  background: url('/memory_italia.png');
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25),
+              1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+  transition: transform .3s ease-in-out,
+              box-shadow .2s ease-in-out,
+              opacity 1s ease-in-out 1.5s;
+  background: url('/memory_italia.png'), #333;
   background-repeat: no-repeat;
   background-size: 640px;
   background-position: 0 0;
   border-radius: 8px;
-  cursor: pointer;
   width: 100%;
   height: 100%;
 }
 
 .tile.taken {
   opacity: 0;
-  transform: scale(1.5);
+  transform: scale(1.8);
+  pointer-events: none;
 }
+
 .tile.show {
   transform: scale(1.1);
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2),
+              0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .tile:hover:not(.show):not(.disabled) {
-  box-shadow: 0 0 1px 4px rgba(255, 0, 200, 0.6), 0 0 8px rgba(0, 0, 0, 0.25), 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 2px 3px rgba(255, 0, 200, 0.6),
+              0 0 8px rgba(0, 0, 0, 0.25),
+              1px 1px 2px 1px rgba(0, 0, 0, 0.3);
 }

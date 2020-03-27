@@ -12,6 +12,7 @@ export const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4),
   },
   image: {
+    background: 'white',
     maxWidth: '300px',
     boxShadow: '0px 1px 0px 4px white, 0px 1px 30px 2px black',
   },
