@@ -25,4 +25,5 @@ export interface GameData {
   playerTurn: Player;
   board: Board;
   tiles: Tile[];
+  updatedAt: string;
 }

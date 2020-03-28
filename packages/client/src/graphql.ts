@@ -16,6 +16,7 @@ export const CLAIM_PLAYER = gql`
       owner
       teams
       createdAt
+      updatedAt
       playerTurn {
         turn
         id
@@ -50,6 +51,7 @@ export const PLAY_TURN = gql`
       owner
       teams
       createdAt
+      updatedAt
       playerTurn {
         turn
         id
@@ -84,6 +86,7 @@ export const CHECKOUT_TILE = gql`
       owner
       teams
       createdAt
+      updatedAt
       playerTurn {
         turn
         id
@@ -118,6 +121,7 @@ export const GET_GAME = gql`
       owner
       teams
       createdAt
+      updatedAt
       playerTurn {
         turn
         id
@@ -152,6 +156,7 @@ export const GAME_UPDATED = gql`
       owner
       teams
       createdAt
+      updatedAt
       playerTurn {
         turn
         id
