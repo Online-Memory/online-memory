@@ -19,8 +19,6 @@ export const useStyles = makeStyles(theme => ({
     background: '#666',
   },
   tileWrapper: {
-    width: '80px',
-    height: '80px',
     background: '#666',
     boxSizing: 'content-box',
     padding: '4px',
@@ -34,6 +32,11 @@ export const useStyles = makeStyles(theme => ({
   loading: {
     marginTop: theme.spacing(20),
     marginBottom: theme.spacing(20),
+  },
+  zoom: {
+    position: 'fixed',
+    right: '0px',
+    top: '95px',
   },
   tileDisabled: {
     cursor: 'not-allowed',

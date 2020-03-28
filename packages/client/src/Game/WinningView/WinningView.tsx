@@ -24,32 +24,29 @@ export const WinningView: React.FC<Props> = memo(({ winningPlayer, players, game
             ).toLocaleTimeString()}`}
           />
           <CardContent>
-            <Grid container alignContent="center" direction="column" spacing={6}>
+            <Grid container alignContent="center" alignItems="center" direction="column" spacing={4}>
               <Grid item>
                 <Typography align="center" component="h2" variant="h3" gutterBottom>
-                  This Game Is Over
+                  {winningPlayer.name[0].toUpperCase()}
+                  {winningPlayer.name.slice(1).toLocaleLowerCase()} won this game with {winningPlayer.score} points!
                 </Typography>
               </Grid>
 
               <Grid item xs={10}>
-                <Typography paragraph gutterBottom>
-                  <strong>
-                    {winningPlayer.name[0].toUpperCase()}
-                    {winningPlayer.name.slice(1).toLocaleLowerCase()}
-                  </strong>{' '}
-                  won the game with {winningPlayer.score} points!
-                </Typography>
-                {players
-                  .filter(player => player.id !== winningPlayer.id)
-                  .map(player => (
-                    <Typography key={`player_score-${player.id}`} paragraph>
-                      <strong>
-                        {player.name[0].toUpperCase()}
-                        {player.name.slice(1).toLocaleLowerCase()}
-                      </strong>
-                      's score: {player.score} points
-                    </Typography>
-                  ))}
+                <img src="/trophy.gif" alt="trophy" width="180" />
+              </Grid>
+
+              <Grid item xs={10}>
+                {players.map((player, index) => (
+                  <Typography key={`player_score-${player.id}`} paragraph>
+                    {index + 1}.{' '}
+                    <strong>
+                      {player.name[0].toUpperCase()}
+                      {player.name.slice(1).toLocaleLowerCase()}
+                    </strong>
+                    's score: {player.score} points
+                  </Typography>
+                ))}
               </Grid>
               <Grid item></Grid>
             </Grid>
