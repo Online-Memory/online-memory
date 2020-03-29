@@ -25,5 +25,6 @@ export interface GameData {
   playerTurn: Player;
   board: Board;
   tiles: Tile[];
+  createdAt: string;
   updatedAt: string;
 }

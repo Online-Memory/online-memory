@@ -47,9 +47,6 @@ export const useStyles = makeStyles(theme => ({
   snackBarTopLeft: {
     top: '80px',
   },
-  scoreboardTitle: {
-    marginBottom: theme.spacing(6),
-  },
   claimPlayerList: {
     marginTop: theme.spacing(6),
     backgroundColor: 'rgba(255,255,255,0.1)',

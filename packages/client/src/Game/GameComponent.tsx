@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Container, Grid, Button, Snackbar } from '@material-ui/core';
-import { WithWidth, withWidth } from '@material-ui/core';
 import { PLAY_TURN, CHECKOUT_TILE } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
@@ -13,13 +12,13 @@ import { ZoomControl } from '../ZoomControl';
 import { useZoom } from '../ZoomControl/useZoom';
 import { useStyles } from './styles';
 
-interface Props extends WithWidth {
+interface Props {
   userId: string;
   gameData: GameData;
   onClaimPlayer: (player: Player) => void;
 }
 
-const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, width }) => {
+export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(80);
   const classes = useStyles();
   const { name, players, playerTurn, board, tiles } = gameData;
@@ -111,23 +110,12 @@ const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, widt
         }
       />
 
-      <Snackbar
-        open={Boolean(playerTurn.userId)}
-        message={playerTurn.userId !== userId ? `${playerTurn.name.toUpperCase()} is playing` : `It's your turn`}
-        anchorOrigin={{ vertical: width === 'xl' ? 'top' : 'bottom', horizontal: 'left' }}
-        classes={{
-          root: classes.snackBarRoot,
-          anchorOriginBottomLeft: classes.snackBarBottomLeft,
-          anchorOriginTopLeft: classes.snackBarTopLeft,
-        }}
-      />
-
       <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
 
       <Container maxWidth="lg">
         {isAPlayer || !pendingPlayers.length ? (
           <Grid container>
-            <Dashboard name={name} players={players} userId={userId} turnPlayerId={playerTurn.id} />
+            <Dashboard name={name} players={players} playerTurn={playerTurn} />
             <Board
               board={board}
               tiles={tiles}
@@ -144,5 +132,3 @@ const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, widt
     </div>
   );
 });
-
-export const GameComponent = withWidth()(Component);

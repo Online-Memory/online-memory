@@ -5,7 +5,7 @@ import { Game } from '../Game/Game';
 import { GameSetup } from '../GameSetup/GameSetup';
 import { About } from '../About';
 
-export const Router = () => {
+export const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Switch>
