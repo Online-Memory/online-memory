@@ -4,7 +4,6 @@ html, body {
 
 #root {
   height: 100%;
-  overflow: auto;
 }
 
 .tile {
@@ -13,7 +12,7 @@ html, body {
   transition: transform .3s ease-in-out,
               box-shadow .2s ease-in-out,
               opacity 1s ease-in-out 1.5s;
-  background: url('/memory_italia.png'), #333;
+  background: url('/memory_italia.png');
   background-repeat: no-repeat;
   background-position: 0 0;
   border-radius: 8px;

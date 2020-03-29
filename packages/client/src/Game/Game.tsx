@@ -44,7 +44,7 @@ export const Game: React.FC = memo(() => {
 
   if (error || subError || (!loading && !data)) {
     return (
-      <div className={`GameSetup ${classes.container}`}>
+      <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
           <Card>
             <CardContent>
@@ -62,7 +62,7 @@ export const Game: React.FC = memo(() => {
 
   if (loading || claimPlayerLoading) {
     return (
-      <div className={`GameSetup ${classes.container}`}>
+      <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
           <Card>
             <CardContent>
@@ -80,7 +80,7 @@ export const Game: React.FC = memo(() => {
 
   if (!data || !data.getGame || !data.getGame.id) {
     return (
-      <div className={`GameSetup ${classes.container}`}>
+      <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
           <Card>
             <CardContent>

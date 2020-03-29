@@ -1,11 +1,18 @@
 import React from 'react';
-import { Typography, AppBar, Toolbar, Button, Link, Grid, Container } from '@material-ui/core';
-import { useAuth } from '../Auth/useAuth';
-import { Router } from './router';
+import { Typography, AppBar, Toolbar, Button, Link, Grid, Container, IconButton, Tooltip } from '@material-ui/core';
+import Sun from '@material-ui/icons/Brightness7';
+import Moon from '@material-ui/icons/Brightness4';
 import gitHub from './github.svg';
+import { Router } from './router';
+import { useAuth } from '../Auth/useAuth';
 import { useStyles } from './styles';
 
-export const AppComponent = () => {
+interface Props {
+  darkTheme: boolean;
+  toggleDarkTheme: () => void;
+}
+
+export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const classes = useStyles();
   const { logOut } = useAuth();
 
@@ -18,6 +25,15 @@ export const AppComponent = () => {
               OnLine Memory
             </Link>
           </Typography>
+
+          <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>
+            <Tooltip title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
+              {darkTheme ? <Sun /> : <Moon />}
+            </Tooltip>
+          </IconButton>
+          <Link href="/about" underline="none" color="inherit">
+            <Button color="inherit">About</Button>
+          </Link>
           <Button color="inherit" onClick={logOut}>
             Logout
           </Button>
@@ -36,12 +52,12 @@ export const AppComponent = () => {
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
                 </Link>
-                {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" alt="cat butt" />
+                {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" height={32} alt="cat butt" />
               </Typography>
             </Grid>
             <Grid item>
               <Link color="inherit" href="https://github.com/andreasonny83/online-memory/">
-                <img src={gitHub} className={classes.gitHubLogo} alt="GitHub-logo" />
+                <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />
               </Link>
             </Grid>
           </Grid>

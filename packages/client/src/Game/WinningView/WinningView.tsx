@@ -14,9 +14,9 @@ export const WinningView: React.FC<Props> = memo(({ winningPlayer, players, game
   const classes = useStyles();
 
   return (
-    <div className={`Game ${classes.container}`}>
+    <div className={`WinningGame ${classes.container}`}>
       <Container maxWidth="lg">
-        <Card>
+        <Card elevation={3}>
           <CardHeader
             title={gameName}
             subheader={`Game ended on ${new Date(endGameTime).toDateString()} at ${new Date(

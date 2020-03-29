@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { Grid } from '@material-ui/core';
 import { TileComponent } from '../Tile';
-import { useStyles } from '../styles';
+import { useStyles } from './styles';
 import { Tile } from '../types';
 
 interface Props {

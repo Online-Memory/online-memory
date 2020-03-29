@@ -1,17 +1,17 @@
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Container, Grid, Button, Snackbar, IconButton, Paper } from '@material-ui/core';
+import { Container, Grid, Button, Snackbar } from '@material-ui/core';
 import { WithWidth, withWidth } from '@material-ui/core';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import { PLAY_TURN, CHECKOUT_TILE } from '../graphql';
 import { ClaimPlayer } from './ClaimPlayer';
 import { WaitOpponents } from './WaitOpponents';
 import { Dashboard } from './Dashboard';
 import { Player, GameData } from './types';
-import { useStyles } from './styles';
 import { WinningView } from './WinningView';
 import { Board } from './Board';
+import { ZoomControl } from '../ZoomControl';
+import { useZoom } from '../ZoomControl/useZoom';
+import { useStyles } from './styles';
 
 interface Props extends WithWidth {
   userId: string;
@@ -20,9 +20,9 @@ interface Props extends WithWidth {
 }
 
 const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, width }) => {
-  const { name, players, playerTurn, board, tiles } = gameData;
-  const [tileSize, setTileSize] = useState(80);
+  const { tileSize, zoomIn, zoomOut } = useZoom(80);
   const classes = useStyles();
+  const { name, players, playerTurn, board, tiles } = gameData;
 
   const isAPlayer = Boolean(players.find(player => player.userId === userId));
   const pendingPlayers = players.filter(player => !player.userId);
@@ -74,24 +74,6 @@ const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, widt
     });
   }, [gameData.id, playTurn, playTurnLoading, playerTurn.turn]);
 
-  const zoomIn = useCallback(() => {
-    setTileSize(tileSize => {
-      if (tileSize < 82) {
-        return tileSize + 1;
-      }
-      return tileSize;
-    });
-  }, []);
-
-  const zoomOut = useCallback(() => {
-    setTileSize(tileSize => {
-      if (tileSize > 68) {
-        return tileSize - 1;
-      }
-      return tileSize;
-    });
-  }, []);
-
   const open = useMemo(() => {
     return playerTurn.userId === userId && !playerTurn.turn;
   }, [playerTurn.turn, playerTurn.userId, userId]);
@@ -112,11 +94,11 @@ const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, widt
   }
 
   return isAPlayer && pendingPlayers.length ? (
-    <div className={`Game ${classes.container}`}>
+    <div className={`Game ${classes.gameContainer}`}>
       <WaitOpponents gameId={gameData.id} gameName={name} pendingPlayers={pendingPlayers} />
     </div>
   ) : (
-    <div className={`Game ${classes.container}`}>
+    <div className={`Game ${classes.gameContainer}`}>
       <Snackbar
         message="It's your turn!"
         open={open}
@@ -140,16 +122,7 @@ const Component: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, widt
         }}
       />
 
-      <Paper className={classes.zoom}>
-        <Grid container direction="column">
-          <IconButton aria-label="delete" size="medium" onClick={zoomIn}>
-            <ZoomInIcon fontSize="inherit" />
-          </IconButton>
-          <IconButton aria-label="delete" size="medium" onClick={zoomOut}>
-            <ZoomOutIcon fontSize="inherit" />
-          </IconButton>
-        </Grid>
-      </Paper>
+      <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
 
       <Container maxWidth="lg">
         {isAPlayer || !pendingPlayers.length ? (
