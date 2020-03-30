@@ -52,6 +52,17 @@ export const About = () => {
 
               <Grid item>
                 <Typography component="h4" variant="h6" align="center">
+                  <Link color="inherit" href="https://github.com/kamolins/">
+                    Kārlis Amoliņš
+                  </Link>
+                </Typography>
+                <Typography paragraph>QA / Testing</Typography>
+                <Typography paragraph>UX Testing</Typography>
+                <Typography paragraph>Beta Tester</Typography>
+              </Grid>
+
+              <Grid item>
+                <Typography component="h4" variant="h6" align="center">
                   <Link color="inherit" href="https://about.me/andreasonny83/">
                     Andrea Sonny
                   </Link>
