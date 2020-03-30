@@ -41,7 +41,7 @@ export const useZoom = (initialValue: number) => {
   }, [setValue, tileSize]);
 
   const zoomOut = useCallback(() => {
-    if (tileSize > 60) {
+    if (tileSize > 50) {
       return setValue(tileSize - 1);
     }
     return tileSize;
