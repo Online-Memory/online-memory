@@ -14,18 +14,23 @@ import { useStyles } from './styles';
 
 interface Props {
   name: string;
+  moves: number;
   players: Player[];
   playerTurn: Player;
 }
 
-export const Dashboard: React.FC<Props> = ({ name, players, playerTurn }) => {
+export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn }) => {
   const classes = useStyles();
   const currPlayerIdPlayingIndex = players.findIndex(player => player.id === playerTurn.id);
-  const currPlayerPlaying = playerTurn.turn
+  let currPlayerPlaying = playerTurn.turn
     ? players[currPlayerIdPlayingIndex]
     : currPlayerIdPlayingIndex - 1 >= 0
     ? players[currPlayerIdPlayingIndex - 1]
     : players[players.length - 1];
+
+  if (!moves) {
+    currPlayerPlaying = players[0];
+  }
 
   return (
     <Grid className={classes.container} item xs={12} lg={3}>
@@ -33,8 +38,12 @@ export const Dashboard: React.FC<Props> = ({ name, players, playerTurn }) => {
         {name}
       </Typography>
 
-      <Typography component="h6" variant="h6" gutterBottom>
+      <Typography component="h6" variant="h6">
         Scoreboard
+      </Typography>
+
+      <Typography paragraph gutterBottom>
+        Total tiles turned: {moves}
       </Typography>
 
       <div className={classes.scoreboardList}>

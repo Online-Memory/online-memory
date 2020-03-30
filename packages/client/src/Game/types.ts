@@ -4,6 +4,8 @@ export interface Player {
   userId: string;
   turn?: number;
   score?: number;
+  moves: number;
+  pairs: number;
 }
 
 export interface Tile {
@@ -22,6 +24,7 @@ export interface GameData {
   id: string;
   name: string;
   template: string;
+  moves: number;
   players: Player[];
   playerTurn: Player;
   board: Board;

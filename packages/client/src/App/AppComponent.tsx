@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, AppBar, Toolbar, Button, Link, Grid, Container, IconButton, Tooltip } from '@material-ui/core';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
+import { version } from '../version';
 import gitHub from './github.svg';
 import { Router } from './router';
 import { useAuth } from '../Auth/useAuth';
@@ -48,7 +49,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
             <Grid item>
               <Typography variant="h6" align="center" gutterBottom></Typography>
               <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                Copyright &copy;{' '}
+                Online Memory v{version} Copyright &copy;{' '}
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
                 </Link>

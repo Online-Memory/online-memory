@@ -16,6 +16,7 @@ export const CLAIM_PLAYER = gql`
       owner
       teams
       template
+      moves
       createdAt
       updatedAt
       playerTurn {
@@ -29,6 +30,8 @@ export const CLAIM_PLAYER = gql`
         name
         userId
         score
+        moves
+        pairs
       }
       board {
         gridX
@@ -52,6 +55,7 @@ export const PLAY_TURN = gql`
       owner
       teams
       template
+      moves
       createdAt
       updatedAt
       playerTurn {
@@ -65,6 +69,8 @@ export const PLAY_TURN = gql`
         name
         userId
         score
+        moves
+        pairs
       }
       board {
         gridX
@@ -88,6 +94,7 @@ export const CHECKOUT_TILE = gql`
       owner
       teams
       template
+      moves
       createdAt
       updatedAt
       playerTurn {
@@ -101,6 +108,8 @@ export const CHECKOUT_TILE = gql`
         name
         userId
         score
+        moves
+        pairs
       }
       board {
         gridX
@@ -124,6 +133,7 @@ export const GET_GAME = gql`
       owner
       teams
       template
+      moves
       createdAt
       updatedAt
       playerTurn {
@@ -137,6 +147,8 @@ export const GET_GAME = gql`
         name
         userId
         score
+        moves
+        pairs
       }
       board {
         gridX
@@ -160,6 +172,7 @@ export const GAME_UPDATED = gql`
       owner
       teams
       template
+      moves
       createdAt
       updatedAt
       playerTurn {
@@ -173,6 +186,8 @@ export const GAME_UPDATED = gql`
         name
         userId
         score
+        moves
+        pairs
       }
       board {
         gridX

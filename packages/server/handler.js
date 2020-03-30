@@ -115,6 +115,8 @@ exports.graphqlHandler = async (event, context, callback) => {
         .map((player, index) => ({
           id: index + 1,
           name: player.name,
+          moves: 0,
+          pairs: 0,
         }));
       const randomName = await generateUniqueName(TABLE_NAME);
       const createdAt = new Date().toISOString();
@@ -126,6 +128,7 @@ exports.graphqlHandler = async (event, context, callback) => {
       const values = {
         __typename: 'Game',
         createdAt,
+        moves: 0,
         teams: size,
         players: gamePlayers,
         playerTurn: {
@@ -205,6 +208,7 @@ exports.graphqlHandler = async (event, context, callback) => {
       const gameDataItem = gameData.Items[0];
       const tiles = gameDataItem.tiles;
       const playerTurn = gameDataItem.playerTurn;
+      const moves = gameDataItem.moves;
       const players = gameDataItem.players;
       let playersUpdated = players;
 
@@ -285,6 +289,7 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       const values = {
+        moves: moves + 1,
         tiles: tilesUpdated,
         playerTurn: playerTurnUpdated,
         players: playersUpdated,

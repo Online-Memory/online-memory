@@ -30,6 +30,8 @@ type Player {
 	id: String!
 	userId: String
 	score: Int
+	moves: Int
+	pairs: Int
 }
 
 type PlayerTurn {
@@ -64,6 +66,7 @@ type Game {
 	playerTurn: PlayerTurn
 	players: [Player]
 	tiles: [Tile]
+	moves: Int
 }
 
 type Settings {
