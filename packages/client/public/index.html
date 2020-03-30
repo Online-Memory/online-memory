@@ -43,6 +43,27 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function(event) {
+        function checkWidget() {
+          const pathName = location.pathname;
+          const target = document.getElementById('bmc-wbtn');
+
+          if (target && target.classList) {
+            if (pathName === '/' && !target.classList.contains('show')) {
+              target.classList.add('show');
+            } else if (pathName !== '/' && target.classList.contains('show')) {
+              target.classList.remove('show');
+            }
+          }
+
+          setTimeout(function() {
+            checkWidget();
+          }, 3000);
+        }
+        checkWidget();
+      });
+    </script>
     <script
       data-name="BMC-Widget"
       src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
