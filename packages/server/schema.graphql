@@ -7,6 +7,7 @@ input PlayerInput {
 input CreateGameInput {
 	name: String!
 	size: Int!
+	template: String!
 	players: [PlayerInput]
 }
 
@@ -58,10 +59,18 @@ type Game {
 	owner: String!
 	name: String!
 	teams: Int!
+	template: String
 	board: Board
 	playerTurn: PlayerTurn
 	players: [Player]
 	tiles: [Tile]
+}
+
+type Settings {
+	id: String!
+	name: String!
+	tiles: Int!
+	Board: [Int]!
 }
 
 type User {

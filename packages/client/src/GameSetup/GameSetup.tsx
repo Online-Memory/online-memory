@@ -47,7 +47,7 @@ export const GameSetup = memo(() => {
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
                 <Grid item>
-                  <Typography>{error}</Typography>
+                  <Typography>Ops! Something went wrong. Please, try again</Typography>
                 </Grid>
               </Grid>
             </CardContent>

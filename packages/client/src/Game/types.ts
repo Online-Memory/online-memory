@@ -21,6 +21,7 @@ export interface Board {
 export interface GameData {
   id: string;
   name: string;
+  template: string;
   players: Player[];
   playerTurn: Player;
   board: Board;

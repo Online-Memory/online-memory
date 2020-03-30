@@ -10,6 +10,8 @@ import {
   Button,
   TextField,
   Slider,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import { Player } from './types';
 import { useStyles } from './styles';
@@ -23,15 +25,21 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
   const classes = useStyles();
   const [teamSize, setTeamSize] = useState(4);
   const [gameName, setGameName] = useState('');
+  const [gameTemplate, setGameTemplate] = useState('001');
   const [players, setPlayers] = useState(defaultPlayers);
 
   const handleSubmit = useCallback(() => {
     onSubmit({
       name: gameName,
       size: teamSize,
+      template: gameTemplate,
       players,
     });
-  }, [gameName, onSubmit, players, teamSize]);
+  }, [gameName, gameTemplate, onSubmit, players, teamSize]);
+
+  const handleChange = useCallback(event => {
+    setGameTemplate(event.target.value);
+  }, []);
 
   const handleGameNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setGameName(event.target.value);
@@ -76,6 +84,7 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
       <Container maxWidth="lg">
         <Card>
           <CardHeader title="New Game" subheader="Define your game" />
+
           <CardContent>
             <Container maxWidth="sm">
               <Grid container direction="column" spacing={1}>
@@ -90,6 +99,7 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
                     fullWidth
                   />
                 </Grid>
+
                 <Grid item>
                   <Typography gutterBottom>How many players are going to play?</Typography>
                   <Slider
@@ -103,6 +113,15 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
                     marks
                   />
                 </Grid>
+
+                <Grid item>
+                  <Typography gutterBottom>Choose a game template</Typography>
+                  <Select fullWidth variant="outlined" value={gameTemplate} onChange={handleChange}>
+                    <MenuItem value="001">Italy</MenuItem>
+                    <MenuItem value="002">Food</MenuItem>
+                  </Select>
+                </Grid>
+
                 {players
                   .filter(player => player.active)
                   .map(player => (
@@ -121,6 +140,7 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
               </Grid>
             </Container>
           </CardContent>
+
           <CardActions className={classes.cardActions}>
             <Button color="primary" onClick={handleSubmit} disabled={checkForm}>
               Start

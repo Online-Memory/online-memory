@@ -21,7 +21,7 @@ interface Props {
 export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(80);
   const classes = useStyles();
-  const { name, players, playerTurn, board, tiles } = gameData;
+  const { name, players, playerTurn, board, tiles, template } = gameData;
 
   const isAPlayer = Boolean(players.find(player => player.userId === userId));
   const pendingPlayers = players.filter(player => !player.userId);
@@ -118,6 +118,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
             <Dashboard name={name} players={players} playerTurn={playerTurn} />
             <Board
               board={board}
+              template={template}
               tiles={tiles}
               tileSize={tileSize}
               loading={checkoutTIleLoading || playTurnLoading}

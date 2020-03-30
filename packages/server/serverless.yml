@@ -271,7 +271,7 @@ resources:
                   Resource:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
-          # Uncomment to enable Cloudwatch on the GraphQL Lambda Function
+          # Uncomment to enable CloudWatch on the GraphQL Lambda Function
           # -
           #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
           #   PolicyDocument:

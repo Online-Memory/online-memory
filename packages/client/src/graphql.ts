@@ -15,6 +15,7 @@ export const CLAIM_PLAYER = gql`
       name
       owner
       teams
+      template
       createdAt
       updatedAt
       playerTurn {
@@ -50,6 +51,7 @@ export const PLAY_TURN = gql`
       name
       owner
       teams
+      template
       createdAt
       updatedAt
       playerTurn {
@@ -85,6 +87,7 @@ export const CHECKOUT_TILE = gql`
       name
       owner
       teams
+      template
       createdAt
       updatedAt
       playerTurn {
@@ -120,6 +123,7 @@ export const GET_GAME = gql`
       name
       owner
       teams
+      template
       createdAt
       updatedAt
       playerTurn {
@@ -155,6 +159,7 @@ export const GAME_UPDATED = gql`
       name
       owner
       teams
+      template
       createdAt
       updatedAt
       playerTurn {

@@ -9,6 +9,11 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
+const gameSettings = [
+  { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
+  { id: '002', name: 'Food', tiles: 100, board: [10, 10] },
+];
+
 const randomNameConfig = {
   dictionaries: [adjectives, colors, animals],
   length: 3,
@@ -102,7 +107,8 @@ exports.graphqlHandler = async (event, context, callback) => {
 
   switch (field) {
     case 'createGame': {
-      const { name, size, players } = input;
+      const { name, size, players, template } = input;
+      const gameTemplate = gameSettings.find(settings => settings.id === template);
 
       const gamePlayers = players
         .filter(player => player.active)
@@ -113,10 +119,10 @@ exports.graphqlHandler = async (event, context, callback) => {
       const randomName = await generateUniqueName(TABLE_NAME);
       const createdAt = new Date().toISOString();
       const board = {
-        gridX: 10,
-        gridY: 10,
+        gridX: gameTemplate.board[0],
+        gridY: gameTemplate.board[1],
       };
-      const tiles = newBoard(10, 10);
+      const tiles = newBoard(board.gridX, board.gridY);
       const values = {
         __typename: 'Game',
         createdAt,
@@ -128,6 +134,7 @@ exports.graphqlHandler = async (event, context, callback) => {
         },
         board,
         tiles,
+        template,
         name,
         owner,
       };
@@ -317,6 +324,11 @@ exports.graphqlHandler = async (event, context, callback) => {
       console.log('values', values);
       callback(null, { id: gameId, values });
 
+      break;
+    }
+
+    case 'settings': {
+      callback(null, gameSettings);
       break;
     }
 
