@@ -74,7 +74,7 @@ export const Home = () => {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container direction="column" alignItems="center" spacing={4}>
           <Grid item>
-            <Typography component="h3" variant="h3" align="center" color="textPrimary">
+            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
               Let's play memory!
             </Typography>
 
@@ -83,7 +83,7 @@ export const Home = () => {
             </Typography>
           </Grid>
           <Grid item>
-            <img alt="Memory Italia" src="./logo.png" width="100%" className={classes.image} />
+            <img alt="Memory Italia" src="/img/logo.png" width="100%" className={classes.image} />
           </Grid>
         </Grid>
       </Container>

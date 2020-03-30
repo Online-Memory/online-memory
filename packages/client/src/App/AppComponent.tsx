@@ -52,7 +52,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
                 </Link>
-                {' ' + new Date().getFullYear()}. Made with <img src="/catButt.png" height={32} alt="cat butt" />
+                {' ' + new Date().getFullYear()}. Made with <img src="/img/catButt.png" height={32} alt="cat butt" />
               </Typography>
             </Grid>
             <Grid item>

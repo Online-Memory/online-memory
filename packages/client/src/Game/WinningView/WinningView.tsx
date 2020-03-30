@@ -33,7 +33,7 @@ export const WinningView: React.FC<Props> = memo(({ winningPlayer, players, game
               </Grid>
 
               <Grid item xs={10}>
-                <img src="/trophy.gif" alt="trophy" width="180" />
+                <img src="/img/trophy.gif" alt="trophy" width="180" />
               </Grid>
 
               <Grid item xs={10}>
