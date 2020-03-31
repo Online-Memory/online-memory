@@ -5,12 +5,12 @@ import { Player } from '../types';
 
 interface Props {
   gameName: string;
-  winningPlayer: Player;
+  winningPlayers: Player[];
   players: Player[];
   endGameTime: string;
 }
 
-export const WinningView: React.FC<Props> = memo(({ winningPlayer, players, gameName, endGameTime }) => {
+export const WinningView: React.FC<Props> = memo(({ winningPlayers, players, gameName, endGameTime }) => {
   const classes = useStyles();
 
   return (
@@ -26,10 +26,32 @@ export const WinningView: React.FC<Props> = memo(({ winningPlayer, players, game
           <CardContent>
             <Grid container alignContent="center" alignItems="center" direction="column" spacing={4}>
               <Grid item>
-                <Typography align="center" component="h2" variant="h3" gutterBottom>
-                  {winningPlayer.name[0].toUpperCase()}
-                  {winningPlayer.name.slice(1).toLocaleLowerCase()} won this game with {winningPlayer.score} points!
-                </Typography>
+                {winningPlayers.length ? (
+                  <>
+                    <Typography align="center" component="h2" variant="h3" gutterBottom>
+                      It's a tie!
+                    </Typography>
+                    <Typography align="center" component="h2" variant="h3">
+                      {winningPlayers.map(winningPlayer => (
+                        <Typography component="span" variant="h3">
+                          {winningPlayer.name[0].toUpperCase()}
+                          {winningPlayer.name.slice(1).toLocaleLowerCase()},{' '}
+                        </Typography>
+                      ))}
+                    </Typography>
+                    <Typography align="center" component="h2" variant="h3" gutterBottom>
+                      won this game with {winningPlayers[0].score} points!
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Typography align="center" component="h2" variant="h3" gutterBottom>
+                      {winningPlayers[0].name[0].toUpperCase()}
+                      {winningPlayers[0].name.slice(1).toLocaleLowerCase()} won this game with {winningPlayers[0].score}{' '}
+                      points!
+                    </Typography>
+                  </>
+                )}
               </Grid>
 
               <Grid item xs={10}>

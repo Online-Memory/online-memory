@@ -80,11 +80,13 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   const isGameGoing = tiles.filter(tile => tile.status !== 'taken').length;
 
   if (!isGameGoing) {
-    const winningPlayer = players.sort((playerA, playerB) => (playerB.score || 0) - (playerA.score || 0))[0];
+    let winningPlayers = players.sort((playerA, playerB) => (playerB.score || 0) - (playerA.score || 0));
+    const winningPlayerScore = winningPlayers[0].score;
+    winningPlayers = winningPlayers.filter(player => player.score === winningPlayerScore);
 
     return (
       <WinningView
-        winningPlayer={winningPlayer}
+        winningPlayers={winningPlayers}
         gameName={gameData.name}
         players={players}
         endGameTime={gameData.updatedAt}

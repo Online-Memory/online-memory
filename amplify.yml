@@ -18,16 +18,16 @@ frontend:
     - pattern: '*.png'
       headers:
       - key: 'Cache-Control'
-        value: 'public,max-age=31536000,immutable'
+        value: 'public,max-age=3600'
     - pattern: '*.jpg'
       headers:
       - key: 'Cache-Control'
-        value: 'public,max-age=31536000,immutable'
+        value: 'public,max-age=3600'
     - pattern: '**/*.png'
       headers:
       - key: 'Cache-Control'
-        value: 'public,max-age=31536000,immutable'
+        value: 'public,max-age=3600'
     - pattern: '**/*.jpg'
       headers:
       - key: 'Cache-Control'
-        value: 'public,max-age=31536000,immutable'
+        value: 'public,max-age=3600'
