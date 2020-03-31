@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Container, Grid, Button, Snackbar } from '@material-ui/core';
 import { PLAY_TURN, CHECKOUT_TILE } from '../graphql';
@@ -20,8 +20,10 @@ interface Props {
 
 export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(80);
+  const [deltaGameCreation, setDeltaGameCreation] = useState(0);
+  const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
   const classes = useStyles();
-  const { name, players, playerTurn, board, tiles, template, moves } = gameData;
+  const { name, players, playerTurn, board, tiles, template, moves, createdAt, updatedAt } = gameData;
 
   const isAPlayer = Boolean(players.find(player => player.userId === userId));
   const pendingPlayers = players.filter(player => !player.userId);
@@ -37,6 +39,41 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
       console.warn(err);
     },
   });
+
+  useEffect(() => {
+    const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
+    const gameCreated = new Date(new Date(createdAt).toUTCString()).valueOf();
+    const now = new Date(new Date(Date.now()).toUTCString()).valueOf();
+
+    const timer1 = setTimeout(() => {
+      const deltaCreation = Math.abs(now - gameCreated) / 1000;
+      const deltaUpdated = Math.abs(now - gameUpdated) / 1000;
+
+      setDeltaGameCreation(deltaCreation);
+      setDeltaGameUpdated(deltaUpdated);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
+  });
+
+  const pad = useCallback((num: number) => {
+    return ('0' + num).slice(-2);
+  }, []);
+
+  const getGameCreationTime = useCallback(() => {
+    const deltaHours = Math.floor(deltaGameCreation / 60 / 60);
+    const deltaMinutes = Math.floor(deltaGameCreation / 60) % 60;
+    const deltaSeconds = Math.floor(deltaGameCreation - deltaMinutes * 60);
+
+    return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
+  }, [deltaGameCreation, pad]);
+
+  const getTurnTimer = useCallback(() => {
+    const delta = 30 - deltaGameUpdated;
+    return delta >= 0 ? `${delta}` : '0';
+  }, [deltaGameUpdated]);
 
   const handlePlayerSelected = useCallback(
     (player: Player) => {
@@ -117,7 +154,14 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
       <Container maxWidth="lg">
         {isAPlayer || !pendingPlayers.length ? (
           <Grid container>
-            <Dashboard name={name} moves={moves} players={players} playerTurn={playerTurn} />
+            <Dashboard
+              name={name}
+              gameCreationTime={getGameCreationTime()}
+              turnTimer={getTurnTimer()}
+              moves={moves}
+              players={players}
+              playerTurn={playerTurn}
+            />
             <Board
               board={board}
               template={template}

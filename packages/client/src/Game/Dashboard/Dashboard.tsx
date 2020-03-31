@@ -14,12 +14,14 @@ import { useStyles } from './styles';
 
 interface Props {
   name: string;
+  gameCreationTime: string;
+  turnTimer: string;
   moves: number;
   players: Player[];
   playerTurn: Player;
 }
 
-export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn }) => {
+export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, gameCreationTime, turnTimer }) => {
   const classes = useStyles();
   const currPlayerIdPlayingIndex = players.findIndex(player => player.id === playerTurn.id);
   let currPlayerPlaying = playerTurn.turn
@@ -38,12 +40,20 @@ export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn })
         {name}
       </Typography>
 
-      <Typography component="h6" variant="h6">
-        Scoreboard
+      <Typography paragraph gutterBottom>
+        Game timer: {gameCreationTime}
       </Typography>
 
       <Typography paragraph gutterBottom>
-        Total tiles turned: {moves}
+        Turn timer: {turnTimer}
+      </Typography>
+
+      <Typography paragraph gutterBottom>
+        Total tiles flipped: {moves}
+      </Typography>
+
+      <Typography component="h6" variant="h6">
+        Scoreboard
       </Typography>
 
       <div className={classes.scoreboardList}>
