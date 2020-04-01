@@ -13,19 +13,20 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core';
-import { Player } from './types';
+import { Player, Template } from './types';
 import { useStyles } from './styles';
 
 interface Props {
   defaultPlayers: Player[];
+  templates: Template[];
   onSubmit: any;
 }
 
-export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) => {
+export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onSubmit }) => {
   const classes = useStyles();
   const [teamSize, setTeamSize] = useState(4);
   const [gameName, setGameName] = useState('');
-  const [gameTemplate, setGameTemplate] = useState('001');
+  const [gameTemplate, setGameTemplate] = useState('');
   const [players, setPlayers] = useState(defaultPlayers);
 
   const handleSubmit = useCallback(() => {
@@ -117,8 +118,11 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, onSubmit }) =>
                 <Grid item>
                   <Typography gutterBottom>Choose a game template</Typography>
                   <Select fullWidth variant="outlined" value={gameTemplate} onChange={handleChange}>
-                    <MenuItem value="001">Italy</MenuItem>
-                    <MenuItem value="002">Food</MenuItem>
+                    {templates.map(template => (
+                      <MenuItem key={template.id} value={template.id}>
+                        {template.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Grid>
 

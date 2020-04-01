@@ -8,7 +8,7 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(6),
   },
   scoreboardList: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(1),
     backgroundColor: theme.palette.background.paper,
   },
   currentPlayer: {

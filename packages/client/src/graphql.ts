@@ -8,6 +8,17 @@ export const CREATE_GAME = gql`
   }
 `;
 
+export const GET_TEMPLATES = gql`
+  query GetTemplates {
+    templates {
+      id
+      name
+      tiles
+      board
+    }
+  }
+`;
+
 export const CLAIM_PLAYER = gql`
   mutation ClaimPlayer($claimPlayerInput: ClaimPlayerInput!) {
     claimPlayer(input: $claimPlayerInput) {

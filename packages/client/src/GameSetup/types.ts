@@ -3,3 +3,10 @@ export interface Player {
   name: string;
   active: boolean;
 }
+
+export interface Template {
+  id: string;
+  name: string;
+  tiles: number;
+  board: number[];
+}

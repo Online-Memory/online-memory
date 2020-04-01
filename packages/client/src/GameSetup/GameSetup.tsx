@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid, Card, CardContent, Typography } from '@material-ui/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
-import { CREATE_GAME } from '../graphql';
-import { Player } from './types';
+import { CREATE_GAME, GET_TEMPLATES } from '../graphql';
+import { Player, Template } from './types';
 import { useStyles } from './styles';
 
 const defaultPlayers: Player[] = [
@@ -22,11 +22,23 @@ const defaultPlayers: Player[] = [
 
 export const GameSetup = memo(() => {
   const classes = useStyles();
-  const [createGame, { loading, error, data }] = useMutation(CREATE_GAME, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
+  const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
+    GET_TEMPLATES,
+    {
+      onError: err => {
+        console.warn(err);
+      },
+    }
+  );
+
+  const [createGame, { loading: createGameLoading, error: createGameError, data: createGameData }] = useMutation(
+    CREATE_GAME,
+    {
+      onError: err => {
+        console.warn(err);
+      },
+    }
+  );
 
   const handleSubmit = useCallback(
     data => {
@@ -38,6 +50,9 @@ export const GameSetup = memo(() => {
     },
     [createGame]
   );
+
+  const error = templatesError || createGameError;
+  const loading = templatesLoading || createGameLoading;
 
   if (error) {
     return (
@@ -57,7 +72,7 @@ export const GameSetup = memo(() => {
     );
   }
 
-  if (loading) {
+  if (loading || !templatesData) {
     return (
       <div className={`GameSetup ${classes.container}`}>
         <Container maxWidth="lg">
@@ -75,11 +90,11 @@ export const GameSetup = memo(() => {
     );
   }
 
-  if (data && data.createGame) {
-    const { id } = data.createGame;
+  if (createGameData && createGameData.createGame) {
+    const { id } = createGameData.createGame;
 
     return <Redirect to={`/game/${id}`} />;
   }
 
-  return <Component defaultPlayers={defaultPlayers} onSubmit={handleSubmit} />;
+  return <Component defaultPlayers={defaultPlayers} templates={templatesData.templates} onSubmit={handleSubmit} />;
 });

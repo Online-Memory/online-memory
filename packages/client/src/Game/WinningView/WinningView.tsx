@@ -26,7 +26,7 @@ export const WinningView: React.FC<Props> = memo(({ winningPlayers, players, gam
           <CardContent>
             <Grid container alignContent="center" alignItems="center" direction="column" spacing={4}>
               <Grid item>
-                {winningPlayers.length ? (
+                {winningPlayers.length > 1 ? (
                   <>
                     <Typography align="center" component="h2" variant="h3" gutterBottom>
                       It's a tie!

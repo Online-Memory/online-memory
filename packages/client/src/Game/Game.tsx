@@ -96,5 +96,5 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} userId={user.id || ''} onClaimPlayer={handleClaimPlayer} />;
+  return <GameComponent gameData={data.getGame} userId={user?.id || ''} onClaimPlayer={handleClaimPlayer} />;
 });
