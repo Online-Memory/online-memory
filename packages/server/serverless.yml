@@ -286,17 +286,17 @@ resources:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
           # Uncomment to enable CloudWatch on the GraphQL Lambda Function
-          -
-            PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
-            PolicyDocument:
-              Version: "2012-10-17"
-              Statement:
-                -
-                  Effect: "Allow"
-                  Action:
-                    - "logs:CreateLogGroup"
-                    - "logs:CreateLogStream"
-                    - "logs:PutLogEvents"
-                  Resource:
-                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
-                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
+          # -
+          #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
+          #   PolicyDocument:
+          #     Version: "2012-10-17"
+          #     Statement:
+          #       -
+          #         Effect: "Allow"
+          #         Action:
+          #           - "logs:CreateLogGroup"
+          #           - "logs:CreateLogStream"
+          #           - "logs:PutLogEvents"
+          #         Resource:
+          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
+          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
