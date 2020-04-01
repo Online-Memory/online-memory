@@ -3,9 +3,10 @@ const { doesItemExist } = require('./helpers/does-item-exists');
 const { generateUniqueName } = require('./helpers/generate-unique-name');
 const { whoAmI } = require('./eventHandlers/who-am-i');
 
-const gameSettings = [
+const gameTemplates = [
   { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
   { id: '002', name: 'Food', tiles: 100, board: [10, 10] },
+  { id: '003', name: 'World', tiles: 100, board: [10, 10] },
 ];
 
 const tilesBase = {
@@ -56,12 +57,11 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       return userData;
-      break;
     }
 
     case 'createGame': {
       const { name, size, players, template } = input;
-      const gameTemplate = gameSettings.find(settings => settings.id === template);
+      const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
 
       const gamePlayers = players
         .filter(player => player.active)
@@ -71,7 +71,7 @@ exports.graphqlHandler = async (event, context, callback) => {
           moves: 0,
           pairs: 0,
         }));
-      const randomName = await generateUniqueName(TABLE_NAME);
+      const randomName = await generateUniqueName();
       const createdAt = new Date().toISOString();
       const board = {
         gridX: gameTemplate.board[0],
@@ -285,8 +285,8 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
 
-    case 'settings': {
-      callback(null, gameSettings);
+    case 'templates': {
+      callback(null, gameTemplates);
       break;
     }
 

@@ -48,6 +48,13 @@ custom:
         response: 'getGame-response-mapping-template.vtl'
 
       - type: Query
+        field: templates
+        request: 'templates-request-mapping-template-before.vtl'
+        response: 'templates-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - Templates
+      - type: Query
         field: whoAmI
         request: 'whoAmI-request-mapping-template-before.vtl'
         response: 'whoAmI-response-mapping-template-after.vtl'
@@ -88,6 +95,10 @@ custom:
           - UpdateGameData
 
     functionConfigurations:
+      - dataSource: graphqlLambda
+        name: 'Templates'
+        request: 'templates-request-mapping-template.vtl'
+        response: 'templates-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'WhoAmI'
         request: 'whoAmI-request-mapping-template.vtl'

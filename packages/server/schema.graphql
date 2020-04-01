@@ -69,11 +69,11 @@ type Game {
 	moves: Int
 }
 
-type Settings {
-	id: String!
-	name: String!
-	tiles: Int!
-	Board: [Int]!
+type Templates {
+	id: String
+	name: String
+	tiles: Int
+	board: [Int]
 }
 
 type User {
@@ -84,6 +84,7 @@ type User {
 
 type Query {
 	whoAmI: User
+	templates: [Templates]
 	getUser(userId: String!): User
 	getGame(gameId: String!): Game
 }
