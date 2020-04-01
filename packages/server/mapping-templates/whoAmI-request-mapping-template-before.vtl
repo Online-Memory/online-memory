@@ -1,10 +1,7 @@
 #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
 
-{
-    "version": "2018-05-29",
-    "operation": "Invoke",
-    "payload": {
-        "field": "whoAmI",
-        "userId": $utils.toJson($identityValue),
-    }
-}
+#if($util.isNullOrEmpty($identityValue))
+    $util.unauthorized()
+#end
+
+{}

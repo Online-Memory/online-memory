@@ -89,7 +89,6 @@ type Query {
 }
 
 type Mutation {
-	createUser: User
 	createGame(input: CreateGameInput!): Game
 	claimPlayer(input: ClaimPlayerInput!): Game
 	checkoutTile(input: CheckoutTileInput!): Game
