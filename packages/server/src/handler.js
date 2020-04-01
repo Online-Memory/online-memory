@@ -1,25 +1,13 @@
-const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
-const AWS = require('aws-sdk');
-const REGION = process.env.REGION || 'us-east-1';
-const TABLE_NAME = process.env.TABLE_NAME || '';
+const { findItem } = require('./helpers/db-operations');
+const { doesItemExist } = require('./helpers/does-item-exists');
+const { generateUniqueName } = require('./helpers/generate-unique-name');
+const { whoAmI } = require('./eventHandlers/who-am-i');
 
-AWS.config.update({
-  region: REGION,
-});
-
-const docClient = new AWS.DynamoDB.DocumentClient();
-
-const gameSettings = [
+const gameTemplates = [
   { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
   { id: '002', name: 'Food', tiles: 100, board: [10, 10] },
+  { id: '003', name: 'World', tiles: 100, board: [10, 10] },
 ];
-
-const randomNameConfig = {
-  dictionaries: [adjectives, colors, animals],
-  length: 3,
-  separator: '_',
-  style: 'lowerCase',
-};
 
 const tilesBase = {
   id: 0,
@@ -27,9 +15,7 @@ const tilesBase = {
   status: 'hidden',
 };
 
-const shuffle = input => {
-  return input.sort(() => Math.random() - 0.5);
-};
+const shuffle = input => input.sort(() => Math.random() - 0.5);
 
 const getRef = index => {
   const ref = Math.floor((index + 2) / 2);
@@ -54,61 +40,28 @@ const newBoard = (rows, columns) => {
   return shuffle(tiles);
 };
 
-const doesItemExist = data => {
-  if (data && data.Items && data.Count && data.Count > 0 && data.Items.length && data.Items[0]) {
-    return data.Items[0];
-  }
-
-  return undefined;
-};
-
-const findItem = async (tableName, itemId) => {
-  const params = {
-    TableName: tableName,
-    KeyConditionExpression: '#id = :id',
-    ExpressionAttributeNames: {
-      '#id': 'id',
-    },
-    ExpressionAttributeValues: {
-      ':id': itemId,
-    },
-  };
-
-  return docClient.query(params).promise();
-};
-
-const generateUniqueName = async tableName => {
-  const randomName = async (fileName, iteration = 1) => {
-    if (iteration > 3) {
-      return null;
-    }
-
-    let itemData;
-    try {
-      itemData = await findItem(tableName, fileName);
-    } catch (err) {
-      console.log(err);
-      return null;
-    }
-
-    if (doesItemExist(itemData)) {
-      const newFileName = uniqueNamesGenerator(randomNameConfig);
-      return randomName(newFileName, iteration + 1);
-    }
-    return fileName;
-  };
-
-  return randomName(uniqueNamesGenerator(randomNameConfig));
-};
-
 exports.graphqlHandler = async (event, context, callback) => {
   const { field, owner, input } = event;
   console.log('event', event);
 
   switch (field) {
+    case 'whoAmI': {
+      const { userId } = event;
+
+      let userData;
+      try {
+        userData = await whoAmI(userId);
+      } catch (err) {
+        console.log(err);
+        return null;
+      }
+
+      return userData;
+    }
+
     case 'createGame': {
       const { name, size, players, template } = input;
-      const gameTemplate = gameSettings.find(settings => settings.id === template);
+      const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
 
       const gamePlayers = players
         .filter(player => player.active)
@@ -118,7 +71,7 @@ exports.graphqlHandler = async (event, context, callback) => {
           moves: 0,
           pairs: 0,
         }));
-      const randomName = await generateUniqueName(TABLE_NAME);
+      const randomName = await generateUniqueName();
       const createdAt = new Date().toISOString();
       const board = {
         gridX: gameTemplate.board[0],
@@ -154,7 +107,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     case 'claimPlayer': {
       const { input, userId } = event;
       const { gameId, playerId } = input;
-      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
@@ -198,7 +151,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     case 'checkoutTile': {
       const { input, userId } = event;
       const { gameId, tileId } = input;
-      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
@@ -303,7 +256,7 @@ exports.graphqlHandler = async (event, context, callback) => {
     case 'playTurn': {
       const { input } = event;
       const { gameId } = input;
-      const gameData = await findItem(TABLE_NAME, gameId);
+      const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
@@ -332,8 +285,8 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
 
-    case 'settings': {
-      callback(null, gameSettings);
+    case 'templates': {
+      callback(null, gameTemplates);
       break;
     }
 

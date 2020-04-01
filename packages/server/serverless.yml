@@ -12,7 +12,7 @@ provider:
 functions:
   graphql:
     description: 'Online Memory ${self:provider.stage} function'
-    handler: handler.graphqlHandler
+    handler: src/handler.graphqlHandler
     role: GraphQLServiceRole
     environment:
       TABLE_NAME: ${self:custom.tableName}
@@ -38,11 +38,6 @@ custom:
     mappingTemplates:
       - dataSource: OnlineMemory
         type: Query
-        field: whoAmI
-        request: 'whoAmI-request-mapping-template.vtl'
-        response: 'whoAmI-response-mapping-template.vtl'
-      - dataSource: OnlineMemory
-        type: Query
         field: getUser
         request: 'getUser-request-mapping-template.vtl'
         response: 'getUser-response-mapping-template.vtl'
@@ -52,11 +47,20 @@ custom:
         request: 'getGame-request-mapping-template.vtl'
         response: 'getGame-response-mapping-template.vtl'
 
-      - dataSource: OnlineMemory
-        type: Mutation
-        field: createUser
-        request: 'createUser-request-mapping-template.vtl'
-        response: 'createUser-response-mapping-template.vtl'
+      - type: Query
+        field: templates
+        request: 'templates-request-mapping-template-before.vtl'
+        response: 'templates-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - Templates
+      - type: Query
+        field: whoAmI
+        request: 'whoAmI-request-mapping-template-before.vtl'
+        response: 'whoAmI-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - WhoAmI
       - type: Mutation
         field: createGame
         request: 'createGame-request-mapping-template-before.vtl'
@@ -91,6 +95,14 @@ custom:
           - UpdateGameData
 
     functionConfigurations:
+      - dataSource: graphqlLambda
+        name: 'Templates'
+        request: 'templates-request-mapping-template.vtl'
+        response: 'templates-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'WhoAmI'
+        request: 'whoAmI-request-mapping-template.vtl'
+        response: 'whoAmI-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'CreateGame'
         request: 'createGame-request-mapping-template.vtl'
@@ -268,21 +280,23 @@ resources:
                 - Effect: 'Allow'
                   Action:
                     - 'dynamodb:Query'
+                    - 'dynamodb:GetItem'
+                    - 'dynamodb:PutItem'
                   Resource:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
           # Uncomment to enable CloudWatch on the GraphQL Lambda Function
-          # -
-          #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
-          #   PolicyDocument:
-          #     Version: "2012-10-17"
-          #     Statement:
-          #       -
-          #         Effect: "Allow"
-          #         Action:
-          #           - "logs:CreateLogGroup"
-          #           - "logs:CreateLogStream"
-          #           - "logs:PutLogEvents"
-          #         Resource:
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
+          -
+            PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "logs:CreateLogGroup"
+                    - "logs:CreateLogStream"
+                    - "logs:PutLogEvents"
+                  Resource:
+                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
+                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
