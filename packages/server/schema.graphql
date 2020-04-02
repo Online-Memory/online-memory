@@ -11,6 +11,10 @@ input CreateGameInput {
 	players: [PlayerInput]
 }
 
+input StartGameInput {
+	gameId: String!
+}
+
 input ClaimPlayerInput {
 	gameId: String!
 	playerId: String!
@@ -28,6 +32,7 @@ input CheckoutTileInput {
 type Player {
 	name: String!
 	id: String!
+	status: String!
 	userId: String
 	score: Int
 	moves: Int
@@ -58,9 +63,11 @@ type Game {
 	id: String!
 	createdAt: String!
 	updatedAt: String!
+	startedAt: String
 	owner: String!
 	name: String!
 	teams: Int!
+	status: String!
 	template: String
 	board: Board
 	playerTurn: PlayerTurn
@@ -90,6 +97,7 @@ type Query {
 }
 
 type Mutation {
+	startGame(input: StartGameInput!): Game
 	createGame(input: CreateGameInput!): Game
 	claimPlayer(input: ClaimPlayerInput!): Game
 	checkoutTile(input: CheckoutTileInput!): Game
@@ -97,7 +105,7 @@ type Mutation {
 }
 
 type Subscription {
-	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer", "checkoutTile", "playTurn"])
+	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer", "checkoutTile", "playTurn", "startGame"])
 }
 
 schema {

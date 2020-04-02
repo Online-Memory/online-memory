@@ -35,7 +35,7 @@ export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, g
   }
 
   return (
-    <Grid className={classes.container} item xs={12} lg={3}>
+    <Grid className={classes.container} item xs={12} md={3}>
       <Typography className={classes.scoreboardTitle} align="center" component="h2" variant="h4" gutterBottom>
         {name}
       </Typography>
@@ -64,13 +64,15 @@ export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, g
               className={currPlayerPlaying.id === player.id ? classes.currentPlayer : ''}
             >
               <ListItemIcon>
-                {(currPlayerPlaying.id === player.id && (
-                  <ArrowRightIcon fontSize="large" className={classes.currentPlayer} />
-                )) || <span></span>}
+                {(currPlayerPlaying.id === player.id && <ArrowRightIcon className={classes.currentPlayer} />) || (
+                  <span></span>
+                )}
               </ListItemIcon>
               <ListItemText
                 primary={player.name}
-                classes={{ primary: currPlayerPlaying.id === player.id ? classes.currentPlayer : '' }}
+                classes={{
+                  primary: currPlayerPlaying.id === player.id ? classes.listItemCurrentPlayer : classes.listItemText,
+                }}
               />
               <ListItemSecondaryAction>
                 <Typography className={currPlayerPlaying.id === player.id ? classes.currentPlayer : ''}>

@@ -1,11 +1,12 @@
 export interface Player {
   id: string;
   name: string;
-  userId: string;
-  turn?: number;
-  score?: number;
   moves: number;
   pairs: number;
+  status?: string;
+  userId?: string;
+  turn?: number;
+  score?: number;
 }
 
 export interface Tile {
@@ -23,6 +24,7 @@ export interface Board {
 export interface GameData {
   id: string;
   name: string;
+  status: string;
   template: string;
   moves: number;
   players: Player[];
@@ -30,5 +32,6 @@ export interface GameData {
   board: Board;
   tiles: Tile[];
   createdAt: string;
+  startedAt: string;
   updatedAt: string;
 }

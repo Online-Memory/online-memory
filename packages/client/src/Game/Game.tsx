@@ -10,7 +10,7 @@ import { useStyles } from './styles';
 
 export const Game: React.FC = memo(() => {
   const classes = useStyles();
-  const { user } = useAuth();
+  const { user, loading: userLoading } = useAuth();
   const { id } = useParams();
 
   const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
@@ -60,7 +60,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (loading || claimPlayerLoading) {
+  if (loading || userLoading || claimPlayerLoading) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -78,7 +78,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (!data || !data.getGame || !data.getGame.id) {
+  if (!data || !data.getGame || !data.getGame.id || !user || !user.id) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -96,5 +96,5 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} userId={user?.id || ''} onClaimPlayer={handleClaimPlayer} />;
+  return <GameComponent gameData={data.getGame} userId={user.id} onClaimPlayer={handleClaimPlayer} />;
 });

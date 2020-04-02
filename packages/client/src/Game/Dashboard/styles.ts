@@ -13,6 +13,20 @@ export const useStyles = makeStyles(theme => ({
   },
   currentPlayer: {
     background: theme.palette.primary.light,
-    fontSize: theme.typography.h6.fontSize,
+  },
+  listItemCurrentPlayer: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    minWidth: '120px',
+    maxWidth: '160px',
+    whiteSpace: 'nowrap',
+    fontWeight: theme.typography.fontWeightBold,
+  },
+  listItemText: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    minWidth: '120px',
+    maxWidth: '160px',
+    whiteSpace: 'nowrap',
   },
 }));

@@ -30,7 +30,7 @@ export const Board: React.FC<Props> = memo(
     }, []);
 
     return (
-      <Grid className={`Board ${classes.container}`} justify="center" xs={12} lg={9} item container>
+      <Grid className={`Board ${classes.container}`} justify="center" xs={12} md={9} item container>
         <Grid direction="column" className={classes.boardContainer} item container>
           {gridY.map((_, indexY) => (
             <Grid key={`col-${indexY}`} container item>

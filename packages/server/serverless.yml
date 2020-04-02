@@ -78,6 +78,14 @@ custom:
           - ClaimPlayer
           - UpdateGameData
       - type: Mutation
+        field: startGame
+        request: 'startGame-request-mapping-template-before.vtl'
+        response: 'startGame-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - StartGame
+          - UpdateGameData
+      - type: Mutation
         field: checkoutTile
         request: 'checkoutTile-request-mapping-template-before.vtl'
         response: 'checkoutTile-response-mapping-template-after.vtl'
@@ -115,6 +123,10 @@ custom:
         name: 'ClaimPlayer'
         request: 'claimPlayer-request-mapping-template.vtl'
         response: 'claimPlayer-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'StartGame'
+        request: 'startGame-request-mapping-template.vtl'
+        response: 'startGame-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'CheckoutTile'
         request: 'checkoutTile-request-mapping-template.vtl'
@@ -286,17 +298,17 @@ resources:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
           # Uncomment to enable CloudWatch on the GraphQL Lambda Function
-          # -
-          #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
-          #   PolicyDocument:
-          #     Version: "2012-10-17"
-          #     Statement:
-          #       -
-          #         Effect: "Allow"
-          #         Action:
-          #           - "logs:CreateLogGroup"
-          #           - "logs:CreateLogStream"
-          #           - "logs:PutLogEvents"
-          #         Resource:
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
+          -
+            PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "logs:CreateLogGroup"
+                    - "logs:CreateLogStream"
+                    - "logs:PutLogEvents"
+                  Resource:
+                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
+                    - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"

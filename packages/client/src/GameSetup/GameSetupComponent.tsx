@@ -77,8 +77,8 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onS
   const checkForm = useMemo(() => {
     const hasMissingPlayerName = players.filter(player => player.active).filter(player => !player.name).length;
 
-    return Boolean(hasMissingPlayerName) || !gameName;
-  }, [gameName, players]);
+    return Boolean(hasMissingPlayerName) || !gameName || !gameTemplate;
+  }, [gameName, gameTemplate, players]);
 
   return (
     <div className={`GameSetup ${classes.container}`}>

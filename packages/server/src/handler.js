@@ -1,7 +1,8 @@
 const { findItem } = require('./helpers/db-operations');
 const { doesItemExist } = require('./helpers/does-item-exists');
-const { generateUniqueName } = require('./helpers/generate-unique-name');
 const { whoAmI } = require('./eventHandlers/who-am-i');
+const { createGame } = require('./eventHandlers/create-game');
+const { startGame } = require('./eventHandlers/start-game');
 
 const gameTemplates = [
   { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
@@ -9,37 +10,6 @@ const gameTemplates = [
   { id: '003', name: 'World', tiles: 100, board: [10, 10] },
   { id: '004', name: 'Animals', tiles: 100, board: [10, 10] },
 ];
-
-const tilesBase = {
-  id: 0,
-  ref: '01',
-  status: 'hidden',
-};
-
-const shuffle = input => input.sort(() => Math.random() - 0.5);
-
-const getRef = index => {
-  const ref = Math.floor((index + 2) / 2);
-  return ref < 10 ? `00${ref}` : `0${ref}`;
-};
-
-const newBoard = (rows, columns) => {
-  const items = rows * columns;
-
-  const tiles = new Array(items).fill('').reduce(
-    (acc, _, currIndex) => [
-      ...acc,
-      {
-        ...tilesBase,
-        id: currIndex,
-        ref: getRef(currIndex),
-      },
-    ],
-    []
-  );
-
-  return shuffle(tiles);
-};
 
 exports.graphqlHandler = async (event, context, callback) => {
   const { field, owner, input } = event;
@@ -64,42 +34,50 @@ exports.graphqlHandler = async (event, context, callback) => {
       const { name, size, players, template } = input;
       const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
 
-      const gamePlayers = players
-        .filter(player => player.active)
-        .map((player, index) => ({
-          id: index + 1,
-          name: player.name,
-          moves: 0,
-          pairs: 0,
-        }));
-      const randomName = await generateUniqueName();
-      const createdAt = new Date().toISOString();
-      const board = {
-        gridX: gameTemplate.board[0],
-        gridY: gameTemplate.board[1],
-      };
-      const tiles = newBoard(board.gridX, board.gridY);
-      const values = {
-        __typename: 'Game',
-        createdAt,
-        moves: 0,
-        teams: size,
-        players: gamePlayers,
-        playerTurn: {
-          ...gamePlayers[0],
-          turn: 0,
-        },
-        board,
-        tiles,
-        template,
-        name,
-        owner,
-      };
+      let newGameData;
+      try {
+        newGameData = await createGame(owner, name, size, players, template, gameTemplate);
+      } catch (err) {
+        callback(null, { error: 'Something went wrong while generating a new game' });
+      }
 
-      if (randomName) {
-        callback(null, { id: randomName, values });
+      console.log('newGameData', newGameData);
+
+      const { values, gameName } = newGameData;
+
+      if (gameName) {
+        callback(null, { id: gameName, values });
       } else {
         callback(null, { error: 'Cannot find an available game name' });
+      }
+
+      break;
+    }
+
+    case 'startGame': {
+      const { input, userId } = event;
+      const { gameId } = input;
+      const gameData = await findItem(gameId);
+      const gameExists = doesItemExist(gameData);
+
+      if (!gameExists) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+      }
+
+      const gameDataItem = gameData.Items[0];
+      const players = (gameDataItem && gameDataItem.players) || [];
+
+      let startGameData;
+      try {
+        startGameData = await startGame(players, userId);
+      } catch (err) {
+        callback(null, { error: 'Something went wrong while starting the game' });
+      }
+
+      if (startGameData) {
+        callback(null, { id: gameId, values: startGameData });
+      } else {
+        callback(null, { error: 'Cannot start the game' });
       }
 
       break;

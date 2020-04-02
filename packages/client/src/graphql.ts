@@ -26,10 +26,12 @@ export const CLAIM_PLAYER = gql`
       name
       owner
       teams
+      status
       template
       moves
       createdAt
       updatedAt
+      startedAt
       playerTurn {
         turn
         id
@@ -38,6 +40,48 @@ export const CLAIM_PLAYER = gql`
       }
       players {
         id
+        status
+        name
+        userId
+        score
+        moves
+        pairs
+      }
+      board {
+        gridX
+        gridY
+      }
+      tiles {
+        id
+        ref
+        status
+        owner
+      }
+    }
+  }
+`;
+export const START_GAME = gql`
+  mutation StartGame($startGameInput: StartGameInput!) {
+    startGame(input: $startGameInput) {
+      id
+      name
+      owner
+      teams
+      status
+      template
+      moves
+      createdAt
+      updatedAt
+      startedAt
+      playerTurn {
+        turn
+        id
+        name
+        userId
+      }
+      players {
+        id
+        status
         name
         userId
         score
@@ -65,10 +109,12 @@ export const PLAY_TURN = gql`
       name
       owner
       teams
+      status
       template
       moves
       createdAt
       updatedAt
+      startedAt
       playerTurn {
         turn
         id
@@ -77,6 +123,7 @@ export const PLAY_TURN = gql`
       }
       players {
         id
+        status
         name
         userId
         score
@@ -104,10 +151,12 @@ export const CHECKOUT_TILE = gql`
       name
       owner
       teams
+      status
       template
       moves
       createdAt
       updatedAt
+      startedAt
       playerTurn {
         turn
         id
@@ -116,6 +165,7 @@ export const CHECKOUT_TILE = gql`
       }
       players {
         id
+        status
         name
         userId
         score
@@ -143,10 +193,12 @@ export const GET_GAME = gql`
       name
       owner
       teams
+      status
       template
       moves
       createdAt
       updatedAt
+      startedAt
       playerTurn {
         turn
         id
@@ -155,6 +207,7 @@ export const GET_GAME = gql`
       }
       players {
         id
+        status
         name
         userId
         score
@@ -182,10 +235,12 @@ export const GAME_UPDATED = gql`
       name
       owner
       teams
+      status
       template
       moves
       createdAt
       updatedAt
+      startedAt
       playerTurn {
         turn
         id
@@ -194,6 +249,7 @@ export const GAME_UPDATED = gql`
       }
       players {
         id
+        status
         name
         userId
         score
