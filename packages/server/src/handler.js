@@ -42,7 +42,6 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       console.log('newGameData', newGameData);
-
       const { values, gameName } = newGameData;
 
       if (gameName) {
@@ -67,12 +66,8 @@ exports.graphqlHandler = async (event, context, callback) => {
       const gameDataItem = gameData.Items[0];
       const players = (gameDataItem && gameDataItem.players) || [];
 
-      let startGameData;
-      try {
-        startGameData = await startGame(players, userId);
-      } catch (err) {
-        callback(null, { error: 'Something went wrong while starting the game' });
-      }
+      const startGameData = startGame(players, userId);
+      console.log(startGameData);
 
       if (startGameData) {
         callback(null, { id: gameId, values: startGameData });
