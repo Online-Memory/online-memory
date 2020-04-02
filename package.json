@@ -15,7 +15,9 @@
     "server:dev:remove": "yarn workspace server dev:remove",
     "server:prod:remove": "yarn workspace server prod:remove",
     "server:dev:info": "yarn workspace server dev:info",
-    "server:prod:info": "yarn workspace server prod:info"
+    "server:prod:info": "yarn workspace server prod:info",
+    "version:minor": "yarn workspace client version --minor",
+    "version:patch": "yarn workspace client version --patch"
   },
   "npmClient": "yarn",
   "workspaces": {
