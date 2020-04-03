@@ -15,7 +15,7 @@ interface Props {
 
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const classes = useStyles();
-  const { logOut } = useAuth();
+  const { isAuthenticated, logOut } = useAuth();
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
@@ -35,9 +35,17 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
           <Link href="/about" underline="none" color="inherit">
             <Button color="inherit">About</Button>
           </Link>
-          <Button color="inherit" onClick={logOut}>
-            Logout
-          </Button>
+          {isAuthenticated ? (
+            <Link href="/" underline="none" color="inherit">
+              <Button color="inherit" onClick={logOut}>
+                Logout
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login" underline="none" color="inherit">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
       <main className={classes.main}>

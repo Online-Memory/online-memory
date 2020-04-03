@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import Amplify from 'aws-amplify';
 import { client } from './apolloClient';
 import { useTheme } from './App/useTheme';
-import { App } from './App';
+import { AppComponent } from './App';
 import { AMPLIFY } from './config';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
@@ -22,7 +22,7 @@ const RootComponent = () => {
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+        <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
       </ThemeProvider>
     </ApolloProvider>
   );
