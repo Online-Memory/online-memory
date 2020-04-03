@@ -13,7 +13,7 @@ export interface Tile {
   id: number;
   ref: string;
   status: 'hidden' | 'show' | 'taken';
-  owner: string;
+  owner?: string;
 }
 
 export interface Board {

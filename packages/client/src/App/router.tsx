@@ -8,7 +8,11 @@ import { GameSetup } from '../GameSetup/GameSetup';
 import { About } from '../About';
 
 export const Router: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <BrowserRouter>
