@@ -7,8 +7,39 @@ import { Game } from '../Game/Game';
 import { GameSetup } from '../GameSetup/GameSetup';
 import { About } from '../About';
 
-export const Auth: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+export const Router: React.FC = () => {
+  const { isAuthenticated, user } = useAuth();
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
+        <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
+          <Game user={user} />
+        </PrivateRoute>
+        <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
+          <GameSetup />
+        </PrivateRoute>
+        <Route path="/login">
+          <Auth isAuthenticated={isAuthenticated} />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+interface AuthProps {
+  isAuthenticated: boolean;
+}
+
+export const Auth: React.FC<AuthProps> = ({ isAuthenticated }) => {
   const history = useHistory();
 
   const handleStateChange = useCallback(
@@ -28,35 +59,7 @@ export const Auth: React.FC = () => {
   return <Authenticator onStateChange={handleStateChange} />;
 };
 
-export const Router: React.FC = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <PrivateRoute path="/game/:id">
-          <Game />
-        </PrivateRoute>
-        <PrivateRoute path="/new">
-          <GameSetup />
-        </PrivateRoute>
-        <Route path="/login">
-          <Auth />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
-};
-
-const PrivateRoute: React.FC<any> = ({ children, ...rest }) => {
-  const { isAuthenticated } = useAuth();
+const PrivateRoute: React.FC<any> = ({ isAuthenticated, children, ...rest }) => {
   return (
     <Route
       {...rest}

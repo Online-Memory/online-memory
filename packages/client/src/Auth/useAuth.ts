@@ -5,7 +5,7 @@ import { currentAuthenticatedUser } from './AWS';
 import { resolvers } from './useAuth.resolvers';
 import { GET_USER, LOG_OUT } from './useAuth.graph';
 
-interface UserData {
+export interface UserData {
   id: string;
   username: string;
 }

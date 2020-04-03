@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Container, Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
 import { useStyles } from './styles';
-import { Player, GameData } from '../types';
+import { GameData } from '../types';
 
 interface Props {
   gameData: GameData;

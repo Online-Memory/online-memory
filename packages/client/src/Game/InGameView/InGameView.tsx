@@ -32,7 +32,7 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
   const userPlayer = players.find(player => player.userId === userId);
 
-  const [startGame, { loading: startGameLoading }] = useMutation(START_GAME, {
+  const [startGame] = useMutation(START_GAME, {
     onError: err => {
       console.warn(err);
     },
