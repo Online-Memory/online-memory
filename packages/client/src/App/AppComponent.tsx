@@ -1,5 +1,18 @@
-import React from 'react';
-import { Typography, AppBar, Toolbar, Button, Link, Grid, Container, IconButton, Tooltip } from '@material-ui/core';
+import React, { useEffect, useState, useCallback } from 'react';
+import * as serviceWorker from '../serviceWorker';
+import {
+  Typography,
+  AppBar,
+  Toolbar,
+  Button,
+  Link,
+  Grid,
+  Container,
+  IconButton,
+  Tooltip,
+  Snackbar,
+} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
 import { version } from '../version';
@@ -15,10 +28,44 @@ interface Props {
 
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const classes = useStyles();
+  const [updateAvailable, setUpdateAvailable] = useState(false);
   const { isAuthenticated, logOut } = useAuth();
+
+  useEffect(() => {
+    serviceWorker.register({
+      onUpdate: (reg: any) => {
+        const registrationWaiting = reg.waiting;
+        if (registrationWaiting) {
+          registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+          registrationWaiting.addEventListener('statechange', (e: any) => {
+            if (e.target.state === 'activated') {
+              setUpdateAvailable(true);
+            }
+          });
+        }
+      },
+    });
+  }, []);
+
+  const handleUpdateApp = useCallback(() => {
+    window.location.reload();
+  }, []);
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
+      <Snackbar open={updateAvailable} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert
+          severity="info"
+          action={
+            <Button color="default" size="small" onClick={handleUpdateApp}>
+              UPDATE
+            </Button>
+          }
+        >
+          A new version of Online Memory is available.
+        </Alert>
+      </Snackbar>
+
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.title} noWrap>
