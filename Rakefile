@@ -5,5 +5,4 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.project = "online-memory"
   config.pulls = false
   config.unreleased = false
-  config.token = "#{ENV['RAKE_ENV']}"
 end
