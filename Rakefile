@@ -1,8 +1,9 @@
-require 'github_changelog_generator/task'
+require "github_changelog_generator/task"
 
 GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-  config.user = 'andreasonny83'
-  config.project = 'online-memory'
+  config.user = "andreasonny83"
+  config.project = "online-memory"
   config.pulls = false
   config.unreleased = false
+  config.token = "#{ENV['RAKE_ENV']}"
 end

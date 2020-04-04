@@ -13,6 +13,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@v1
+      env:
+        TOKEN: ${{ secrets.TOKEN }}
       with:
         ruby-version: 2.6.x
     - name: Build and test with Rake
@@ -20,3 +22,6 @@ jobs:
         gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rake changelog
+
+    - name: Push changes
+      uses: actions-go/push@v1
