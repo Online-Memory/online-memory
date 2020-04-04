@@ -15,12 +15,15 @@ jobs:
       uses: actions/setup-ruby@v1
       env:
         TOKEN: ${{ secrets.TOKEN }}
+        CHANGELOG_GITHUB_TOKEN: ${{ secrets.CHANGELOG_GITHUB_TOKEN }}
       with:
         ruby-version: 2.6.x
-    - name: Build and test with Rake
+    - name: Build
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+    - name: Generate Changelog
+      run: |
         bundle exec rake changelog
     - name: Push changes
       uses: actions-go/push@v1
