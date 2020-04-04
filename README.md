@@ -1,5 +1,7 @@
 # Online Memory
 
+![Ruby](https://github.com/andreasonny83/online-memory/workflows/Ruby/badge.svg?branch=master)
+
 ## Release
 
 **Note:** This process is already integrated by GitHub Actions. Use the following steps only for local development/debug
