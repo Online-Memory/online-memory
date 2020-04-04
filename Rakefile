@@ -4,5 +4,5 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.user = 'andreasonny83'
   config.project = 'online-memory'
   config.pulls = false
-  config.unreleased = true
+  config.unreleased = false
 end
