@@ -2,7 +2,7 @@
 
 ![Ruby](https://github.com/andreasonny83/online-memory/workflows/Ruby/badge.svg?branch=master)
 
-## Release
+## Changelog
 
 **Note:** This process is already integrated by GitHub Actions. Use the following steps only for local development/debug
 
@@ -26,4 +26,10 @@ Then install `github_changelog_generator` with
 
 ```sh
 $ gem install github_changelog_generator
+```
+
+Now you can run `github_changelog_generator` with
+
+```sh
+$ github_changelog_generator -u andreasonny83 -p online-memory --token YOUR_GITHUB_TOKEN --no-pull-requests --no-unreleased
 ```
