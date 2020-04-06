@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.6.0](https://github.com/andreasonny83/online-memory/tree/v0.6.0) (2020-04-06)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.5.0...v0.6.0)
+
+**Implemented enhancements:**
+
+- Remove players from game setup [\#11](https://github.com/andreasonny83/online-memory/issues/11)
+- Service Workers [\#10](https://github.com/andreasonny83/online-memory/issues/10)
+
+**Fixed bugs:**
+
+- Buy me a coffee [\#9](https://github.com/andreasonny83/online-memory/issues/9)
+
 ## [v0.5.0](https://github.com/andreasonny83/online-memory/tree/v0.5.0) (2020-04-04)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.4.1...v0.5.0)
