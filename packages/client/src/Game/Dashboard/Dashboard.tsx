@@ -9,30 +9,25 @@ import {
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { Player } from '../types';
+import { Player, PlayerTurn } from '../types';
 import { useStyles } from './styles';
 
 interface Props {
   name: string;
-  gameCreationTime: string;
-  turnTimer: string;
-  moves: number;
+  gameCreationTime?: string;
+  turnTimer?: string;
+  moves?: number;
   players: Player[];
-  playerTurn: Player;
+  playerTurn: PlayerTurn;
 }
 
-export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, gameCreationTime, turnTimer }) => {
+export const Dashboard: React.FC<Props> = ({ name, moves = 0, players, playerTurn, gameCreationTime, turnTimer }) => {
   const classes = useStyles();
-  const currPlayerIdPlayingIndex = players.findIndex(player => player.id === playerTurn.id);
-  let currPlayerPlaying = playerTurn.turn
-    ? players[currPlayerIdPlayingIndex]
-    : currPlayerIdPlayingIndex - 1 >= 0
-    ? players[currPlayerIdPlayingIndex - 1]
-    : players[players.length - 1];
 
-  if (!moves) {
-    currPlayerPlaying = players[0];
-  }
+  const currPlayer: Player | undefined =
+    playerTurn && players.find(player => player.userId === playerTurn.currentPlaying);
+
+  console.warn('currPlayer', playerTurn);
 
   return (
     <Grid className={classes.container} item xs={12} md={3}>
@@ -40,17 +35,23 @@ export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, g
         {name}
       </Typography>
 
-      <Typography paragraph gutterBottom>
-        Game timer: {gameCreationTime}
-      </Typography>
+      {gameCreationTime ? (
+        <Typography paragraph gutterBottom>
+          Game timer: {gameCreationTime}
+        </Typography>
+      ) : null}
 
-      <Typography paragraph gutterBottom>
-        Turn timer: {turnTimer}
-      </Typography>
+      {turnTimer ? (
+        <Typography paragraph gutterBottom>
+          Turn timer: {turnTimer}
+        </Typography>
+      ) : null}
 
-      <Typography paragraph gutterBottom>
-        Total tiles flipped: {moves}
-      </Typography>
+      {moves ? (
+        <Typography paragraph gutterBottom>
+          Total tiles flipped: {moves}
+        </Typography>
+      ) : null}
 
       <Typography component="h6" variant="h6">
         Scoreboard
@@ -61,22 +62,23 @@ export const Dashboard: React.FC<Props> = ({ name, moves, players, playerTurn, g
           {players.map(player => (
             <ListItem
               key={`player-score-${player.id}`}
-              className={currPlayerPlaying.id === player.id ? classes.currentPlayer : ''}
+              className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}
             >
               <ListItemIcon>
-                {(currPlayerPlaying.id === player.id && <ArrowRightIcon className={classes.currentPlayer} />) || (
-                  <span></span>
-                )}
+                {(currPlayer && currPlayer.id === player.id && (
+                  <ArrowRightIcon className={classes.currentPlayer} />
+                )) || <span></span>}
               </ListItemIcon>
               <ListItemText
                 primary={player.name}
                 classes={{
-                  primary: currPlayerPlaying.id === player.id ? classes.listItemCurrentPlayer : classes.listItemText,
+                  primary:
+                    currPlayer && currPlayer.id === player.id ? classes.listItemCurrentPlayer : classes.listItemText,
                 }}
               />
               <ListItemSecondaryAction>
-                <Typography className={currPlayerPlaying.id === player.id ? classes.currentPlayer : ''}>
-                  {player.score || 0}
+                <Typography className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}>
+                  {player.pairs || 0}
                 </Typography>
               </ListItemSecondaryAction>
             </ListItem>

@@ -100,10 +100,9 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
       </main>
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Grid container direction="column" alignItems="center" spacing={4}>
+          <Grid container direction="column" alignItems="center">
             <Grid item>
-              <Typography variant="h6" align="center" gutterBottom></Typography>
-              <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+              <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
                 Online Memory v{version} Copyright &copy;{' '}
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
@@ -112,7 +111,15 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
               </Typography>
             </Grid>
             <Grid item>
-              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/">
+              <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
+                What's new in v{version}? Read the{' '}
+                <Link color="inherit" href="https://github.com/andreasonny83/">
+                  CHANGELOG
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/blob/master/CHANGELOG.md">
                 <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />
               </Link>
             </Grid>

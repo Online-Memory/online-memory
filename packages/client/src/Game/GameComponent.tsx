@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { WaitOpponents } from './WaitOpponents';
-import { Player, GameData } from './types';
+import { GameData } from './types';
 import { WinningView } from './WinningView';
 import { InGameView } from './InGameView/InGameView';
 import { ClaimPlayer } from './ClaimPlayer';
@@ -8,35 +8,37 @@ import { ClaimPlayer } from './ClaimPlayer';
 interface Props {
   userId: string;
   gameData: GameData;
-  onClaimPlayer: (player: Player) => void;
+  onClaimPlayer: (playerName: string) => void;
+  onStartGame: (gameName: string) => void;
 }
 
-export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
-  const { name, players, tiles } = gameData;
+export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer, onStartGame }) => {
+  const { name, players, owner } = gameData;
 
-  const isAPlayer = Boolean(players.find(player => player.userId === userId));
-  const pendingPlayers = players.filter(player => !player.userId);
+  const isAPlayer = Boolean(players.find(player => player.userId === userId && player.name));
 
-  const handlePlayerSelected = useCallback(
-    (player: Player) => {
-      onClaimPlayer(player);
+  const handleClaimPlayer = useCallback(
+    (playerName: string) => {
+      onClaimPlayer(playerName);
     },
     [onClaimPlayer]
   );
 
-  const isGameGoing = tiles.filter(tile => tile.status !== 'taken').length;
+  const handleStartGame = useCallback(() => {
+    onStartGame(gameData.id);
+  }, [gameData.id, onStartGame]);
 
-  if (!isGameGoing) {
+  if (gameData.status === 'ended') {
     return <WinningView gameData={gameData} />;
   }
 
-  if (!isAPlayer && pendingPlayers.length) {
-    return <ClaimPlayer name={name} gameId={gameData.id} players={players} onPlayerSelected={handlePlayerSelected} />;
+  if (gameData.status === 'new' && !isAPlayer) {
+    return <ClaimPlayer name={name} gameId={gameData.id} onClaimPlayer={handleClaimPlayer} />;
   }
 
-  return isAPlayer && pendingPlayers.length ? (
-    <WaitOpponents gameId={gameData.id} gameName={name} pendingPlayers={pendingPlayers} />
-  ) : (
-    <InGameView userId={userId} gameData={gameData} />
-  );
+  if (gameData.status === 'new' && owner === userId) {
+    return <WaitOpponents gameId={gameData.id} gameName={name} players={players} onStartGame={handleStartGame} />;
+  }
+
+  return <InGameView userId={userId} gameData={gameData} />;
 });

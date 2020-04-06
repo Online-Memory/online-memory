@@ -11,10 +11,10 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   const classes = useStyles();
 
   const winningPlayersOrdered = gameData.players.sort(
-    (playerA, playerB) => (playerB.score || 0) - (playerA.score || 0)
+    (playerA, playerB) => (playerB.pairs || 0) - (playerA.pairs || 0)
   );
-  const winningPlayerScore = winningPlayersOrdered[0].score;
-  const winningPlayers = winningPlayersOrdered.filter(player => player.score === winningPlayerScore);
+  const winningPlayerScore = winningPlayersOrdered[0].pairs;
+  const winningPlayers = winningPlayersOrdered.filter(player => player.pairs === winningPlayerScore);
   const endGameTime = gameData.updatedAt;
   const gameLengthTimestamp = (new Date(endGameTime).valueOf() - new Date(gameData.startedAt).valueOf()) / 1000;
 
@@ -57,14 +57,14 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                       ))}
                     </Typography>
                     <Typography align="center" component="h2" variant="h3" gutterBottom>
-                      won this game with {winningPlayers[0].score} points!
+                      won this game with {winningPlayers[0].pairs} points!
                     </Typography>
                   </>
                 ) : (
                   <>
                     <Typography align="center" component="h2" variant="h3" gutterBottom>
                       {winningPlayers[0].name[0].toUpperCase()}
-                      {winningPlayers[0].name.slice(1).toLocaleLowerCase()} won this game with {winningPlayers[0].score}{' '}
+                      {winningPlayers[0].name.slice(1).toLocaleLowerCase()} won this game with {winningPlayers[0].pairs}{' '}
                       points!
                     </Typography>
                   </>
@@ -83,7 +83,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                       {player.name[0].toUpperCase()}
                       {player.name.slice(1).toLocaleLowerCase()}
                     </strong>
-                    's score: {player.score} points
+                    's score: {player.pairs} points
                   </Typography>
                 ))}
               </Grid>

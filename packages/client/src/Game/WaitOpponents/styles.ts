@@ -4,4 +4,7 @@ export const useStyles = makeStyles(theme => ({
   gameContainer: {
     margin: theme.spacing(6, 0),
   },
+  cardActions: {
+    justifyContent: 'flex-end',
+  },
 }));

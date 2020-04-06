@@ -12,6 +12,7 @@ import {
   DialogActions,
   Typography,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
 import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
@@ -30,58 +31,16 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
+
   const userPlayer = players.find(player => player.userId === userId);
-
-  const [startGame] = useMutation(START_GAME, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
-  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
-  const [checkoutTile, { loading: checkoutTIleLoading }] = useMutation(CHECKOUT_TILE, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
-  const handleClose = useCallback(() => {
-    if (playerTurn.turn) {
-      return;
-    }
-
-    playTurn({
-      variables: {
-        playTurnInput: {
-          gameId: gameData.id,
-        },
-      },
-    });
-  }, [gameData.id, playTurn, playerTurn.turn]);
-
-  const handleStartGame = useCallback(() => {
-    startGame({
-      variables: {
-        startGameInput: {
-          gameId: gameData.id,
-        },
-      },
-    });
-  }, [gameData.id, startGame]);
+  const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
+  const gameCreated = new Date(new Date(startedAt).toUTCString()).valueOf();
+  const now = new Date(new Date(Date.now()).toUTCString()).valueOf();
 
   useEffect(() => {
     if (status !== 'started') {
       return;
     }
-
-    const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
-    const gameCreated = new Date(new Date(startedAt).toUTCString()).valueOf();
-    const now = new Date(new Date(Date.now()).toUTCString()).valueOf();
 
     const timer1 = setTimeout(() => {
       const deltaCreation = Math.abs(now - gameCreated) / 1000;
@@ -96,13 +55,52 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
     };
   });
 
+  const [startGame, { loading: startGameLoading }] = useMutation(START_GAME, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const [checkoutTile, { loading: checkoutTileLoading }] = useMutation(CHECKOUT_TILE, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+  const handleClose = useCallback(() => {
+    if (playerTurn && playerTurn.status === 'idle') {
+      playTurn({
+        variables: {
+          playTurnInput: {
+            gameId: gameData.id,
+          },
+        },
+      });
+    }
+  }, [gameData.id, playTurn, playerTurn]);
+
+  const handleStartGame = useCallback(() => {
+    startGame({
+      variables: {
+        startGameInput: {
+          gameId: gameData.id,
+        },
+      },
+    });
+  }, [gameData.id, startGame]);
+
   const open = useMemo(() => {
-    return status === 'started' && playerTurn.userId === userId && !playerTurn.turn;
-  }, [playerTurn.turn, playerTurn.userId, status, userId]);
+    return status === 'started' && playerTurn && playerTurn.userId === userId && playerTurn.status === 'idle';
+  }, [playerTurn, status, userId]);
 
   const playerTurnOpen = useMemo(() => {
-    return status === 'started' && playerTurn.userId !== userId && playerTurn.turn === 1;
-  }, [playerTurn.turn, playerTurn.userId, status, userId]);
+    return status === 'started' && playerTurn && playerTurn.userId !== userId && playerTurn.status !== 'idle';
+  }, [playerTurn, status, userId]);
 
   const getTurnTimer = useCallback(() => {
     const delta = 30 - deltaGameUpdated;
@@ -138,7 +136,6 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
   return (
     <div className={`Game ${classes.gameContainer}`}>
       <Snackbar
-        message="It's your turn!"
         open={open}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -147,23 +144,43 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
             PLAY
           </Button>
         }
-      />
+      >
+        <Alert
+          severity="info"
+          action={
+            <Button color="default" size="small" onClick={handleClose}>
+              PLAY
+            </Button>
+          }
+        >
+          It's your turn!
+        </Alert>
+      </Snackbar>
 
-      <Snackbar
-        message={`${playerTurn.name[0].toUpperCase()}${playerTurn.name.slice(1).toLowerCase()} is playing`}
-        open={playerTurnOpen}
-        classes={{ anchorOriginBottomLeft: classes.playerTurnOpen }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      />
+      {playerTurn && (
+        <Snackbar
+          open={playerTurnOpen}
+          classes={{ anchorOriginBottomLeft: classes.playerTurnOpen }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <Alert severity="info">
+            {playerTurn.name[0].toUpperCase()}
+            {playerTurn.name.slice(1).toLowerCase()} is playing
+          </Alert>
+        </Snackbar>
+      )}
 
       <Dialog
-        open={Boolean(userPlayer && userPlayer.status === 'offline')}
+        open={Boolean(status === 'idle' && userPlayer && userPlayer.status === 'offline')}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Are you ready to start this game?'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Are you ready?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Click when you're ready start playing</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            This game is ready to begin.
+            <br /> Click "Let's go" when you're ready start playing
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleStartGame} color="primary">
@@ -178,29 +195,53 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
         <Grid container>
           <Dashboard
             name={name}
-            gameCreationTime={getGameCreationTime()}
-            turnTimer={getTurnTimer()}
-            moves={moves}
+            gameCreationTime={status === 'started' ? getGameCreationTime() : undefined}
+            turnTimer={status === 'started' ? getTurnTimer() : undefined}
+            moves={status === 'started' ? moves : undefined}
             players={players}
             playerTurn={playerTurn}
           />
-          {status !== 'started' ? (
+
+          {status === 'new' ? (
             <Grid justify="center" xs={12} md={9} item container>
               <Typography component="h4" variant="h6" align="center">
-                Waiting for other players to start the game
+                Waiting for the host to start the game
               </Typography>
             </Grid>
-          ) : (
+          ) : null}
+
+          {status === 'idle' ? (
+            <Grid direction="column" justify="center" xs={12} md={9} item container>
+              <Grid item>
+                <Typography component="h4" variant="h6" align="center" gutterBottom>
+                  Waiting for all the players to be ready
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography align="center" paragraph>
+                  Be prepared! This game is about to start
+                </Typography>
+              </Grid>
+            </Grid>
+          ) : null}
+
+          {playerTurn && status === 'started' ? (
             <Board
               board={board}
               template={template}
               tiles={tiles}
               tileSize={tileSize}
-              loading={checkoutTIleLoading || playTurnLoading}
-              disabled={playTurnLoading || checkoutTIleLoading || playerTurn.userId !== userId || !playerTurn.turn}
+              loading={startGameLoading || checkoutTileLoading || playTurnLoading}
+              disabled={
+                startGameLoading ||
+                playTurnLoading ||
+                checkoutTileLoading ||
+                playerTurn.userId !== userId ||
+                playerTurn.status === 'idle'
+              }
               onCheckoutTile={handleCheckOutTile}
             />
-          )}
+          ) : null}
         </Grid>
       </Container>
     </div>

@@ -4,21 +4,8 @@ import { Container, Grid, Card, CardContent, Typography } from '@material-ui/cor
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
 import { CREATE_GAME, GET_TEMPLATES } from '../graphql';
-import { Player, Template } from './types';
+import { Template } from './types';
 import { useStyles } from './styles';
-
-const defaultPlayers: Player[] = [
-  { id: 1, name: '', active: true },
-  { id: 2, name: '', active: true },
-  { id: 3, name: '', active: true },
-  { id: 4, name: '', active: true },
-  { id: 5, name: '', active: false },
-  { id: 6, name: '', active: false },
-  { id: 7, name: '', active: false },
-  { id: 8, name: '', active: false },
-  { id: 9, name: '', active: false },
-  { id: 10, name: '', active: false },
-];
 
 export const GameSetup = memo(() => {
   const classes = useStyles();
@@ -96,5 +83,5 @@ export const GameSetup = memo(() => {
     return <Redirect to={`/game/${id}`} />;
   }
 
-  return <Component defaultPlayers={defaultPlayers} templates={templatesData.templates} onSubmit={handleSubmit} />;
+  return <Component templates={templatesData.templates} onSubmit={handleSubmit} />;
 });

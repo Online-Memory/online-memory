@@ -31,16 +31,16 @@ const newBoard = (rows, columns) => {
   return shuffle(tiles);
 };
 
-exports.createGame = async (owner, name, size, players, template, gameTemplate) => {
-  const gamePlayers = players
-    .filter(player => player.active)
-    .map((player, index) => ({
-      id: index + 1,
-      name: player.name,
+exports.createGame = async (owner, name, template, gameTemplate) => {
+  const players = [
+    {
+      id: 1,
       status: 'offline',
+      userId: owner,
       moves: 0,
       pairs: 0,
-    }));
+    },
+  ];
   const gameName = await generateUniqueName();
   const createdAt = new Date().toISOString();
   const board = {
@@ -53,12 +53,7 @@ exports.createGame = async (owner, name, size, players, template, gameTemplate) 
     createdAt,
     status: 'new',
     moves: 0,
-    teams: size,
-    players: gamePlayers,
-    playerTurn: {
-      ...gamePlayers[0],
-      turn: 0,
-    },
+    players,
     board,
     tiles,
     template,

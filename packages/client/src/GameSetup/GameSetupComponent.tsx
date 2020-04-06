@@ -9,36 +9,68 @@ import {
   CardActions,
   Button,
   TextField,
-  Slider,
   Select,
   MenuItem,
 } from '@material-ui/core';
 import { TileComponent } from '../Game/Tile';
-import { Player, Template } from './types';
+import { Template } from './types';
 import { useStyles } from './styles';
 import { Tile } from '../Game/types';
 
+const sampleTiles: Tile[] = [
+  {
+    id: 1,
+    ref: '000',
+    status: 'show',
+  },
+  {
+    id: 2,
+    ref: '001',
+    status: 'show',
+  },
+  {
+    id: 3,
+    ref: '002',
+    status: 'show',
+  },
+  {
+    id: 4,
+    ref: '003',
+    status: 'show',
+  },
+  {
+    id: 5,
+    ref: '004',
+    status: 'show',
+  },
+  {
+    id: 6,
+    ref: '005',
+    status: 'show',
+  },
+  {
+    id: 7,
+    ref: '006',
+    status: 'show',
+  },
+];
+
 interface Props {
-  defaultPlayers: Player[];
   templates: Template[];
   onSubmit: any;
 }
 
-export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onSubmit }) => {
+export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
   const classes = useStyles();
-  const [teamSize, setTeamSize] = useState(4);
   const [gameName, setGameName] = useState('');
   const [gameTemplate, setGameTemplate] = useState(templates[0].id);
-  const [players, setPlayers] = useState(defaultPlayers);
 
   const handleSubmit = useCallback(() => {
     onSubmit({
       name: gameName,
-      size: teamSize,
       template: gameTemplate,
-      players,
     });
-  }, [gameName, gameTemplate, onSubmit, players, teamSize]);
+  }, [gameName, gameTemplate, onSubmit]);
 
   const handleChange = useCallback(event => {
     setGameTemplate(event.target.value);
@@ -48,77 +80,9 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onS
     setGameName(event.target.value);
   }, []);
 
-  const handlePlayerChange = useCallback(
-    (playerId: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-
-      setPlayers(currPlayers =>
-        currPlayers.map((currPlayer, index) => ({
-          ...currPlayer,
-          name: index === playerId - 1 ? value : currPlayer.name,
-        }))
-      );
-    },
-    []
-  );
-
-  const handlePlayersChange = useCallback((_, value: number | number[]) => {
-    if (Array.isArray(value)) {
-      return;
-    }
-
-    setTeamSize(value);
-    setPlayers(currPlayers =>
-      currPlayers.map((currPlayer, index) => ({
-        ...currPlayer,
-        active: index < value,
-      }))
-    );
-  }, []);
-
   const checkForm = useMemo(() => {
-    const hasMissingPlayerName = players.filter(player => player.active).filter(player => !player.name).length;
-
-    return Boolean(hasMissingPlayerName) || !gameName || !gameTemplate;
-  }, [gameName, gameTemplate, players]);
-
-  const sampleTiles: Tile[] = [
-    {
-      id: 1,
-      ref: '000',
-      status: 'show',
-    },
-    {
-      id: 2,
-      ref: '001',
-      status: 'show',
-    },
-    {
-      id: 3,
-      ref: '002',
-      status: 'show',
-    },
-    {
-      id: 4,
-      ref: '003',
-      status: 'show',
-    },
-    {
-      id: 5,
-      ref: '004',
-      status: 'show',
-    },
-    {
-      id: 6,
-      ref: '005',
-      status: 'show',
-    },
-    {
-      id: 7,
-      ref: '006',
-      status: 'show',
-    },
-  ];
+    return !gameName || !gameTemplate;
+  }, [gameName, gameTemplate]);
 
   return (
     <div className={`GameSetup ${classes.container}`}>
@@ -138,20 +102,6 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onS
                     value={gameName}
                     onChange={handleGameNameChange}
                     fullWidth
-                  />
-                </Grid>
-
-                <Grid item>
-                  <Typography gutterBottom>How many players are going to play?</Typography>
-                  <Slider
-                    className={`playersSlider ${classes.slider}`}
-                    valueLabelDisplay="on"
-                    value={teamSize}
-                    onChange={handlePlayersChange}
-                    min={1}
-                    max={10}
-                    step={1}
-                    marks
                   />
                 </Grid>
 
@@ -183,24 +133,6 @@ export const Component: React.FC<Props> = memo(({ defaultPlayers, templates, onS
                       }}
                     />
                   ))}
-                </Grid>
-
-                <Grid>
-                  {players
-                    .filter(player => player.active)
-                    .map(player => (
-                      <Grid item key={`player-${player.id}-name`}>
-                        <Typography gutterBottom>Player {player.id} name</Typography>
-                        <TextField
-                          type="text"
-                          variant="outlined"
-                          inputProps={{ maxLength: 20 }}
-                          value={player.name}
-                          onChange={handlePlayerChange(player.id)}
-                          fullWidth
-                        />
-                      </Grid>
-                    ))}
                 </Grid>
               </Grid>
             </Container>

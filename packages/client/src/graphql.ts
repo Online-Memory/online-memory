@@ -25,7 +25,6 @@ export const CLAIM_PLAYER = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -37,13 +36,14 @@ export const CLAIM_PLAYER = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }
@@ -66,7 +66,6 @@ export const START_GAME = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -78,13 +77,14 @@ export const START_GAME = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }
@@ -108,7 +108,6 @@ export const PLAY_TURN = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -120,13 +119,14 @@ export const PLAY_TURN = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }
@@ -150,7 +150,6 @@ export const CHECKOUT_TILE = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -162,13 +161,14 @@ export const CHECKOUT_TILE = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }
@@ -192,7 +192,6 @@ export const GET_GAME = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -204,13 +203,14 @@ export const GET_GAME = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }
@@ -234,7 +234,6 @@ export const GAME_UPDATED = gql`
       id
       name
       owner
-      teams
       status
       template
       moves
@@ -246,13 +245,14 @@ export const GAME_UPDATED = gql`
         id
         name
         userId
+        currentPlaying
+        status
       }
       players {
         id
         status
         name
         userId
-        score
         moves
         pairs
       }

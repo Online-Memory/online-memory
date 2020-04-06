@@ -1,34 +1,34 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import {
   Card,
   CardHeader,
   CardContent,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
   Container,
+  TextField,
+  CardActions,
+  Button,
 } from '@material-ui/core';
-import { Player } from '../types';
 import { useStyles } from './styles';
 
 interface Props {
   name: string;
   gameId: string;
-  players: Player[];
-  onPlayerSelected: (player: Player) => void;
+  onClaimPlayer: (playerName: string) => void;
 }
 
-export const ClaimPlayer: React.FC<Props> = memo(({ name, gameId, players, onPlayerSelected }) => {
+export const ClaimPlayer: React.FC<Props> = memo(({ name, gameId, onClaimPlayer }) => {
   const classes = useStyles();
+  const [playerName, setPlayerName] = useState('');
 
-  const handlePlayerSelected = useCallback(
-    (player: Player) => () => {
-      onPlayerSelected(player);
-    },
-    [onPlayerSelected]
-  );
+  const handleGameNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setPlayerName(event.target.value);
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    onClaimPlayer(playerName);
+  }, [onClaimPlayer, playerName]);
 
   return (
     <div className={`ClaimPlayer ${classes.gameContainer}`}>
@@ -39,23 +39,25 @@ export const ClaimPlayer: React.FC<Props> = memo(({ name, gameId, players, onPla
             <Grid container justify="center">
               <Grid item xs={4}>
                 <Typography component="h2" variant="h5" align="center" gutterBottom>
-                  Choose your player
+                  Enter your player name
                 </Typography>
-
-                <List aria-label="players" className={classes.claimPlayerList}>
-                  {players
-                    .filter(player => !player.userId)
-                    .map(player => {
-                      return (
-                        <ListItem key={`player-${player.id}`} button>
-                          <ListItemText primary={player.name} onClick={handlePlayerSelected(player)} />
-                        </ListItem>
-                      );
-                    })}
-                </List>
+                <TextField
+                  type="text"
+                  variant="outlined"
+                  inputProps={{ maxLength: 30 }}
+                  value={playerName}
+                  onChange={handleGameNameChange}
+                  fullWidth
+                />
               </Grid>
             </Grid>
           </CardContent>
+
+          <CardActions className={classes.cardActions}>
+            <Button color="primary" onClick={handleSubmit} disabled={!playerName}>
+              Submit
+            </Button>
+          </CardActions>
         </Card>
       </Container>
     </div>

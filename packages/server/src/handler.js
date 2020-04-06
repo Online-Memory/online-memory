@@ -3,6 +3,9 @@ const { doesItemExist } = require('./helpers/does-item-exists');
 const { whoAmI } = require('./eventHandlers/who-am-i');
 const { createGame } = require('./eventHandlers/create-game');
 const { startGame } = require('./eventHandlers/start-game');
+const { claimPlayer } = require('./eventHandlers/claim-player');
+const { playTurn } = require('./eventHandlers/play-turn');
+const { checkoutTile } = require('./eventHandlers/checkout-tile');
 
 const gameTemplates = [
   { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
@@ -27,18 +30,20 @@ exports.graphqlHandler = async (event, context, callback) => {
         return null;
       }
 
-      return userData;
+      callback(null, userData);
+      break;
     }
 
     case 'createGame': {
-      const { name, size, players, template } = input;
+      const { name, template } = input;
       const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
 
       let newGameData;
       try {
-        newGameData = await createGame(owner, name, size, players, template, gameTemplate);
+        newGameData = await createGame(owner, name, template, gameTemplate);
       } catch (err) {
         callback(null, { error: 'Something went wrong while generating a new game' });
+        return;
       }
 
       console.log('newGameData', newGameData);
@@ -61,12 +66,21 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
+        return;
       }
 
       const gameDataItem = gameData.Items[0];
-      const players = (gameDataItem && gameDataItem.players) || [];
 
-      const startGameData = startGame(players, userId);
+      if (!gameDataItem) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+        return;
+      }
+
+      const players = gameDataItem.players || [];
+      const gameOwner = gameDataItem.owner;
+      const gameStatus = gameDataItem.status;
+
+      const startGameData = await startGame(gameOwner === userId, gameStatus, players, userId);
       console.log(startGameData);
 
       if (startGameData) {
@@ -80,45 +94,21 @@ exports.graphqlHandler = async (event, context, callback) => {
 
     case 'claimPlayer': {
       const { input, userId } = event;
-      const { gameId, playerId } = input;
+      const { gameId, playerName } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
+        return;
       }
 
       const gameDataItem = gameData.Items[0];
       const players = (gameDataItem && gameDataItem.players) || [];
-      const teams = gameDataItem.teams;
 
-      const playersUpdated = players.map(player => {
-        if (`${player.id}` === `${playerId}`) {
-          return {
-            ...player,
-            userId,
-          };
-        }
-        return player;
-      });
+      const claimPlayerData = await claimPlayer(userId, players, playerName);
 
-      const assignedPlayers = playersUpdated.filter(player => player.userId);
-      let playerTurnUpdated = gameDataItem.playerTurn;
-
-      if (assignedPlayers.length === teams) {
-        playerTurnUpdated = playersUpdated[0];
-      }
-
-      const values = {
-        players: playersUpdated,
-        playerTurn: {
-          ...playerTurnUpdated,
-          turn: 0,
-        },
-      };
-
-      callback(null, { id: gameId, values });
-
+      callback(null, { id: gameId, values: claimPlayerData });
       break;
     }
 
@@ -130,6 +120,7 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
+        return;
       }
 
       const gameDataItem = gameData.Items[0];
@@ -137,124 +128,59 @@ exports.graphqlHandler = async (event, context, callback) => {
       const playerTurn = gameDataItem.playerTurn;
       const moves = gameDataItem.moves;
       const players = gameDataItem.players;
-      let playersUpdated = players;
 
       if (userId !== playerTurn.userId) {
         callback(null, { error: `Invalid move` });
+        return;
       }
 
       const currTile = tiles.find(tile => `${tile.id}` === `${tileId}`);
-      const shouldUpdate = currTile.status === 'hidden';
-      const isWin = playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
 
-      if (!shouldUpdate) {
+      if (!currTile.status === 'hidden') {
         // Only hidden tile can be checked out. if already in show state. don't take any action
-        callback(null, { id: gameId, values: {} });
+        callback(null, { error: `Invalid move. Cannot flip this tile` });
+        return;
       }
 
-      if (!playerTurn.turn) {
+      if (playerTurn.status === 'idle' || !playerTurn.turn) {
         // Avoid player checking out more than 2 cards per turn
-        callback(null, { id: gameId, values: {} });
+        callback(null, { error: `Invalid move. User not allowed to flip tiles` });
+        return;
       }
 
-      let tilesUpdated = tiles.map(tile => {
-        if (`${tile.id}` === `${tileId}` && !isWin) {
-          return {
-            ...tile,
-            status: 'show',
-          };
-        }
-        return tile;
-      });
+      const checkoutTileData = await checkoutTile(userId, players, playerTurn, tiles, currTile, tileId, moves);
+      console.log('checkoutTileData', checkoutTileData);
 
-      const currPlayer = players.findIndex(player => player.id === playerTurn.id);
-      const nextPlayer = currPlayer < players.length - 1 ? players[currPlayer + 1] : players[0];
-
-      const updatePlayerTurn = () => {
-        if (playerTurn.turn > 1 && !isWin) {
-          return {
-            ...nextPlayer,
-            turn: 0,
-          };
-        } else if (playerTurn.turn > 1 && isWin) {
-          return {
-            ...playerTurn,
-            turn: 1,
-          };
-        }
-
-        return {
-          ...playerTurn,
-          turn: (playerTurn.turn || 0) + 1,
-          tileRef: `${currTile.ref}`,
-        };
-      };
-
-      const playerTurnUpdated = updatePlayerTurn();
-
-      if (isWin) {
-        tilesUpdated = tiles.map(tile => {
-          if (`${tile.ref}` === `${currTile.ref}`) {
-            return {
-              ...tile,
-              status: 'taken',
-            };
-          }
-          return tile;
-        });
-
-        playersUpdated = players.map(player => {
-          if (player.userId === userId) {
-            return {
-              ...player,
-              score: (player.score || 0) + 1,
-            };
-          }
-
-          return player;
-        });
-      }
-
-      const values = {
-        moves: moves + 1,
-        tiles: tilesUpdated,
-        playerTurn: playerTurnUpdated,
-        players: playersUpdated,
-      };
-
-      callback(null, { id: gameId, values });
-
+      callback(null, { id: gameId, values: checkoutTileData });
       break;
     }
 
     case 'playTurn': {
-      const { input } = event;
+      const { input, userId } = event;
       const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
+        return;
       }
 
       const gameDataItem = gameData.Items[0];
-      const tiles = gameDataItem.tiles.map(tile => ({
-        ...tile,
-        status: tile.status === 'taken' ? 'taken' : 'hidden',
-      }));
 
-      const playerTurnUpdated = {
-        ...gameDataItem.playerTurn,
-        turn: 1,
-      };
+      if (!gameDataItem.playerTurn) {
+        callback(null, { error: `Cannot update this game. A playerTurn must be available in the game first` });
+        return;
+      }
+      if (gameDataItem.playerTurn.status !== 'idle') {
+        callback(null, { error: `Player cannot play turn at this point since they're not in idle state` });
+        return;
+      }
 
-      const values = {
-        playerTurn: playerTurnUpdated,
-        tiles,
-      };
+      const playTurnData = await playTurn(gameDataItem.tiles, gameDataItem.playerTurn, userId);
 
-      console.log('values', values);
-      callback(null, { id: gameId, values });
+      console.log('playTurnData', playTurnData);
+      callback(null, { id: gameId, values: playTurnData });
 
       break;
     }

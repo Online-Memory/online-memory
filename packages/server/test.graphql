@@ -7,7 +7,7 @@ mutation CreateGame($createGameInput: CreateGameInput!) {
 query GetGame {
 	getGame(gameId: "nuclear_white_mollusk") {
 		id
-		yname
+		name
 		playerTurn {
 			name
 			id
@@ -36,10 +36,6 @@ query GetGame {
 {
 	"createGameInput": {
 		"name":"asdasdsa",
-		"size":2,
-		"players":[
-			{ "id":1, "name":"dasasdas", "active":true },
-			{ "id":2, "name":"asdasds", "active":true },
-		]
+		"template": "001",
 	}
 }
