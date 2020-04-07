@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.7.0](https://github.com/andreasonny83/online-memory/tree/v0.7.0) (2020-04-07)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.6.0...v0.7.0)
+
 ## [v0.6.0](https://github.com/andreasonny83/online-memory/tree/v0.6.0) (2020-04-06)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.5.0...v0.6.0)
