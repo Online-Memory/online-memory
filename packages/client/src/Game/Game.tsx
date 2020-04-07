@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
-import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED, START_GAME } from '../graphql';
+import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
 import { UserData } from '../Auth/useAuth';
 import { GameData } from './types';
 import { GameComponent } from './GameComponent';
@@ -29,12 +29,6 @@ export const Game: React.FC<Props> = memo(({ user }) => {
     },
   });
 
-  const [startGame, { loading: startGameLoading }] = useMutation(START_GAME, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
   const { error: subError } = useSubscription(GAME_UPDATED, { variables: { id } });
 
   const handleClaimPlayer = useCallback(
@@ -49,19 +43,6 @@ export const Game: React.FC<Props> = memo(({ user }) => {
       });
     },
     [claimPlayer, id]
-  );
-
-  const handleStartGame = useCallback(
-    (gameName: string) => {
-      startGame({
-        variables: {
-          startGameInput: {
-            gameId: gameName,
-          },
-        },
-      });
-    },
-    [startGame]
   );
 
   if (error || subError || (!loading && !data)) {
@@ -118,12 +99,5 @@ export const Game: React.FC<Props> = memo(({ user }) => {
     );
   }
 
-  return (
-    <GameComponent
-      gameData={data.getGame}
-      userId={user.id}
-      onClaimPlayer={handleClaimPlayer}
-      onStartGame={handleStartGame}
-    />
-  );
+  return <GameComponent gameData={data.getGame} userId={user.id} onClaimPlayer={handleClaimPlayer} />;
 });

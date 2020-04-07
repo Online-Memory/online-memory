@@ -20,7 +20,7 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
   };
 };
 
-exports.checkoutTile = async (userId, players, playerTurn, tiles, currTile, tileId, moves) => {
+exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, currTile, tileId, moves) => {
   const isWin = playerTurn.status === 'playing' && playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
 
   let playersUpdated = players.map(player => {
@@ -70,10 +70,14 @@ exports.checkoutTile = async (userId, players, playerTurn, tiles, currTile, tile
     });
   }
 
+  const tilesAvailable = tilesUpdated.filter(tile => tile.status !== 'taken');
+  const gameStatusUpdated = !tilesAvailable.length ? 'ended' : gameStatus;
+
   return {
     moves: moves + 1,
     tiles: tilesUpdated,
     playerTurn: playerTurnUpdated,
     players: playersUpdated,
+    status: gameStatusUpdated,
   };
 };

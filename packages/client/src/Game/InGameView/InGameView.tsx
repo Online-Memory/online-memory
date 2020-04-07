@@ -11,6 +11,7 @@ import {
   DialogContentText,
   DialogActions,
   Typography,
+  CircularProgress,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
@@ -26,7 +27,7 @@ interface Props {
 }
 
 export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
-  const { name, players, playerTurn, board, tiles, template, moves, status, updatedAt, startedAt } = gameData;
+  const { name, players, playerTurn, board, tiles, template, moves, owner, status, updatedAt, startedAt } = gameData;
   const classes = useStyles();
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
@@ -135,16 +136,7 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
 
   return (
     <div className={`Game ${classes.gameContainer}`}>
-      <Snackbar
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        action={
-          <Button color="primary" size="small" onClick={handleClose}>
-            PLAY
-          </Button>
-        }
-      >
+      <Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert
           severity="info"
           action={
@@ -202,11 +194,35 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
             playerTurn={playerTurn}
           />
 
-          {status === 'new' ? (
-            <Grid justify="center" xs={12} md={9} item container>
+          {status === 'new' && owner ? (
+            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
+              <Typography component="h4" variant="h6" align="center">
+                You are the game host.
+                <br />
+                Click <strong>"Start game"</strong> when all the users have joined the game to start this game
+              </Typography>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  onClick={handleStartGame}
+                  disabled={startGameLoading}
+                >
+                  Start Game
+                </Button>
+              </Grid>
+            </Grid>
+          ) : null}
+
+          {status === 'new' && !owner ? (
+            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
               <Typography component="h4" variant="h6" align="center">
                 Waiting for the host to start the game
               </Typography>
+              <Grid item>
+                <CircularProgress size={60} />
+              </Grid>
             </Grid>
           ) : null}
 

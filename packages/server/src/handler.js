@@ -128,7 +128,12 @@ exports.graphqlHandler = async (event, context, callback) => {
       const playerTurn = gameDataItem.playerTurn;
       const moves = gameDataItem.moves;
       const players = gameDataItem.players;
+      const gameStatus = gameDataItem.status;
 
+      if (gameStatus === 'ended') {
+        callback(null, { error: `Cannot update an already ended game` });
+        return;
+      }
       if (userId !== playerTurn.userId) {
         callback(null, { error: `Invalid move` });
         return;
@@ -148,7 +153,16 @@ exports.graphqlHandler = async (event, context, callback) => {
         return;
       }
 
-      const checkoutTileData = await checkoutTile(userId, players, playerTurn, tiles, currTile, tileId, moves);
+      const checkoutTileData = await checkoutTile(
+        userId,
+        gameStatus,
+        players,
+        playerTurn,
+        tiles,
+        currTile,
+        tileId,
+        moves
+      );
       console.log('checkoutTileData', checkoutTileData);
 
       callback(null, { id: gameId, values: checkoutTileData });
