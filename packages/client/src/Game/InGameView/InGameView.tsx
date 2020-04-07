@@ -32,6 +32,7 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const userPlayer = players.find(player => player.userId === userId);
   const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
@@ -120,6 +121,26 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   }, [deltaGameCreation, pad]);
 
+  const cleanNotificationMessage = useCallback(() => {
+    setNotificationMessage('');
+  }, []);
+
+  const handleCopyId = useCallback(() => {
+    (navigator as any).clipboard.writeText(gameData.id);
+    setNotificationMessage('Game Id copied to the clipboard');
+  }, [gameData.id]);
+
+  const handleCopyInvitation = useCallback(() => {
+    const invitation = `Come play memory with me!
+
+Join the Online Memory game at:
+https://master.d3czed5ma25sw0.amplifyapp.com/game/${gameData.id}
+
+Game ID: ${gameData.id}`;
+    (navigator as any).clipboard.writeText(invitation);
+    setNotificationMessage('Game invitation copied to the clipboard');
+  }, [gameData.id]);
+
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
       checkoutTile({
@@ -162,6 +183,17 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
         </Snackbar>
       )}
 
+      {notificationMessage && (
+        <Snackbar
+          open={Boolean(notificationMessage)}
+          autoHideDuration={2500}
+          onClose={cleanNotificationMessage}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert severity="success">{notificationMessage}</Alert>
+        </Snackbar>
+      )}
+
       <Dialog
         open={Boolean(status === 'idle' && userPlayer && userPlayer.status === 'offline')}
         aria-labelledby="alert-dialog-title"
@@ -195,22 +227,45 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
           />
 
           {status === 'new' && owner === userId ? (
-            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
-              <Typography component="h4" variant="h6" align="center">
-                You are the game host.
-                <br />
-                Click <strong>"Start game"</strong> when all the users have joined the game to start this game
-              </Typography>
+            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={6} item container>
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  onClick={handleStartGame}
-                  disabled={startGameLoading}
-                >
-                  Start Game
-                </Button>
+                <Typography component="h4" variant="h5" align="center">
+                  You are the game host
+                </Typography>
+              </Grid>
+
+              <Grid item justify="center" alignItems="center" direction="column">
+                <Typography variant="subtitle1" align="center">
+                  Share this game id with other user: <strong>{gameData.id}</strong>
+                </Typography>
+                <Grid item container justify="space-evenly">
+                  <Button variant="outlined" color="default" onClick={handleCopyInvitation}>
+                    Copy Invitation
+                  </Button>
+
+                  <Button variant="outlined" color="default" onClick={handleCopyId}>
+                    Copy Game ID
+                  </Button>
+                </Grid>
+              </Grid>
+
+              <Grid item direction="column" spacing={10}>
+                <Grid item>
+                  <Typography paragraph align="center">
+                    Click <strong>"Start game"</strong> once all the users have joined
+                  </Typography>
+                </Grid>
+                <Grid item container justify="center">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    onClick={handleStartGame}
+                    disabled={startGameLoading}
+                  >
+                    Start Game
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           ) : null}
