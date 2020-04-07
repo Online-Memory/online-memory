@@ -194,7 +194,7 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
             playerTurn={playerTurn}
           />
 
-          {status === 'new' && owner ? (
+          {status === 'new' && owner === userId ? (
             <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
               <Typography component="h4" variant="h6" align="center">
                 You are the game host.
@@ -215,7 +215,7 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
             </Grid>
           ) : null}
 
-          {status === 'new' && !owner ? (
+          {status === 'new' && owner !== userId ? (
             <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
               <Typography component="h4" variant="h6" align="center">
                 Waiting for the host to start the game
