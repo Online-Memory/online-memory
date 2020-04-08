@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.9.0](https://github.com/andreasonny83/online-memory/tree/v0.9.0) (2020-04-08)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.8.0...v0.9.0)
+
+**Implemented enhancements:**
+
+- Short statistics in dashboard [\#22](https://github.com/andreasonny83/online-memory/issues/22)
+
 ## [v0.8.0](https://github.com/andreasonny83/online-memory/tree/v0.8.0) (2020-04-08)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.7.1...v0.8.0)
