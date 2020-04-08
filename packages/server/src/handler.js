@@ -1,18 +1,12 @@
 const { findItem } = require('./helpers/db-operations');
 const { doesItemExist } = require('./helpers/does-item-exists');
+const { gameTemplates } = require('./helpers/game-templates');
 const { whoAmI } = require('./eventHandlers/who-am-i');
 const { createGame } = require('./eventHandlers/create-game');
 const { startGame } = require('./eventHandlers/start-game');
 const { claimPlayer } = require('./eventHandlers/claim-player');
 const { playTurn } = require('./eventHandlers/play-turn');
 const { checkoutTile } = require('./eventHandlers/checkout-tile');
-
-const gameTemplates = [
-  { id: '001', name: 'Italy', tiles: 100, board: [10, 10] },
-  { id: '002', name: 'Food', tiles: 100, board: [10, 10] },
-  { id: '003', name: 'World', tiles: 100, board: [10, 10] },
-  { id: '004', name: 'Animals', tiles: 100, board: [10, 10] },
-];
 
 exports.graphqlHandler = async (event, context, callback) => {
   const { field, owner, input } = event;
