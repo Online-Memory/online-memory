@@ -1,5 +1,18 @@
-import React from 'react';
-import { Typography, AppBar, Toolbar, Button, Link, Grid, Container, IconButton, Tooltip } from '@material-ui/core';
+import React, { useEffect, useState, useCallback } from 'react';
+import * as serviceWorker from '../serviceWorker';
+import {
+  Typography,
+  AppBar,
+  Toolbar,
+  Button,
+  Link,
+  Grid,
+  Container,
+  IconButton,
+  Tooltip,
+  Snackbar,
+} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
 import { version } from '../version';
@@ -15,10 +28,44 @@ interface Props {
 
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const classes = useStyles();
-  const { logOut } = useAuth();
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const { isAuthenticated, logOut } = useAuth();
+
+  useEffect(() => {
+    serviceWorker.register({
+      onUpdate: (reg: any) => {
+        const registrationWaiting = reg.waiting;
+        if (registrationWaiting) {
+          registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+          registrationWaiting.addEventListener('statechange', (e: any) => {
+            if (e.target.state === 'activated') {
+              setUpdateAvailable(true);
+            }
+          });
+        }
+      },
+    });
+  }, []);
+
+  const handleUpdateApp = useCallback(() => {
+    window.location.reload();
+  }, []);
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
+      <Snackbar open={updateAvailable} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert
+          severity="info"
+          action={
+            <Button color="default" size="small" onClick={handleUpdateApp}>
+              UPDATE
+            </Button>
+          }
+        >
+          A new version of Online Memory is available.
+        </Alert>
+      </Snackbar>
+
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.title} noWrap>
@@ -35,9 +82,17 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
           <Link href="/about" underline="none" color="inherit">
             <Button color="inherit">About</Button>
           </Link>
-          <Button color="inherit" onClick={logOut}>
-            Logout
-          </Button>
+          {isAuthenticated ? (
+            <Link href="/" underline="none" color="inherit">
+              <Button color="inherit" onClick={logOut}>
+                Logout
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/login" underline="none" color="inherit">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
       <main className={classes.main}>
@@ -45,10 +100,9 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
       </main>
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Grid container direction="column" alignItems="center" spacing={4}>
+          <Grid container direction="column" alignItems="center">
             <Grid item>
-              <Typography variant="h6" align="center" gutterBottom></Typography>
-              <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+              <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
                 Online Memory v{version} Copyright &copy;{' '}
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
@@ -57,7 +111,15 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
               </Typography>
             </Grid>
             <Grid item>
-              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/">
+              <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
+                What's new in v{version}? Read the{' '}
+                <Link color="inherit" href="https://github.com/andreasonny83/">
+                  CHANGELOG
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/blob/master/CHANGELOG.md">
                 <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />
               </Link>
             </Grid>

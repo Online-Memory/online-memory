@@ -14,4 +14,15 @@ export const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(20),
     marginBottom: theme.spacing(20),
   },
+  tileSamplesContainer: {
+    position: 'relative',
+    height: '230px',
+    marginLeft: '3px',
+    marginTop: '20px',
+  },
+  tileSample: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
 }));

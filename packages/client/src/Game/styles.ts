@@ -19,15 +19,4 @@ export const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(20),
     marginBottom: theme.spacing(20),
   },
-  snackBarBottomLeft: {
-    bottom: '10px',
-    left: '10px',
-  },
-  snackBarTopLeft: {
-    top: '80px',
-  },
-  claimPlayerList: {
-    marginTop: theme.spacing(6),
-    backgroundColor: 'rgba(255,255,255,0.1)',
-  },
 }));

@@ -1,11 +1,12 @@
 {
   "name": "client",
-  "version": "0.2.0",
+  "version": "0.7.1",
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.47",
     "@svgr/webpack": "4.3.3",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",

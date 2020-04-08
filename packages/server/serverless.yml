@@ -78,6 +78,14 @@ custom:
           - ClaimPlayer
           - UpdateGameData
       - type: Mutation
+        field: startGame
+        request: 'startGame-request-mapping-template-before.vtl'
+        response: 'startGame-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - StartGame
+          - UpdateGameData
+      - type: Mutation
         field: checkoutTile
         request: 'checkoutTile-request-mapping-template-before.vtl'
         response: 'checkoutTile-response-mapping-template-after.vtl'
@@ -115,6 +123,10 @@ custom:
         name: 'ClaimPlayer'
         request: 'claimPlayer-request-mapping-template.vtl'
         response: 'claimPlayer-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'StartGame'
+        request: 'startGame-request-mapping-template.vtl'
+        response: 'startGame-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'CheckoutTile'
         request: 'checkoutTile-request-mapping-template.vtl'

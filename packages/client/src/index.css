@@ -8,10 +8,12 @@ html, body {
 
 div#bmc-wbtn {
   opacity: 0;
+  pointer-events: none;
 }
 
 div#bmc-wbtn.show {
   opacity: 1;
+  pointer-events: all;
 }
 
 .tile {

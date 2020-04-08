@@ -10,4 +10,4 @@ export interface AWSUser {
 
 export const awsSignOut = () => Auth.signOut();
 
-export const getCurrentUser = () => Auth.currentUserInfo();
+export const currentAuthenticatedUser = () => Auth.currentAuthenticatedUser();

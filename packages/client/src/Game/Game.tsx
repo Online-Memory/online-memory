@@ -3,14 +3,17 @@ import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
-import { useAuth } from '../Auth/useAuth';
-import { Player, GameData } from './types';
+import { UserData } from '../Auth/useAuth';
+import { GameData } from './types';
 import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
-export const Game: React.FC = memo(() => {
+interface Props {
+  user?: UserData;
+}
+
+export const Game: React.FC<Props> = memo(({ user }) => {
   const classes = useStyles();
-  const { user } = useAuth();
   const { id } = useParams();
 
   const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
@@ -29,12 +32,12 @@ export const Game: React.FC = memo(() => {
   const { error: subError } = useSubscription(GAME_UPDATED, { variables: { id } });
 
   const handleClaimPlayer = useCallback(
-    (player: Player) => {
+    (playerName: string) => {
       claimPlayer({
         variables: {
           claimPlayerInput: {
             gameId: id,
-            playerId: player.id,
+            playerName,
           },
         },
       });
@@ -60,7 +63,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (loading || claimPlayerLoading) {
+  if (loading || claimPlayerLoading || !user || !user.id) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -96,5 +99,5 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} userId={user?.id || ''} onClaimPlayer={handleClaimPlayer} />;
+  return <GameComponent gameData={data.getGame} userId={user.id} onClaimPlayer={handleClaimPlayer} />;
 });

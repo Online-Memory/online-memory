@@ -5,9 +5,9 @@ export const useStyles = makeStyles(theme => ({
     zIndex: 99,
     position: 'fixed',
     padding: '12px',
-    right: '-28px',
-    top: '95px',
-    opacity: '0.4',
+    right: '-33px',
+    top: '90px',
+    opacity: '0.35',
     transition: 'opacity .25s ease-in-out, right .25s ease-in-out',
 
     '&:hover': {
