@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.8.0](https://github.com/andreasonny83/online-memory/tree/v0.8.0) (2020-04-08)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.7.1...v0.8.0)
+
+**Implemented enhancements:**
+
+- New Food template [\#32](https://github.com/andreasonny83/online-memory/issues/32)
+- Choose number of tiles [\#12](https://github.com/andreasonny83/online-memory/issues/12)
+
 ## [v0.7.1](https://github.com/andreasonny83/online-memory/tree/v0.7.1) (2020-04-07)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.7.0...v0.7.1)
