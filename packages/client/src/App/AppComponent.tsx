@@ -113,7 +113,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
             <Grid item>
               <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
                 What's new in v{version}? Read the{' '}
-                <Link color="inherit" href="https://github.com/andreasonny83/">
+                <Link color="inherit" href="https://github.com/andreasonny83/online-memory/blob/master/CHANGELOG.md">
                   CHANGELOG
                 </Link>
               </Typography>

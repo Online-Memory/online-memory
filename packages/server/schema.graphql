@@ -1,6 +1,7 @@
 input CreateGameInput {
 	name: String!
 	template: String!
+	tiles: Int!
 }
 
 input StartGameInput {

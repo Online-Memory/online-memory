@@ -29,12 +29,11 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'createGame': {
-      const { name, template } = input;
-      const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
+      const { name, template, tiles } = input;
 
       let newGameData;
       try {
-        newGameData = await createGame(owner, name, template, gameTemplate);
+        newGameData = await createGame(owner, name, template, tiles);
       } catch (err) {
         callback(null, { error: 'Something went wrong while generating a new game' });
         return;

@@ -18,41 +18,13 @@ import { useStyles } from './styles';
 import { Tile } from '../Game/types';
 
 const sampleTiles: Tile[] = [
-  {
-    id: 1,
-    ref: '000',
-    status: 'show',
-  },
-  {
-    id: 2,
-    ref: '001',
-    status: 'show',
-  },
-  {
-    id: 3,
-    ref: '002',
-    status: 'show',
-  },
-  {
-    id: 4,
-    ref: '003',
-    status: 'show',
-  },
-  {
-    id: 5,
-    ref: '004',
-    status: 'show',
-  },
-  {
-    id: 6,
-    ref: '005',
-    status: 'show',
-  },
-  {
-    id: 7,
-    ref: '006',
-    status: 'show',
-  },
+  { id: 1, ref: '000', status: 'show' },
+  { id: 2, ref: '001', status: 'show' },
+  { id: 3, ref: '002', status: 'show' },
+  { id: 4, ref: '003', status: 'show' },
+  { id: 5, ref: '004', status: 'show' },
+  { id: 6, ref: '005', status: 'show' },
+  { id: 7, ref: '006', status: 'show' },
 ];
 
 interface Props {
@@ -60,20 +32,28 @@ interface Props {
   onSubmit: any;
 }
 
+const GAME_TILES = [100, 72, 48, 36];
+
 export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
   const classes = useStyles();
   const [gameName, setGameName] = useState('');
   const [gameTemplate, setGameTemplate] = useState(templates[0].id);
+  const [gameTiles, setGameTiles] = useState(templates[0].tiles);
 
   const handleSubmit = useCallback(() => {
     onSubmit({
       name: gameName,
       template: gameTemplate,
+      tiles: gameTiles,
     });
-  }, [gameName, gameTemplate, onSubmit]);
+  }, [gameName, gameTemplate, gameTiles, onSubmit]);
 
   const handleChange = useCallback(event => {
     setGameTemplate(event.target.value);
+  }, []);
+
+  const handleTilesChange = useCallback(event => {
+    setGameTiles(event.target.value);
   }, []);
 
   const handleGameNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,6 +113,17 @@ export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
                       }}
                     />
                   ))}
+                </Grid>
+
+                <Grid item>
+                  <Typography gutterBottom>Choose the number of tiles</Typography>
+                  <Select fullWidth variant="outlined" value={gameTiles} onChange={handleTilesChange}>
+                    {GAME_TILES.map(tileSize => (
+                      <MenuItem key={`tileSize-${tileSize}`} value={tileSize}>
+                        {tileSize}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </Grid>
               </Grid>
             </Container>

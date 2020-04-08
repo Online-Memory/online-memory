@@ -1,4 +1,5 @@
 const { generateUniqueName } = require('../helpers/generate-unique-name');
+const { gameTemplates } = require('../helpers/game-templates');
 
 const tilesBase = {
   id: 0,
@@ -31,7 +32,52 @@ const newBoard = (rows, columns) => {
   return shuffle(tiles);
 };
 
-exports.createGame = async (owner, name, template, gameTemplate) => {
+const getBoardSizeFromTiles = (tiles = 100, gameTemplate) => {
+  const maxTiles = gameTemplate.tiles;
+
+  if (tiles > maxTiles) {
+    return {
+      gridX: gameTemplate.board[0],
+      gridY: gameTemplate.board[1],
+    };
+  }
+
+  switch (tiles) {
+    case 100:
+      return {
+        gridX: 10,
+        gridY: 10,
+      };
+
+    case 72:
+      return {
+        gridX: 8,
+        gridY: 9,
+      };
+
+    case 48:
+      return {
+        gridX: 6,
+        gridY: 8,
+      };
+
+    case 36:
+      return {
+        gridX: 6,
+        gridY: 6,
+      };
+
+    default:
+      return {
+        gridX: gameTemplate.board[0],
+        gridY: gameTemplate.board[1],
+      };
+  }
+};
+
+exports.createGame = async (owner, name, template, gameTiles) => {
+  const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
+  const board = getBoardSizeFromTiles(gameTiles, gameTemplate);
   const players = [
     {
       id: 1,
@@ -43,10 +89,6 @@ exports.createGame = async (owner, name, template, gameTemplate) => {
   ];
   const gameName = await generateUniqueName();
   const createdAt = new Date().toISOString();
-  const board = {
-    gridX: gameTemplate.board[0],
-    gridY: gameTemplate.board[1],
-  };
   const tiles = newBoard(board.gridX, board.gridY);
   const values = {
     __typename: 'Game',
