@@ -65,6 +65,7 @@ type Game {
 	board: Board
 	playerTurn: PlayerTurn
 	players: [Player]
+	users: [String]
 	tiles: [Tile]
 	moves: Int
 }
@@ -80,6 +81,8 @@ type User {
 	id: String!
 	username: String!
 	createdAt: String!
+	completedGames: [Game]
+	activeGames: [Game]
 }
 
 type Query {

@@ -5,37 +5,51 @@ mutation CreateGame($createGameInput: CreateGameInput!) {
 }
 
 query GetGame {
-	getGame(gameId: "nuclear_white_mollusk") {
-		id
-		name
-		playerTurn {
-			name
-			id
-			userId
-		}
-		players {
-			name
-			id
-			userId
-		}
-		board {
-			gridX
-			gridY
-		}
-		tiles {
-			id
-			ref
+  getGame(gameId: "faithful_blush_pig") {
+    id
+    createdAt
+    updatedAt
+    startedAt
+    owner
+    name
+    status
+    template
+    board {
+      gridX
+      gridY
+    }
+		users
+		moves
+    playerTurn {
+      name
+      id
 			status
-			owner
+      userId
+			currentPlaying
+      turn
+      tileRef
+    }
+    players {
+      id
+      status
+      moves
+      pairs
+      name
+      userId
+    }
+		tiles {
+			ref
 		}
-	}
+  }
 }
 
-# Variables
-
-{
-	"createGameInput": {
-		"name":"asdasdsa",
-		"template": "001",
-	}
+query WhoAmI {
+  whoAmI {
+    id
+    completedGames {
+      id
+      name
+			status
+    }
+  }
 }

@@ -3,7 +3,7 @@ import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 
 import { currentAuthenticatedUser } from './AWS';
 import { resolvers } from './useAuth.resolvers';
-import { GET_USER, LOG_OUT } from './useAuth.graph';
+import { GET_USER, LOG_OUT } from '../graphql';
 
 export interface UserData {
   id: string;

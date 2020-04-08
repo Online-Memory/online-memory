@@ -1,9 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { Link as LinkUI, useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, Button, TextField } from '@material-ui/core';
+import { UserData } from '../Auth/useAuth';
 import { useStyles } from './styles';
+import { UserStats } from './UserStats';
 
-export const Home = () => {
+interface Props {
+  user?: UserData;
+}
+
+export const Home: React.FC<Props> = ({ user }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -26,48 +32,51 @@ export const Home = () => {
     <div className="Home">
       <div className={classes.heroContent}>
         <Container maxWidth="sm">
-          <Typography component="h1" variant="h2" align="center" color="textPrimary">
-            OnLine Memory
-          </Typography>
-          <div className={classes.heroButtons}>
-            <Grid container spacing={4} justify="center">
-              <Grid item>
-                <LinkUI to="/new" className={classes.linkButon}>
-                  <Button variant="contained" color="primary">
-                    Start new game
-                  </Button>
-                </LinkUI>
-              </Grid>
-              <Grid item>
-                <Button variant="outlined" color="primary" onClick={handleJoinGameToggle}>
-                  Join a game
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid container spacing={4}>
-              <Grid item></Grid>
-            </Grid>
-            {joinGame && (
-              <Grid container spacing={1} justify="center" alignItems="center">
-                <Grid item xs>
-                  <TextField
-                    type="text"
-                    variant="outlined"
-                    inputProps={{ maxLength: 32 }}
-                    value={joinGameId}
-                    label="Game ID"
-                    onChange={handleJoinGameChange}
-                    fullWidth
-                  />
+          <Grid container direction="column">
+            <Typography component="h1" variant="h2" align="center" color="textPrimary">
+              OnLine Memory
+            </Typography>
+            {user ? <UserStats /> : null}
+            <div className={classes.heroButtons}>
+              <Grid container spacing={4} justify="center">
+                <Grid item>
+                  <LinkUI to="/new" className={classes.linkButon}>
+                    <Button variant="contained" color="primary">
+                      Start new game
+                    </Button>
+                  </LinkUI>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary" onClick={handleJoinGame}>
-                    Join
+                  <Button variant="outlined" color="primary" onClick={handleJoinGameToggle}>
+                    Join a game
                   </Button>
                 </Grid>
               </Grid>
-            )}
-          </div>
+              <Grid container spacing={4}>
+                <Grid item></Grid>
+              </Grid>
+              {joinGame && (
+                <Grid container spacing={1} justify="center" alignItems="center">
+                  <Grid item xs>
+                    <TextField
+                      type="text"
+                      variant="outlined"
+                      inputProps={{ maxLength: 32 }}
+                      value={joinGameId}
+                      label="Game ID"
+                      onChange={handleJoinGameChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Button variant="outlined" color="primary" onClick={handleJoinGame}>
+                      Join
+                    </Button>
+                  </Grid>
+                </Grid>
+              )}
+            </div>
+          </Grid>
         </Container>
       </div>
 

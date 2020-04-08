@@ -46,6 +46,16 @@ custom:
         field: getGame
         request: 'getGame-request-mapping-template.vtl'
         response: 'getGame-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: User
+        field: completedGames
+        request: 'completedGames-request-mapping-template.vtl'
+        response: 'completedGames-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: User
+        field: activeGames
+        request: 'activeGames-request-mapping-template.vtl'
+        response: 'activeGames-response-mapping-template.vtl'
 
       - type: Query
         field: templates

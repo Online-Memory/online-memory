@@ -44,28 +44,16 @@ const getBoardSizeFromTiles = (tiles = 100, gameTemplate) => {
 
   switch (tiles) {
     case 100:
-      return {
-        gridX: 10,
-        gridY: 10,
-      };
+      return { gridX: 10, gridY: 10 };
 
     case 72:
-      return {
-        gridX: 8,
-        gridY: 9,
-      };
+      return { gridX: 8, gridY: 9 };
 
     case 48:
-      return {
-        gridX: 6,
-        gridY: 8,
-      };
+      return { gridX: 6, gridY: 8 };
 
     case 36:
-      return {
-        gridX: 6,
-        gridY: 6,
-      };
+      return { gridX: 6, gridY: 6 };
 
     default:
       return {
@@ -87,6 +75,7 @@ exports.createGame = async (owner, name, template, gameTiles) => {
       pairs: 0,
     },
   ];
+  const users = [owner];
   const gameName = await generateUniqueName();
   const createdAt = new Date().toISOString();
   const tiles = newBoard(board.gridX, board.gridY);
@@ -96,6 +85,7 @@ exports.createGame = async (owner, name, template, gameTiles) => {
     status: 'new',
     moves: 0,
     players,
+    users,
     board,
     tiles,
     template,

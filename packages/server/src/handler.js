@@ -98,8 +98,9 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       const gameDataItem = gameData.Items[0];
       const players = (gameDataItem && gameDataItem.players) || [];
+      const users = (gameDataItem && gameDataItem.users) || [];
 
-      const claimPlayerData = await claimPlayer(userId, players, playerName);
+      const claimPlayerData = await claimPlayer(userId, users, players, playerName);
 
       callback(null, { id: gameId, values: claimPlayerData });
       break;

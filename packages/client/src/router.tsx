@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import { useAuth } from '../Auth/useAuth';
+import { useAuth } from './Auth/useAuth';
 import { Authenticator } from 'aws-amplify-react';
 import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { Home } from '../Home/Home';
-import { Game } from '../Game/Game';
-import { GameSetup } from '../GameSetup/GameSetup';
-import { About } from '../About';
+import { Home } from './Home/Home';
+import { Game } from './Game/Game';
+import { GameSetup } from './GameSetup/GameSetup';
+import { About } from './About';
 
 export const Router: React.FC = () => {
   const { isAuthenticated, user, loading } = useAuth();
@@ -18,7 +18,7 @@ export const Router: React.FC = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home user={user} />
         </Route>
 
         <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">

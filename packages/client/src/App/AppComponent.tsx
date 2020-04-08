@@ -17,7 +17,7 @@ import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
 import { version } from '../version';
 import gitHub from './github.svg';
-import { Router } from './router';
+import { Router } from '../router';
 import { useAuth } from '../Auth/useAuth';
 import { useStyles } from './styles';
 

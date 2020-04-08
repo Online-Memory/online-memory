@@ -1,5 +1,7 @@
-exports.claimPlayer = async (userId, players, playerName) => {
+exports.claimPlayer = async (userId, users, players, playerName) => {
   const userPlayer = players.find(player => player.userId === userId);
+  const isUser = Boolean(~users.indexOf(userId));
+  const usersUpdated = isUser ? users : [...users, userId];
 
   let playersUpdated;
   if (userPlayer && userPlayer.userId) {
@@ -29,5 +31,6 @@ exports.claimPlayer = async (userId, players, playerName) => {
 
   return {
     players: playersUpdated,
+    users: usersUpdated,
   };
 };

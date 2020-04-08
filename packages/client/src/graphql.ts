@@ -1,5 +1,35 @@
 import gql from 'graphql-tag';
 
+export const GET_USER = gql`
+  query GetUser {
+    whoAmI {
+      id
+      username
+    }
+  }
+`;
+
+export const LOG_OUT = gql`
+  mutation LogOut {
+    logOut @client
+  }
+`;
+
+export const GET_USER_STATS = gql`
+  query GetUserStats {
+    whoAmI {
+      id
+      username
+      completedGames {
+        id
+      }
+      activeGames {
+        id
+      }
+    }
+  }
+`;
+
 export const CREATE_GAME = gql`
   mutation CreateGame($createGameInput: CreateGameInput!) {
     createGame(input: $createGameInput) {
