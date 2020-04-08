@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.9.1](https://github.com/andreasonny83/online-memory/tree/v0.9.1) (2020-04-08)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.0...v0.9.1)
+
+**Fixed bugs:**
+
+- Show last move animation [\#34](https://github.com/andreasonny83/online-memory/issues/34)
+
 ## [v0.9.0](https://github.com/andreasonny83/online-memory/tree/v0.9.0) (2020-04-08)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.8.0...v0.9.0)
