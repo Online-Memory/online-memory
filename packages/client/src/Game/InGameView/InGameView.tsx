@@ -296,7 +296,7 @@ Game ID: ${gameData.id}`;
             </Grid>
           ) : null}
 
-          {playerTurn && status === 'started' ? (
+          {playerTurn && status !== 'idle' && status !== 'new' ? (
             <Board
               board={board}
               template={template}

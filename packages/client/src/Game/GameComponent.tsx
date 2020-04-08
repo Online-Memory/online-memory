@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { GameData } from './types';
 import { WinningView } from './WinningView';
 import { InGameView } from './InGameView/InGameView';
@@ -14,6 +14,17 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
   const { name, players } = gameData;
 
   const isAPlayer = Boolean(players.find(player => player.userId === userId && player.name));
+  const [gameStatus, setGameStatus] = useState(gameData.status);
+
+  useEffect(() => {
+    if (gameStatus !== gameData.status) {
+      if (gameData.status === 'ended') {
+        setTimeout(() => setGameStatus('ended'), 2000);
+      } else {
+        setGameStatus(gameData.status);
+      }
+    }
+  }, [gameData.status, gameStatus]);
 
   const handleClaimPlayer = useCallback(
     (playerName: string) => {
@@ -22,7 +33,7 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
     [onClaimPlayer]
   );
 
-  if (gameData.status === 'ended') {
+  if (gameStatus === 'ended') {
     return <WinningView gameData={gameData} />;
   }
 

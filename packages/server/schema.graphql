@@ -81,8 +81,8 @@ type User {
 	id: String!
 	username: String!
 	createdAt: String!
-	completedGames: [Game]
-	activeGames: [Game]
+	completedGames: [Game]!
+	activeGames: [Game]!
 }
 
 type Query {
