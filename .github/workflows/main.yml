@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Release
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: jcblw/bash@1.0.0
+    - name: Trigger AWS webhook
+      run: |
+        curl -X POST -d {} "https://webhooks.amplify.us-east-1.amazonaws.com/prod/webhooks?id=4bd826e1-d565-4dcc-b366-00b5ceeaffb2&token=itklL5irw01Evyym2SfL7qlvQ643uHxTJ3c6gq3mBE&operation=startbuild" -H "Content-Type:application/json"
