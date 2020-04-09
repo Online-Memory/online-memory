@@ -1,8 +1,8 @@
 # Changelog
 
-## [v0.9.2](https://github.com/andreasonny83/online-memory/tree/v0.9.2) (2020-04-09)
+## [v0.9.3](https://github.com/andreasonny83/online-memory/tree/v0.9.3) (2020-04-09)
 
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.9.2)
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.9.3)
 
 ## [v0.9.1](https://github.com/andreasonny83/online-memory/tree/v0.9.1) (2020-04-08)
 
