@@ -51,8 +51,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                     <Typography align="center" component="h2" variant="h3">
                       {winningPlayers.map(winningPlayer => (
                         <Typography component="span" variant="h3">
-                          {winningPlayer.name[0].toUpperCase()}
-                          {winningPlayer.name.slice(1).toLocaleLowerCase()},{' '}
+                          {gameData.users.find(user => user.id === winningPlayer.userId)?.item.username},{' '}
                         </Typography>
                       ))}
                     </Typography>
@@ -63,9 +62,8 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                 ) : (
                   <>
                     <Typography align="center" component="h2" variant="h3" gutterBottom>
-                      {winningPlayers[0].name[0].toUpperCase()}
-                      {winningPlayers[0].name.slice(1).toLocaleLowerCase()} won this game with {winningPlayers[0].pairs}{' '}
-                      points!
+                      {gameData.users.find(user => user.id === winningPlayers[0].userId)?.item.username} won this game
+                      with {winningPlayers[0].pairs} points!
                     </Typography>
                   </>
                 )}
