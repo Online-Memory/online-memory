@@ -77,10 +77,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                 {gameData.players.map((player, index) => (
                   <Typography key={`player_score-${player.id}`} paragraph>
                     {index + 1}.{' '}
-                    <strong>
-                      {player.name[0].toUpperCase()}
-                      {player.name.slice(1).toLocaleLowerCase()}
-                    </strong>
+                    <strong>{gameData.users.find(user => user.id === player.userId)?.item.username}</strong>
                     's score: {player.pairs} points
                   </Typography>
                 ))}
