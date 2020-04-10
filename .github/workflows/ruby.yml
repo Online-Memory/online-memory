@@ -1,4 +1,4 @@
-name: Ruby
+name: Update Changelog
 
 on:
   push:
