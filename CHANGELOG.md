@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.11.0](https://github.com/andreasonny83/online-memory/tree/v0.11.0) (2020-04-10)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.10.0...v0.11.0)
+
+**Implemented enhancements:**
+
+- Add users to games based on user profiles [\#36](https://github.com/andreasonny83/online-memory/issues/36)
+
 ## [v0.10.0](https://github.com/andreasonny83/online-memory/tree/v0.10.0) (2020-04-10)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.10.0)
