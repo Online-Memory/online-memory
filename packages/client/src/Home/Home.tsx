@@ -36,7 +36,7 @@ export const Home: React.FC<Props> = ({ user }) => {
             <Typography component="h1" variant="h2" align="center" color="textPrimary">
               OnLine Memory
             </Typography>
-            {user ? <UserStats /> : null}
+            {user ? <UserStats user={user} /> : null}
             <div className={classes.heroButtons}>
               <Grid container spacing={4} justify="center">
                 <Grid item>

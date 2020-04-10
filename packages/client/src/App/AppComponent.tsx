@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import * as serviceWorker from '../serviceWorker';
+import { useHistory } from 'react-router-dom';
+import { Avatar } from 'react-avataaars';
 import {
   Typography,
   AppBar,
@@ -11,6 +12,8 @@ import {
   IconButton,
   Tooltip,
   Snackbar,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Sun from '@material-ui/icons/Brightness7';
@@ -20,6 +23,7 @@ import gitHub from './github.svg';
 import { Router } from '../router';
 import { useAuth } from '../Auth/useAuth';
 import { useStyles } from './styles';
+import * as serviceWorker from '../serviceWorker';
 
 interface Props {
   darkTheme: boolean;
@@ -27,9 +31,12 @@ interface Props {
 }
 
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
+  const history = useHistory();
   const classes = useStyles();
+  const { isAuthenticated, user, loading, logOut } = useAuth();
   const [updateAvailable, setUpdateAvailable] = useState(false);
-  const { isAuthenticated, logOut } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     serviceWorker.register({
@@ -50,6 +57,29 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
   const handleUpdateApp = useCallback(() => {
     window.location.reload();
   }, []);
+
+  const handleLogout = useCallback(async () => {
+    await logOut();
+    handleUpdateApp();
+  }, [handleUpdateApp, logOut]);
+
+  const handleMenu = useCallback(event => {
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  const handleProfile = useCallback(() => {
+    handleClose();
+    history.push('/profile');
+  }, [handleClose, history]);
+
+  const handleHomepage = useCallback(() => {
+    handleClose();
+    history.push('/');
+  }, [handleClose, history]);
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
@@ -82,12 +112,47 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
           <Link href="/about" underline="none" color="inherit">
             <Button color="inherit">About</Button>
           </Link>
-          {isAuthenticated ? (
-            <Link href="/" underline="none" color="inherit">
-              <Button color="inherit" onClick={logOut}>
-                Logout
-              </Button>
-            </Link>
+          {isAuthenticated && user ? (
+            <>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                size="small"
+                className="userMenu"
+                onClick={handleMenu}
+              >
+                <div className={classes.avatarWrapper}>
+                  <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
+                </div>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem className="profile" onClick={handleHomepage}>
+                  Home
+                </MenuItem>
+                <MenuItem className="profile" onClick={handleProfile}>
+                  User Profile
+                </MenuItem>
+                <MenuItem className="logOut" onClick={handleLogout}>
+                  Log Out
+                </MenuItem>
+              </Menu>
+            </>
           ) : (
             <Link href="/login" underline="none" color="inherit">
               <Button color="inherit">Login</Button>
@@ -96,7 +161,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
         </Toolbar>
       </AppBar>
       <main className={classes.main}>
-        <Router />
+        <Router isAuthenticated={isAuthenticated} user={user} loading={loading} />
       </main>
       <footer className={classes.footer}>
         <Container maxWidth="sm">

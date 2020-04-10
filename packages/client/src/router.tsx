@@ -1,41 +1,46 @@
 import React, { useCallback } from 'react';
-import { useAuth } from './Auth/useAuth';
 import { Authenticator } from 'aws-amplify-react';
-import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { Home } from './Home/Home';
 import { Game } from './Game/Game';
 import { GameSetup } from './GameSetup/GameSetup';
 import { About } from './About';
+import { Profile } from './Profile';
+import { UserData } from './Auth/useAuth';
 
-export const Router: React.FC = () => {
-  const { isAuthenticated, user, loading } = useAuth();
+interface Props {
+  isAuthenticated: boolean;
+  loading: boolean;
+  user?: UserData;
+}
 
-  if (loading) {
+export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
+  if (loading || (isAuthenticated && !user)) {
     return <div>loading...</div>;
   }
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <Home user={user} />
-        </Route>
-
-        <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
-          <Game user={user} />
-        </PrivateRoute>
-        <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
-          <GameSetup />
-        </PrivateRoute>
-        <Route path="/login">
-          <Auth isAuthenticated={isAuthenticated} />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path="/">
+        <Home user={user} />
+      </Route>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
+        <Game user={user} />
+      </PrivateRoute>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
+        <GameSetup />
+      </PrivateRoute>
+      <Route path="/login">
+        <Auth isAuthenticated={isAuthenticated} />
+      </Route>
+      <Route path="/about">
+        <About />
+      </Route>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
+        {user && <Profile user={user} />}
+      </PrivateRoute>
+      <Redirect to="/" />
+    </Switch>
   );
 };
 

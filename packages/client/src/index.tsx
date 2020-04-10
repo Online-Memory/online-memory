@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -20,8 +21,10 @@ const RootComponent = () => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+        <BrowserRouter>
+          <CssBaseline />
+          <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+        </BrowserRouter>
       </ThemeProvider>
     </ApolloProvider>
   );

@@ -48,8 +48,26 @@ const createUser = async userId => {
   return docClient.put(params).promise();
 };
 
+const putRandomAvatar = async userId => {
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      id: userId,
+      __typename: 'User',
+    },
+    UpdateExpression: 'set #avatar = :userId',
+    ExpressionAttributeNames: { '#avatar': 'avatar' },
+    ExpressionAttributeValues: {
+      ':userId': userId,
+    },
+  };
+
+  return docClient.update(params).promise();
+};
+
 module.exports = {
   findItem,
   getUser,
   createUser,
+  putRandomAvatar,
 };

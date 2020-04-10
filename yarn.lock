@@ -1121,6 +1121,14 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@dicebear/avatars@^3.0.6":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@dicebear/avatars/-/avatars-3.1.4.tgz#299924e4b920b0a0d1a052f55e3d28218e4ff8fb"
+  integrity sha512-ka6MbOGrcoXZwrjbdWBzroMc/mYXPlIAiSB80Y1azkaYqeR4wht8AYq43DA4vekF6/d0yq1GV/2jkuo5OqvrzA==
+  dependencies:
+    pure-color "^1.3.0"
+    seedrandom "^2.4.3"
+
 "@emotion/hash@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
@@ -2866,6 +2874,14 @@ autoprefixer@^9.6.1:
     num2fraction "^1.2.2"
     postcss "^7.0.26"
     postcss-value-parser "^4.0.2"
+
+avataaars@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/avataaars/-/avataaars-1.2.1.tgz#8e2e968dbd7f558876f1f18f56973e7aa47afbec"
+  integrity sha512-4MmcXx3EKGwkKqEtVRiKxM08MMib2KYC1o5DcotpLUVuoe5EkWNuhJVB2JAH753II4VzMK7fO2EA5rf5QirPQg==
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.6.0"
 
 aws-amplify-react@^3.1.7:
   version "3.1.7"
@@ -11106,6 +11122,11 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+pure-color@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/pure-color/-/pure-color-1.3.0.tgz#1fe064fb0ac851f0de61320a8bf796836422f33e"
+  integrity sha1-H+Bk+wrIUfDeYTIKi/eWg2Qi8z4=
+
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
@@ -11250,6 +11271,14 @@ react-app-polyfill@^1.0.6:
     raf "^3.4.1"
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
+
+react-avataaars@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/react-avataaars/-/react-avataaars-0.2.3.tgz#5b497356184fe771a2eda8f6f038fb71ff2b3aaf"
+  integrity sha512-aZNweZh+Y1pyae80+KG9f5g543ofvQX+dpEK5Hv1I1RxQu2Z/TlMw4Frzu/x7kJi72gbBANb5zl9yZGV17ZebQ==
+  dependencies:
+    "@dicebear/avatars" "^3.0.6"
+    avataaars "^1.2.1"
 
 react-dev-utils@^10.2.1:
   version "10.2.1"
@@ -11949,6 +11978,11 @@ schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6
   dependencies:
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
+
+seedrandom@^2.4.3:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-2.4.4.tgz#b25ea98632c73e45f58b77cfaa931678df01f9ba"
+  integrity sha512-9A+PDmgm+2du77B5i0Ip2cxOqqHjgNxnBgglxLcX78A2D6c2rTo61z4jnVABpF4cKeDMDG+cmXXvdnqse2VqMA==
 
 seek-bzip@^1.0.5:
   version "1.0.5"

@@ -1,4 +1,4 @@
-const { getUser, createUser } = require('../helpers/db-operations');
+const { getUser, createUser, putRandomAvatar } = require('../helpers/db-operations');
 
 exports.whoAmI = async userId => {
   let userData;
@@ -10,12 +10,14 @@ exports.whoAmI = async userId => {
       await createUser(userId);
       userData = await getUser(userId);
     }
+    if (!userData.Item.avatar) {
+      await putRandomAvatar(userId);
+      userData = await getUser(userId);
+    }
   } catch (err) {
     console.log(err);
     return null;
   }
-
-  console.warn('userData', userData);
 
   return userData.Item;
 };

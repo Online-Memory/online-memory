@@ -1,21 +1,12 @@
 import React, { memo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { GET_USER_STATS } from '../../graphql';
 import { Grid, Typography } from '@material-ui/core';
+import { UserData } from '../../Auth/useAuth';
 
-export const UserStats: React.FC = memo(() => {
-  const { data, loading, error } = useQuery(GET_USER_STATS, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
+interface Props {
+  user: UserData;
+}
 
-  if (error || loading) {
-    return null;
-  }
-
-  const { whoAmI: user } = data;
-
+export const UserStats: React.FC<Props> = memo(({ user }) => {
   return (
     <Grid item>
       <Typography component="h4" variant="h5" align="center" gutterBottom>

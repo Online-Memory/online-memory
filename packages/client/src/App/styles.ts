@@ -27,4 +27,16 @@ export const useStyles = makeStyles(theme => ({
   main: {
     flex: '1 1 auto',
   },
+  avatarWrapper: {
+    borderRadius: '50%',
+    background: 'rgba(255, 255, 255, 0.9)',
+    overflow: 'hidden',
+  },
+  avatarIcon: {
+    position: 'relative',
+
+    '& svg': {
+      filter: 'drop-shadow(1px -1px 0 rgba(0,0,0,0.3))',
+    },
+  },
 }));

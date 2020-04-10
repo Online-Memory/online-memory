@@ -5,6 +5,13 @@ export const GET_USER = gql`
     whoAmI {
       id
       username
+      avatar
+      completedGames {
+        id
+      }
+      activeGames {
+        id
+      }
     }
   }
 `;
@@ -15,17 +22,11 @@ export const LOG_OUT = gql`
   }
 `;
 
-export const GET_USER_STATS = gql`
-  query GetUserStats {
-    whoAmI {
-      id
+export const UPDATE_USER = gql`
+  mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(input: $updateUserInput) {
       username
-      completedGames {
-        id
-      }
-      activeGames {
-        id
-      }
+      avatar
     }
   }
 `;

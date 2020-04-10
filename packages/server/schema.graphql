@@ -1,3 +1,8 @@
+input UpdateUserInput {
+	username: String!
+	avatar: String!
+}
+
 input CreateGameInput {
 	name: String!
 	template: String!
@@ -80,6 +85,7 @@ type Templates {
 type User {
 	id: String!
 	username: String!
+	avatar: String!
 	createdAt: String!
 	completedGames: [Game]!
 	activeGames: [Game]!
@@ -93,6 +99,7 @@ type Query {
 }
 
 type Mutation {
+	updateUser(input: UpdateUserInput!): User
 	startGame(input: StartGameInput!): Game
 	createGame(input: CreateGameInput!): Game
 	claimPlayer(input: ClaimPlayerInput!): Game

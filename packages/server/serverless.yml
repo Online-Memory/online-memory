@@ -56,6 +56,11 @@ custom:
         field: activeGames
         request: 'activeGames-request-mapping-template.vtl'
         response: 'activeGames-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Mutation
+        field: updateUser
+        request: 'updateUser-request-mapping-template.vtl'
+        response: 'updateUser-response-mapping-template.vtl'
 
       - type: Query
         field: templates
@@ -304,6 +309,7 @@ resources:
                     - 'dynamodb:Query'
                     - 'dynamodb:GetItem'
                     - 'dynamodb:PutItem'
+                    - 'dynamodb:UpdateItem'
                   Resource:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'

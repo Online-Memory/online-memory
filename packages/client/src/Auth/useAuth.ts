@@ -8,6 +8,13 @@ import { GET_USER, LOG_OUT } from '../graphql';
 export interface UserData {
   id: string;
   username: string;
+  avatar: string;
+  completedGames: {
+    id: string;
+  }[];
+  activeGames: {
+    id: string;
+  }[];
 }
 
 export const useAuth = () => {
