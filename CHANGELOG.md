@@ -2,15 +2,11 @@
 
 ## [v0.10.0](https://github.com/andreasonny83/online-memory/tree/v0.10.0) (2020-04-10)
 
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.3...v0.10.0)
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.10.0)
 
 **Implemented enhancements:**
 
 - User profile page [\#23](https://github.com/andreasonny83/online-memory/issues/23)
-
-## [v0.9.3](https://github.com/andreasonny83/online-memory/tree/v0.9.3) (2020-04-09)
-
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.9.3)
 
 ## [v0.9.1](https://github.com/andreasonny83/online-memory/tree/v0.9.1) (2020-04-08)
 
@@ -65,23 +61,11 @@
 
 ## [v0.5.0](https://github.com/andreasonny83/online-memory/tree/v0.5.0) (2020-04-04)
 
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.4.1...v0.5.0)
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.5.0)
 
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/andreasonny83/online-memory/issues/8)
-
-## [v0.4.1](https://github.com/andreasonny83/online-memory/tree/v0.4.1) (2020-04-02)
-
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.4.0...v0.4.1)
-
-## [v0.4.0](https://github.com/andreasonny83/online-memory/tree/v0.4.0) (2020-04-02)
-
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.3.0...v0.4.0)
-
-## [v0.3.0](https://github.com/andreasonny83/online-memory/tree/v0.3.0) (2020-04-01)
-
-[Full Changelog](https://github.com/andreasonny83/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.3.0)
 
 
 
