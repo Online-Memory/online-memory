@@ -1,7 +1,7 @@
 mutation CreateGame($createGameInput: CreateGameInput!) {
-	createGame(input: $createGameInput) {
-		id
-	}
+  createGame(input: $createGameInput) {
+    id
+  }
 }
 
 query GetGame {
@@ -18,14 +18,18 @@ query GetGame {
       gridX
       gridY
     }
-		users
-		moves
+    users {
+      item {
+        username
+        avatar
+      }
+    }
+    moves
     playerTurn {
-      name
-      id
-			status
+=      id
+      status
       userId
-			currentPlaying
+      currentPlaying
       turn
       tileRef
     }
@@ -37,9 +41,9 @@ query GetGame {
       name
       userId
     }
-		tiles {
-			ref
-		}
+    tiles {
+      ref
+    }
   }
 }
 
@@ -49,7 +53,7 @@ query WhoAmI {
     completedGames {
       id
       name
-			status
+      status
     }
   }
 }

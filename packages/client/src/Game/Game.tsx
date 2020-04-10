@@ -9,7 +9,7 @@ import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
 interface Props {
-  user?: UserData;
+  user: UserData;
 }
 
 export const Game: React.FC<Props> = memo(({ user }) => {
@@ -31,19 +31,15 @@ export const Game: React.FC<Props> = memo(({ user }) => {
 
   const { error: subError } = useSubscription(GAME_UPDATED, { variables: { id } });
 
-  const handleClaimPlayer = useCallback(
-    (playerName: string) => {
-      claimPlayer({
-        variables: {
-          claimPlayerInput: {
-            gameId: id,
-            playerName,
-          },
+  const handleClaimPlayer = useCallback(() => {
+    claimPlayer({
+      variables: {
+        claimPlayerInput: {
+          gameId: id,
         },
-      });
-    },
-    [claimPlayer, id]
-  );
+      },
+    });
+  }, [claimPlayer, id]);
 
   if (error || subError || (!loading && !data)) {
     return (
@@ -99,5 +95,5 @@ export const Game: React.FC<Props> = memo(({ user }) => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} userId={user.id} onClaimPlayer={handleClaimPlayer} />;
+  return <GameComponent gameData={data.getGame} user={user} onClaimPlayer={handleClaimPlayer} />;
 });

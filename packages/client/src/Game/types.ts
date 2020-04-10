@@ -30,6 +30,14 @@ export interface Board {
   gridY: number;
 }
 
+export interface User {
+  id: string;
+  item: {
+    username: string;
+    avatar: string;
+  };
+}
+
 export interface GameData {
   id: string;
   name: string;
@@ -44,4 +52,5 @@ export interface GameData {
   createdAt: string;
   startedAt: string;
   updatedAt: string;
+  users: User[];
 }

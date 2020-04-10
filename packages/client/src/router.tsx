@@ -25,7 +25,7 @@ export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
         <Home user={user} />
       </Route>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
-        <Game user={user} />
+        {user && <Game user={user} />}
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
         <GameSetup />

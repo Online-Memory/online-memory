@@ -1,20 +1,24 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { GameData } from './types';
 import { WinningView } from './WinningView';
 import { InGameView } from './InGameView/InGameView';
-import { ClaimPlayer } from './ClaimPlayer';
+import { UserData } from '../Auth/useAuth';
 
 interface Props {
-  userId: string;
+  user: UserData;
   gameData: GameData;
-  onClaimPlayer: (playerName: string) => void;
+  onClaimPlayer: () => void;
 }
 
-export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimPlayer }) => {
-  const { name, players } = gameData;
-
-  const isAPlayer = Boolean(players.find(player => player.userId === userId && player.name));
+export const GameComponent: React.FC<Props> = memo(({ gameData, user, onClaimPlayer }) => {
   const [gameStatus, setGameStatus] = useState(gameData.status);
+  const isAPlayer = Boolean(gameData.users.find(currUser => currUser.id === user.id));
+
+  useEffect(() => {
+    if (gameData.status === 'new' && !isAPlayer) {
+      onClaimPlayer();
+    }
+  }, [gameData.status, isAPlayer, onClaimPlayer]);
 
   useEffect(() => {
     if (gameStatus !== gameData.status) {
@@ -26,20 +30,9 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, userId, onClaimP
     }
   }, [gameData.status, gameStatus]);
 
-  const handleClaimPlayer = useCallback(
-    (playerName: string) => {
-      onClaimPlayer(playerName);
-    },
-    [onClaimPlayer]
-  );
-
   if (gameStatus === 'ended') {
     return <WinningView gameData={gameData} />;
   }
 
-  if (gameData.status === 'new' && !isAPlayer) {
-    return <ClaimPlayer name={name} gameId={gameData.id} onClaimPlayer={handleClaimPlayer} />;
-  }
-
-  return <InGameView userId={userId} gameData={gameData} />;
+  return <InGameView user={user} gameData={gameData} />;
 });

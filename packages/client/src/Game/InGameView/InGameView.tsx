@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
+import { UserData } from '../../Auth/useAuth';
 import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
@@ -22,19 +23,32 @@ import { Dashboard } from '../Dashboard';
 import { Board } from '../Board';
 
 interface Props {
-  userId: string;
+  user: UserData;
   gameData: GameData;
 }
 
-export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
-  const { name, players, playerTurn, board, tiles, template, moves, owner, status, updatedAt, startedAt } = gameData;
+export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
+  const {
+    name,
+    players,
+    users,
+    playerTurn,
+    board,
+    tiles,
+    template,
+    moves,
+    owner,
+    status,
+    updatedAt,
+    startedAt,
+  } = gameData;
   const classes = useStyles();
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
   const [notificationMessage, setNotificationMessage] = useState('');
 
-  const userPlayer = players.find(player => player.userId === userId);
+  const userPlayer = players.find(player => player.userId === user.id);
   const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
   const gameCreated = new Date(new Date(startedAt).toUTCString()).valueOf();
   const now = new Date(new Date(Date.now()).toUTCString()).valueOf();
@@ -97,12 +111,12 @@ export const InGameView: React.FC<Props> = memo(({ userId, gameData }) => {
   }, [gameData.id, startGame]);
 
   const open = useMemo(() => {
-    return status === 'started' && playerTurn && playerTurn.userId === userId && playerTurn.status === 'idle';
-  }, [playerTurn, status, userId]);
+    return status === 'started' && playerTurn && playerTurn.userId === user.id && playerTurn.status === 'idle';
+  }, [playerTurn, status, user.id]);
 
   const playerTurnOpen = useMemo(() => {
-    return status === 'started' && playerTurn && playerTurn.userId !== userId && playerTurn.status !== 'idle';
-  }, [playerTurn, status, userId]);
+    return status === 'started' && playerTurn && playerTurn.userId !== user.id && playerTurn.status !== 'idle';
+  }, [playerTurn, status, user.id]);
 
   const getTurnTimer = useCallback(() => {
     const delta = 30 - deltaGameUpdated;
@@ -155,6 +169,9 @@ Game ID: ${gameData.id}`;
     [checkoutTile, gameData.id]
   );
 
+  const userPlaying =
+    playerTurn && users.find(user => playerTurn.status !== 'idle' && user.id === playerTurn.userId)?.item;
+
   return (
     <div className={`Game ${classes.gameContainer}`}>
       <Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
@@ -170,16 +187,13 @@ Game ID: ${gameData.id}`;
         </Alert>
       </Snackbar>
 
-      {playerTurn && (
+      {userPlaying && (
         <Snackbar
           open={playerTurnOpen}
           classes={{ anchorOriginBottomLeft: classes.playerTurnOpen }}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <Alert severity="info">
-            {playerTurn.name[0].toUpperCase()}
-            {playerTurn.name.slice(1).toLowerCase()} is playing
-          </Alert>
+          <Alert severity="info">{userPlaying.username} is playing</Alert>
         </Snackbar>
       )}
 
@@ -223,10 +237,11 @@ Game ID: ${gameData.id}`;
             turnTimer={status === 'started' ? getTurnTimer() : undefined}
             moves={status === 'started' ? moves : undefined}
             players={players}
+            users={users}
             playerTurn={playerTurn}
           />
 
-          {status === 'new' && owner === userId ? (
+          {status === 'new' && owner === user.id ? (
             <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={6} item container>
               <Grid item>
                 <Typography component="h4" variant="h5" align="center">
@@ -234,7 +249,7 @@ Game ID: ${gameData.id}`;
                 </Typography>
               </Grid>
 
-              <Grid item justify="center" alignItems="center" direction="column">
+              <Grid item justify="center" alignItems="center" direction="column" container>
                 <Typography variant="subtitle1" align="center">
                   Share this game id with other user: <strong>{gameData.id}</strong>
                 </Typography>
@@ -249,7 +264,7 @@ Game ID: ${gameData.id}`;
                 </Grid>
               </Grid>
 
-              <Grid item direction="column" spacing={10}>
+              <Grid item direction="column" spacing={10} container>
                 <Grid item>
                   <Typography paragraph align="center">
                     Click <strong>"Start game"</strong> once all the users have joined
@@ -270,7 +285,7 @@ Game ID: ${gameData.id}`;
             </Grid>
           ) : null}
 
-          {status === 'new' && owner !== userId ? (
+          {status === 'new' && owner !== user.id ? (
             <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
               <Typography component="h4" variant="h6" align="center">
                 Waiting for the host to start the game
@@ -307,7 +322,7 @@ Game ID: ${gameData.id}`;
                 startGameLoading ||
                 playTurnLoading ||
                 checkoutTileLoading ||
-                playerTurn.userId !== userId ||
+                playerTurn.userId !== user.id ||
                 playerTurn.status === 'idle'
               }
               onCheckoutTile={handleCheckOutTile}

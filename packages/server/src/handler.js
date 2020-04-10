@@ -85,23 +85,42 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
 
-    case 'claimPlayer': {
-      const { input, userId } = event;
-      const { gameId, playerName } = input;
+    case 'getGame': {
+      const { input } = event;
+      const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
-      if (!gameExists) {
+      if (!(gameExists && gameData.Items && gameData.Items[0])) {
         callback(null, { error: `Game ${gameId} does not exist` });
         return;
       }
 
       const gameDataItem = gameData.Items[0];
-      const players = (gameDataItem && gameDataItem.players) || [];
-      const users = (gameDataItem && gameDataItem.users) || [];
+      const { players = [], users = [], status } = gameDataItem;
+      const claimPlayerData = await claimPlayer(owner, status, users, players, false);
 
-      const claimPlayerData = await claimPlayer(userId, users, players, playerName);
+      console.log(claimPlayerData);
+      callback(null, { id: gameId, values: claimPlayerData });
+      break;
+    }
 
+    case 'claimPlayer': {
+      const { input, userId } = event;
+      const { gameId } = input;
+      const gameData = await findItem(gameId);
+      const gameExists = doesItemExist(gameData);
+
+      if (!(gameExists && gameData.Items && gameData.Items[0])) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+        return;
+      }
+
+      const gameDataItem = gameData.Items[0];
+      const { players = [], users = [], status } = gameDataItem;
+      const claimPlayerData = await claimPlayer(userId, status, users, players, true);
+
+      console.log(claimPlayerData);
       callback(null, { id: gameId, values: claimPlayerData });
       break;
     }

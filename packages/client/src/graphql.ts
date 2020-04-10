@@ -62,10 +62,16 @@ export const CLAIM_PLAYER = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status
@@ -103,10 +109,16 @@ export const START_GAME = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status
@@ -145,10 +157,16 @@ export const PLAY_TURN = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status
@@ -187,10 +205,16 @@ export const CHECKOUT_TILE = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status
@@ -229,10 +253,16 @@ export const GET_GAME = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status
@@ -271,10 +301,16 @@ export const GAME_UPDATED = gql`
       createdAt
       updatedAt
       startedAt
+      users {
+        id
+        item {
+          username
+          avatar
+        }
+      }
       playerTurn {
         turn
         id
-        name
         userId
         currentPlaying
         status

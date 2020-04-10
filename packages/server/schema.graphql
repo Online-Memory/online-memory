@@ -15,7 +15,6 @@ input StartGameInput {
 
 input ClaimPlayerInput {
 	gameId: String!
-	playerName: String!
 }
 
 input PlayTurnInput {
@@ -37,7 +36,6 @@ type Player {
 }
 
 type PlayerTurn {
-	name: String!
 	id: String!
 	status: String!
 	userId: String!
@@ -58,6 +56,11 @@ type Board {
 	gridY: Int
 }
 
+type GameUser {
+  id: String
+  item: User
+}
+
 type Game {
 	id: String!
 	createdAt: String!
@@ -70,7 +73,7 @@ type Game {
 	board: Board
 	playerTurn: PlayerTurn
 	players: [Player]
-	users: [String]
+  users: [GameUser]!
 	tiles: [Tile]
 	moves: Int
 }

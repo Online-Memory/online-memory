@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { Avatar } from 'react-avataaars';
 import {
   Grid,
   Typography,
@@ -9,11 +10,12 @@ import {
   ListItemSecondaryAction,
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { Player, PlayerTurn } from '../types';
+import { Player, PlayerTurn, User } from '../types';
 import { useStyles } from './styles';
 
 interface Props {
   name: string;
+  users: User[];
   gameCreationTime?: string;
   turnTimer?: string;
   moves?: number;
@@ -22,7 +24,7 @@ interface Props {
 }
 
 export const Dashboard: React.FC<Props> = memo(
-  ({ name, moves = 0, players, playerTurn, gameCreationTime, turnTimer }) => {
+  ({ name, moves = 0, players, users, playerTurn, gameCreationTime, turnTimer }) => {
     const classes = useStyles();
 
     const currPlayer: Player | undefined =
@@ -58,32 +60,42 @@ export const Dashboard: React.FC<Props> = memo(
 
         <div className={classes.scoreboardList}>
           <List component="nav">
-            {players.map(player => (
-              <ListItem
-                key={`player-score-${player.id}`}
-                className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}
-              >
-                <ListItemIcon>
-                  {(currPlayer && currPlayer.id === player.id && (
-                    <ArrowRightIcon className={classes.currentPlayer} />
-                  )) || <span></span>}
-                </ListItemIcon>
-                <ListItemText
-                  primary={player.name}
-                  classes={{
-                    primary:
-                      currPlayer && currPlayer.id === player.id ? classes.listItemCurrentPlayer : classes.listItemText,
-                  }}
-                />
-                {moves ? (
-                  <ListItemSecondaryAction>
-                    <Typography className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}>
-                      {player.pairs || 0}
-                    </Typography>
-                  </ListItemSecondaryAction>
-                ) : null}
-              </ListItem>
-            ))}
+            {players.map(player => {
+              const user = users.find(user => user.id === player.userId)?.item;
+
+              if (!user) {
+                return null;
+              }
+
+              return (
+                <ListItem
+                  key={`player-score-${player.id}`}
+                  className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}
+                >
+                  <ListItemIcon>
+                    <div className={classes.avatarWrapper}>
+                      <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
+                    </div>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={user.username}
+                    classes={{
+                      primary:
+                        currPlayer && currPlayer.id === player.id
+                          ? classes.listItemCurrentPlayer
+                          : classes.listItemText,
+                    }}
+                  />
+                  {moves ? (
+                    <ListItemSecondaryAction>
+                      <Typography className={currPlayer && currPlayer.id === player.id ? classes.currentPlayer : ''}>
+                        {player.pairs || 0}
+                      </Typography>
+                    </ListItemSecondaryAction>
+                  ) : null}
+                </ListItem>
+              );
+            })}
           </List>
         </div>
       </Grid>

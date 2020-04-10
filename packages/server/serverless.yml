@@ -42,11 +42,6 @@ custom:
         request: 'getUser-request-mapping-template.vtl'
         response: 'getUser-response-mapping-template.vtl'
       - dataSource: OnlineMemory
-        type: Query
-        field: getGame
-        request: 'getGame-request-mapping-template.vtl'
-        response: 'getGame-response-mapping-template.vtl'
-      - dataSource: OnlineMemory
         type: User
         field: completedGames
         request: 'completedGames-request-mapping-template.vtl'
@@ -56,6 +51,21 @@ custom:
         field: activeGames
         request: 'activeGames-request-mapping-template.vtl'
         response: 'activeGames-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: GameUser
+        field: id
+        request: 'gameUserId-request-mapping-template.vtl'
+        response: 'gameUserId-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: GameUser
+        field: item
+        request: 'gameUserData-request-mapping-template.vtl'
+        response: 'gameUserData-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Game
+        field: users
+        request: 'gameUsers-request-mapping-template.vtl'
+        response: 'gameUsers-response-mapping-template.vtl'
       - dataSource: OnlineMemory
         type: Mutation
         field: updateUser
@@ -84,6 +94,14 @@ custom:
         functions:
           - CreateGame
           - CreateGameData
+      - type: Query
+        field: getGame
+        request: 'getGame-request-mapping-template-before.vtl'
+        response: 'getGame-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - GetGame
+          - UpdateGameData
       - type: Mutation
         field: claimPlayer
         request: 'claimPlayer-request-mapping-template-before.vtl'
@@ -130,6 +148,10 @@ custom:
         name: 'CreateGame'
         request: 'createGame-request-mapping-template.vtl'
         response: 'createGame-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'GetGame'
+        request: 'getGame-request-mapping-template.vtl'
+        response: 'getGame-response-mapping-template.vtl'
       - dataSource: OnlineMemory
         name: 'CreateGameData'
         request: 'createGameData-request-mapping-template.vtl'
