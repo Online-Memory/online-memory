@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.10.0](https://github.com/andreasonny83/online-memory/tree/v0.10.0) (2020-04-10)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.3...v0.10.0)
+
+**Implemented enhancements:**
+
+- User profile page [\#23](https://github.com/andreasonny83/online-memory/issues/23)
+
 ## [v0.9.3](https://github.com/andreasonny83/online-memory/tree/v0.9.3) (2020-04-09)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.1...v0.9.3)
