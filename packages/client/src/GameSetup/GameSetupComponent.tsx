@@ -48,9 +48,20 @@ export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
     });
   }, [gameName, gameTemplate, gameTiles, onSubmit]);
 
-  const handleChange = useCallback(event => {
-    setGameTemplate(event.target.value);
-  }, []);
+  const handleTemplateChange = useCallback(
+    event => {
+      const currTemplate = templates.find(template => template.id === event.target.value);
+      const isAllowedSize = gameTiles <= (currTemplate?.tiles || 0);
+
+      if (!isAllowedSize) {
+        const newTilesSize = GAME_TILES.filter(tileSize => tileSize <= (currTemplate?.tiles || 0))[0];
+        setGameTiles(newTilesSize);
+      }
+
+      setGameTemplate(event.target.value);
+    },
+    [gameTiles, templates]
+  );
 
   const handleTilesChange = useCallback(event => {
     setGameTiles(event.target.value);
@@ -87,7 +98,7 @@ export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
 
                 <Grid item>
                   <Typography gutterBottom>Choose a game template</Typography>
-                  <Select fullWidth variant="outlined" value={gameTemplate} onChange={handleChange}>
+                  <Select fullWidth variant="outlined" value={gameTemplate} onChange={handleTemplateChange}>
                     {templates.map(template => (
                       <MenuItem key={template.id} value={template.id}>
                         {template.name}
@@ -118,11 +129,13 @@ export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
                 <Grid item>
                   <Typography gutterBottom>Choose the number of tiles</Typography>
                   <Select fullWidth variant="outlined" value={gameTiles} onChange={handleTilesChange}>
-                    {GAME_TILES.map(tileSize => (
-                      <MenuItem key={`tileSize-${tileSize}`} value={tileSize}>
-                        {tileSize}
-                      </MenuItem>
-                    ))}
+                    {GAME_TILES.map(tileSize =>
+                      tileSize <= Number(templates.find(template => template.id === gameTemplate)?.tiles) ? (
+                        <MenuItem key={`tileSize-${tileSize}`} value={tileSize}>
+                          {tileSize}
+                        </MenuItem>
+                      ) : null
+                    )}
                   </Select>
                 </Grid>
               </Grid>
