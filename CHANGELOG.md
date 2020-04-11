@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.14.0](https://github.com/andreasonny83/online-memory/tree/v0.14.0) (2020-04-11)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.13.0...v0.14.0)
+
+**Implemented enhancements:**
+
+- User Dashboard [\#42](https://github.com/andreasonny83/online-memory/issues/42)
+- Increase maximum zoom level [\#35](https://github.com/andreasonny83/online-memory/issues/35)
+
+**Merged pull requests:**
+
+- refactor\(server\): Update grid sized in templates [\#44](https://github.com/andreasonny83/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
+- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/andreasonny83/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
+- Updated template: Kids [\#41](https://github.com/andreasonny83/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.13.0](https://github.com/andreasonny83/online-memory/tree/v0.13.0) (2020-04-11)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.12.0...v0.13.0)
@@ -69,7 +84,6 @@
 
 - New Food template [\#32](https://github.com/andreasonny83/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/andreasonny83/online-memory/issues/12)
-- New template: our food [\#31](https://github.com/andreasonny83/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/andreasonny83/online-memory/tree/v0.7.1) (2020-04-07)
 
@@ -104,6 +118,7 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/andreasonny83/online-memory/issues/8)
+- New template: our food [\#31](https://github.com/andreasonny83/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 **Merged pull requests:**
 
