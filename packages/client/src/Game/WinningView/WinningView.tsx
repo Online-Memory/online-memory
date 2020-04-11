@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Container, Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
 import { useStyles } from './styles';
 import { GameData } from '../types';
+import trophy from '../../assets/img/trophy.gif';
 
 interface Props {
   gameData: GameData;
@@ -70,7 +71,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
               </Grid>
 
               <Grid item xs={10}>
-                <img src="/img/trophy.gif" alt="trophy" width="180" />
+                <img src={trophy} alt="trophy" width="180" />
               </Grid>
 
               <Grid item xs={10}>

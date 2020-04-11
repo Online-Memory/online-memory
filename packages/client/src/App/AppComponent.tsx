@@ -24,6 +24,7 @@ import { Router } from '../router';
 import { useAuth } from '../Auth/useAuth';
 import { useStyles } from './styles';
 import * as serviceWorker from '../serviceWorker';
+import catButt from '../assets/img/catButt.png';
 
 interface Props {
   darkTheme: boolean;
@@ -172,7 +173,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
                 <Link color="inherit" href="https://github.com/andreasonny83/">
                   andreasonny83
                 </Link>
-                {' ' + new Date().getFullYear()}. Made with <img src="/img/catButt.png" height={32} alt="cat butt" />
+                {' ' + new Date().getFullYear()}. Made with <img src={catButt} height={32} alt="cat butt" />
               </Typography>
             </Grid>
             <Grid item>

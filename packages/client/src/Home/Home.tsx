@@ -4,6 +4,7 @@ import { Container, Typography, Grid, Button, TextField } from '@material-ui/cor
 import { UserData } from '../Auth/useAuth';
 import { useStyles } from './styles';
 import { UserStats } from './UserStats';
+import logo from '../assets/img/logo.png';
 
 interface Props {
   user?: UserData;
@@ -92,7 +93,7 @@ export const Home: React.FC<Props> = ({ user }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <img alt="Memory Italia" src="/img/logo.png" width="100%" className={classes.image} />
+            <img alt="Memory Italia" src={logo} width="100%" className={classes.image} />
           </Grid>
         </Grid>
       </Container>

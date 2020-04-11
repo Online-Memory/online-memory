@@ -13,7 +13,7 @@ export const useStyles = makeStyles(theme => ({
     borderRadius: '9px',
   },
   tile: {
-    background: (props: any) => `url('/game_templates/${props.template || '001'}.png')`,
+    background: (props: any) => 'url(' + require(`../../assets/game_templates/${props.template || '001'}.png`) + ')',
   },
   tileDisabled: {
     cursor: 'not-allowed',

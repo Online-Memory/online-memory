@@ -12,6 +12,14 @@ import { AppComponent } from './App';
 import { AMPLIFY } from './config';
 import './index.css';
 
+// Pre-cache templates using service workers
+import './assets/game_templates/001.png';
+import './assets/game_templates/002.png';
+import './assets/game_templates/003.png';
+import './assets/game_templates/004.png';
+import './assets/game_templates/005.png';
+import './assets/game_templates/006.png';
+
 dotenv.config();
 Amplify.configure(AMPLIFY);
 
