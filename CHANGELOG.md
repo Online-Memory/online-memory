@@ -83,6 +83,7 @@
 **Implemented enhancements:**
 
 - New Food template [\#32](https://github.com/andreasonny83/online-memory/issues/32)
+- Choose number of tiles [\#12](https://github.com/andreasonny83/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/andreasonny83/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/andreasonny83/online-memory/tree/v0.7.1) (2020-04-07)
@@ -117,7 +118,6 @@
 
 **Implemented enhancements:**
 
-- Choose number of tiles [\#12](https://github.com/andreasonny83/online-memory/issues/12)
 - Add Changelog [\#8](https://github.com/andreasonny83/online-memory/issues/8)
 
 **Merged pull requests:**
