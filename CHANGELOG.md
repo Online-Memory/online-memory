@@ -13,6 +13,10 @@
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.11.2...v0.12.0)
 
+**Implemented enhancements:**
+
+- Add kids template [\#37](https://github.com/andreasonny83/online-memory/issues/37)
+
 **Merged pull requests:**
 
 - New template: Pixel Drawings [\#38](https://github.com/andreasonny83/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
@@ -70,10 +74,6 @@
 ## [v0.7.1](https://github.com/andreasonny83/online-memory/tree/v0.7.1) (2020-04-07)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.7.0...v0.7.1)
-
-**Implemented enhancements:**
-
-- Add kids template [\#37](https://github.com/andreasonny83/online-memory/issues/37)
 
 **Fixed bugs:**
 
