@@ -34,14 +34,14 @@ export const useZoom = (initialValue: number) => {
   );
 
   const zoomIn = useCallback(() => {
-    if (tileSize < 83) {
+    if (tileSize < 96) {
       return setValue(tileSize + 1);
     }
     return tileSize;
   }, [setValue, tileSize]);
 
   const zoomOut = useCallback(() => {
-    if (tileSize > 50) {
+    if (tileSize > 40) {
       return setValue(tileSize - 1);
     }
     return tileSize;
