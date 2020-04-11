@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.13.0](https://github.com/andreasonny83/online-memory/tree/v0.13.0) (2020-04-11)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.12.0...v0.13.0)
+
+**Implemented enhancements:**
+
+- Image optimisation and cache [\#40](https://github.com/andreasonny83/online-memory/issues/40)
+- Custom template sizes [\#39](https://github.com/andreasonny83/online-memory/issues/39)
+
 ## [v0.12.0](https://github.com/andreasonny83/online-memory/tree/v0.12.0) (2020-04-10)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.11.2...v0.12.0)
@@ -7,6 +16,10 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/andreasonny83/online-memory/issues/37)
+
+**Merged pull requests:**
+
+- New template: Pixel Drawings [\#38](https://github.com/andreasonny83/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/andreasonny83/online-memory/tree/v0.11.2) (2020-04-10)
 
@@ -56,6 +69,7 @@
 
 - New Food template [\#32](https://github.com/andreasonny83/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/andreasonny83/online-memory/issues/12)
+- New template: our food [\#31](https://github.com/andreasonny83/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/andreasonny83/online-memory/tree/v0.7.1) (2020-04-07)
 
@@ -90,6 +104,14 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/andreasonny83/online-memory/issues/8)
+
+**Merged pull requests:**
+
+- New layout: Animals [\#6](https://github.com/andreasonny83/online-memory/pull/6) ([Thetawaves](https://github.com/Thetawaves))
+- User data refactoring [\#5](https://github.com/andreasonny83/online-memory/pull/5) ([andreasonny83](https://github.com/andreasonny83))
+- Royalty Free Images [\#4](https://github.com/andreasonny83/online-memory/pull/4) ([Thetawaves](https://github.com/Thetawaves))
+- Food Cards 2.0 [\#3](https://github.com/andreasonny83/online-memory/pull/3) ([Thetawaves](https://github.com/Thetawaves))
+- Food\_cards [\#1](https://github.com/andreasonny83/online-memory/pull/1) ([Thetawaves](https://github.com/Thetawaves))
 
 
 
