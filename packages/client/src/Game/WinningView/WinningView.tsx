@@ -85,6 +85,9 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
               </Grid>
               <Grid item xs={10}>
                 <Typography component="h4" variant="h6" gutterBottom>
+                  This was a {gameData.tiles.length} tile game
+                </Typography>
+                <Typography component="h4" variant="h6" gutterBottom>
                   Game duration: {getGameLength()}
                 </Typography>
                 <Typography component="h4" variant="h6" gutterBottom>

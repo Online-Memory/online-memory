@@ -13,6 +13,7 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
+  CircularProgress,
 } from '@material-ui/core';
 import { useStyles } from './styles';
 import { GET_GAMES } from '../graphql';
@@ -36,7 +37,11 @@ export const Dashboard: React.FC = () => {
   );
 
   if (loading || !data) {
-    return <div>loading...</div>;
+    return (
+      <Grid container justify="center" className={classes.loading}>
+        <CircularProgress size={60} />
+      </Grid>
+    );
   }
 
   const {

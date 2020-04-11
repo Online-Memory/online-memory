@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { Authenticator } from 'aws-amplify-react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { CircularProgress, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { Home } from './Home';
 import { Game } from './Game';
 import { GameSetup } from './GameSetup';
@@ -9,6 +11,12 @@ import { About } from './About';
 import { Profile } from './Profile';
 import { UserData } from './Auth/useAuth';
 
+const useStyles = makeStyles(theme => ({
+  loading: {
+    marginTop: theme.spacing(20),
+  },
+}));
+
 interface Props {
   isAuthenticated: boolean;
   loading: boolean;
@@ -16,8 +24,14 @@ interface Props {
 }
 
 export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
+  const classes = useStyles();
+
   if (loading || (isAuthenticated && !user)) {
-    return <div>loading...</div>;
+    return (
+      <Grid container justify="center" className={classes.loading}>
+        <CircularProgress size={60} />
+      </Grid>
+    );
   }
 
   return (

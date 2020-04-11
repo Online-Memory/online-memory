@@ -9,7 +9,6 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { Player, PlayerTurn, User } from '../types';
 import { useStyles } from './styles';
 

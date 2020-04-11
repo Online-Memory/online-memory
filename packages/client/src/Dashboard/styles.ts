@@ -9,4 +9,7 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.action.hover,
   },
   scoreboardListItem: {},
+  loading: {
+    marginTop: theme.spacing(20),
+  },
 }));

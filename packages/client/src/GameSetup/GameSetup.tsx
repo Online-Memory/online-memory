@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Container, Grid, Card, CardContent, Typography } from '@material-ui/core';
+import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
 import { CREATE_GAME, GET_TEMPLATES } from '../graphql';
@@ -66,8 +66,8 @@ export const GameSetup = memo(() => {
           <Card>
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
-                <Grid item>
-                  <Typography>Loading...</Typography>
+                <Grid container justify="center" className={classes.loading}>
+                  <CircularProgress size={60} />
                 </Grid>
               </Grid>
             </CardContent>

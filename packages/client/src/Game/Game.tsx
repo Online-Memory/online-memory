@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
-import { Container, Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Container, Card, CardContent, Grid, Typography, CircularProgress } from '@material-ui/core';
 import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
 import { UserData } from '../Auth/useAuth';
 import { GameData } from './types';
@@ -66,8 +66,8 @@ export const Game: React.FC<Props> = memo(({ user }) => {
           <Card>
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
-                <Grid item>
-                  <Typography>Loading...</Typography>
+                <Grid container justify="center" className={classes.loading}>
+                  <CircularProgress size={60} />
                 </Grid>
               </Grid>
             </CardContent>
