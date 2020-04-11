@@ -1,11 +1,12 @@
 #set( $userId = $util.dynamodb.toDynamoDBJson($ctx.source.id) )
 #set( $dataType = $util.dynamodb.toDynamoDBJson("Game") )
-#set( $gameStatus = $util.dynamodb.toDynamoDBJson("started") )
+#set( $gameStatusEnded = $util.dynamodb.toDynamoDBJson("ended") )
 
 {
     "version" : "2017-02-28",
     "operation" : "Query",
     "index" : "TypenameGSI",
+    "scanIndexForward": false,
     "query" : {
         "expression": "#type = :typeValue",
         "expressionNames" : {
@@ -16,14 +17,14 @@
         }
     },
     "filter" : {
-        "expression": "contains (#users, :userId) and #gameStatus = :gameStatus",
+        "expression": "contains (#users, :userId) and #gameStatus <> :gameStatusEnded",
         "expressionNames" : {
             "#users" : "users",
             "#gameStatus" : "status"
         },
         "expressionValues" : {
             ":userId" : $userId,
-            ":gameStatus" : $gameStatus
+            ":gameStatusEnded" : $gameStatusEnded
         }
     }
 }

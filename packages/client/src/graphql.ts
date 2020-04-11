@@ -16,6 +16,23 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_GAMES = gql`
+  query GetGames {
+    whoAmI {
+      completedGames {
+        id
+        name
+        createdAt
+      }
+      activeGames {
+        id
+        name
+        createdAt
+      }
+    }
+  }
+`;
+
 export const LOG_OUT = gql`
   mutation LogOut {
     logOut @client

@@ -66,7 +66,7 @@ export const Profile: React.FC<Props> = ({ user }) => {
   }, [history]);
 
   return (
-    <div className={`GameSetup ${classes.container}`}>
+    <div className={`Profile ${classes.container}`}>
       <Container maxWidth="lg">
         <Card>
           <CardHeader title="User Profile" />

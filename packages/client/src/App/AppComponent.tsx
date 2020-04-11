@@ -77,6 +77,11 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
     history.push('/profile');
   }, [handleClose, history]);
 
+  const handleDashboard = useCallback(() => {
+    handleClose();
+    history.push('/dashboard');
+  }, [handleClose, history]);
+
   const handleHomepage = useCallback(() => {
     handleClose();
     history.push('/');
@@ -145,6 +150,9 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
               >
                 <MenuItem className="profile" onClick={handleHomepage}>
                   Home
+                </MenuItem>
+                <MenuItem className="dashboard" onClick={handleDashboard}>
+                  Dashboard
                 </MenuItem>
                 <MenuItem className="profile" onClick={handleProfile}>
                   User Profile

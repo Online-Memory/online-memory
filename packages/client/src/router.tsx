@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
 import { Authenticator } from 'aws-amplify-react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { Home } from './Home/Home';
-import { Game } from './Game/Game';
-import { GameSetup } from './GameSetup/GameSetup';
+import { Home } from './Home';
+import { Game } from './Game';
+import { GameSetup } from './GameSetup';
+import { Dashboard } from './Dashboard';
 import { About } from './About';
 import { Profile } from './Profile';
 import { UserData } from './Auth/useAuth';
@@ -30,15 +31,18 @@ export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
       <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
         <GameSetup />
       </PrivateRoute>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
+        {user && <Profile user={user} />}
+      </PrivateRoute>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/dashboard">
+        <Dashboard />
+      </PrivateRoute>
       <Route path="/login">
         <Auth isAuthenticated={isAuthenticated} />
       </Route>
       <Route path="/about">
         <About />
       </Route>
-      <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
-        {user && <Profile user={user} />}
-      </PrivateRoute>
       <Redirect to="/" />
     </Switch>
   );
