@@ -17,10 +17,6 @@
 
 - Add kids template [\#37](https://github.com/andreasonny83/online-memory/issues/37)
 
-**Merged pull requests:**
-
-- New template: Pixel Drawings [\#38](https://github.com/andreasonny83/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
-
 ## [v0.11.2](https://github.com/andreasonny83/online-memory/tree/v0.11.2) (2020-04-10)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.11.1...v0.11.2)
