@@ -6,7 +6,6 @@
 
 **Implemented enhancements:**
 
-- Image optimisation and cache [\#40](https://github.com/andreasonny83/online-memory/issues/40)
 - Custom template sizes [\#39](https://github.com/andreasonny83/online-memory/issues/39)
 
 ## [v0.12.0](https://github.com/andreasonny83/online-memory/tree/v0.12.0) (2020-04-10)
@@ -16,6 +15,10 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/andreasonny83/online-memory/issues/37)
+
+**Merged pull requests:**
+
+- New template: Pixel Drawings [\#38](https://github.com/andreasonny83/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/andreasonny83/online-memory/tree/v0.11.2) (2020-04-10)
 
@@ -44,6 +47,10 @@
 ## [v0.9.1](https://github.com/andreasonny83/online-memory/tree/v0.9.1) (2020-04-08)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.9.0...v0.9.1)
+
+**Implemented enhancements:**
+
+- Image optimisation and cache [\#40](https://github.com/andreasonny83/online-memory/issues/40)
 
 **Fixed bugs:**
 
