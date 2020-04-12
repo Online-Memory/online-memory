@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.15.0](https://github.com/andreasonny83/online-memory/tree/v0.15.0) (2020-04-12)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.14.0...v0.15.0)
+
+**Implemented enhancements:**
+
+- Redesign authentication views [\#33](https://github.com/andreasonny83/online-memory/issues/33)
+- Loading spinners everywhere [\#13](https://github.com/andreasonny83/online-memory/issues/13)
+- Play again [\#7](https://github.com/andreasonny83/online-memory/issues/7)
+- feat\(client\): Auto focus on Join game [\#45](https://github.com/andreasonny83/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.14.0](https://github.com/andreasonny83/online-memory/tree/v0.14.0) (2020-04-11)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.13.0...v0.14.0)
