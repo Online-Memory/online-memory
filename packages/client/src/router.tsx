@@ -10,6 +10,10 @@ import { Dashboard } from './Dashboard';
 import { About } from './About';
 import { Profile } from './Profile';
 import { UserData } from './Auth/useAuth';
+import { LogIn } from './Auth/Login';
+import { Register } from './Auth/Register';
+import { VerifyEmail } from './Auth/VerifyEmail';
+import { ForgottenPassword } from './Auth/ForgottenPassword';
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -51,9 +55,26 @@ export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
       <PrivateRoute isAuthenticated={isAuthenticated} path="/dashboard">
         <Dashboard />
       </PrivateRoute>
-      <Route path="/login">
-        <Auth isAuthenticated={isAuthenticated} />
-      </Route>
+      {!isAuthenticated && (
+        <Route path="/login">
+          <LogIn />
+        </Route>
+      )}
+      {!isAuthenticated && (
+        <Route path="/register">
+          <Register />
+        </Route>
+      )}
+      {!isAuthenticated && (
+        <Route path="/verify-email">
+          <VerifyEmail />
+        </Route>
+      )}
+      {!isAuthenticated && (
+        <Route path="/forgot-password">
+          <ForgottenPassword />
+        </Route>
+      )}
       <Route path="/about">
         <About />
       </Route>
