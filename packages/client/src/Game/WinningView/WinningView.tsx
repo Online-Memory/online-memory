@@ -1,5 +1,19 @@
-import React, { memo } from 'react';
-import { Container, Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
+import React, { memo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Avatar } from 'react-avataaars';
+import {
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from '@material-ui/core';
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import trophy from '../../assets/img/trophy.gif';
@@ -10,7 +24,7 @@ interface Props {
 
 export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   const classes = useStyles();
-
+  const history = useHistory();
   const winningPlayersOrdered = gameData.players.sort(
     (playerA, playerB) => (playerB.pairs || 0) - (playerA.pairs || 0)
   );
@@ -31,6 +45,10 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   };
 
+  const handlePlayAgain = useCallback(() => {
+    history.push('/new');
+  }, [history]);
+
   return (
     <div className={`WinningGame ${classes.container}`}>
       <Container maxWidth="lg">
@@ -42,7 +60,14 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
             ).toLocaleTimeString()}`}
           />
           <CardContent>
-            <Grid container alignContent="center" alignItems="center" direction="column" spacing={4}>
+            <Grid
+              container
+              className={classes.grid}
+              alignContent="center"
+              alignItems="center"
+              direction="column"
+              spacing={5}
+            >
               <Grid item>
                 {winningPlayers.length > 1 ? (
                   <>
@@ -61,12 +86,10 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                     </Typography>
                   </>
                 ) : (
-                  <>
-                    <Typography align="center" component="h2" variant="h3" gutterBottom>
-                      {gameData.users.find(user => user.id === winningPlayers[0].userId)?.item.username} won this game
-                      with {winningPlayers[0].pairs} points!
-                    </Typography>
-                  </>
+                  <Typography align="center" component="h2" variant="h3" gutterBottom>
+                    {gameData.users.find(user => user.id === winningPlayers[0].userId)?.item.username} won this game
+                    with {winningPlayers[0].pairs} points!
+                  </Typography>
                 )}
               </Grid>
 
@@ -74,26 +97,54 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                 <img src={trophy} alt="trophy" width="180" />
               </Grid>
 
-              <Grid item xs={10}>
-                {gameData.players.map((player, index) => (
-                  <Typography key={`player_score-${player.id}`} paragraph>
-                    {index + 1}.{' '}
-                    <strong>{gameData.users.find(user => user.id === player.userId)?.item.username}</strong>
-                    's score: {player.pairs} points
-                  </Typography>
-                ))}
+              <Grid item container xs={10} md={6} justify="center">
+                <div className={classes.scoreboardList}>
+                  <List component="nav">
+                    {gameData.players.map(player => {
+                      const user = gameData.users.find(user => user.id === player.userId)?.item;
+                      return (
+                        user && (
+                          <ListItem key={`player_score-${player.id}`}>
+                            <ListItemIcon>
+                              <div className={classes.avatarWrapper}>
+                                <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
+                              </div>
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={user.username}
+                              secondary={`${player.pairs || 0} ${player.pairs === 1 ? 'match' : 'matches'} found`}
+                            />
+                          </ListItem>
+                        )
+                      );
+                    })}
+                  </List>
+                </div>
               </Grid>
               <Grid item xs={10}>
-                <Typography component="h4" variant="h6" gutterBottom>
-                  This was a {gameData.tiles.length} tile game
+                <Typography component="h6" variant="h6">
+                  This was a {gameData.tiles.length} tiles game
                 </Typography>
-                <Typography component="h4" variant="h6" gutterBottom>
+                <Typography component="h6" variant="h6">
                   Game duration: {getGameLength()}
                 </Typography>
-                <Typography component="h4" variant="h6" gutterBottom>
+                <Typography component="h6" variant="h6">
                   Tiles flipped: {`${gameData.moves}`}
                 </Typography>
               </Grid>
+            </Grid>
+
+            <Grid
+              container
+              className={classes.grid}
+              alignContent="center"
+              alignItems="center"
+              direction="column"
+              spacing={5}
+            >
+              <Button size="large" color="primary" variant="outlined" onClick={handlePlayAgain}>
+                Play Again
+              </Button>
             </Grid>
           </CardContent>
         </Card>
