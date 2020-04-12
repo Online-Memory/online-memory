@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Link as LinkUI, useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, Button, TextField } from '@material-ui/core';
 import { UserData } from '../Auth/useAuth';
@@ -13,7 +13,8 @@ interface Props {
 export const Home: React.FC<Props> = ({ user }) => {
   const classes = useStyles();
   const history = useHistory();
-
+  const inputRef = useRef<HTMLTextAreaElement>();
+  const timeoutRef = useRef<NodeJS.Timeout>();
   const [joinGame, setJoinGame] = useState(false);
   const [joinGameId, setJoinGameId] = useState('');
 
@@ -21,9 +22,20 @@ export const Home: React.FC<Props> = ({ user }) => {
     setJoinGameId(event.target.value);
   }, []);
 
-  const handleJoinGameToggle = useCallback(() => {
-    setJoinGame(joinGameStatus => !joinGameStatus);
+  const focusInput = useCallback(async () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => inputRef && inputRef.current && inputRef.current.focus(), 0);
   }, []);
+
+  const handleJoinGameToggle = useCallback(async () => {
+    setJoinGame(joinGameStatus => !joinGameStatus);
+
+    if (!joinGame) {
+      await focusInput();
+    }
+  }, [focusInput, joinGame]);
 
   const handleJoinGame = useCallback(() => {
     history.push(`/game/${joinGameId}`);
@@ -41,7 +53,7 @@ export const Home: React.FC<Props> = ({ user }) => {
             <div className={classes.heroButtons}>
               <Grid container spacing={4} justify="center">
                 <Grid item>
-                  <LinkUI to="/new" className={classes.linkButon}>
+                  <LinkUI to="/new" className={classes.linkButton}>
                     <Button variant="contained" color="primary">
                       Start new game
                     </Button>
@@ -62,6 +74,7 @@ export const Home: React.FC<Props> = ({ user }) => {
                     <TextField
                       type="text"
                       variant="outlined"
+                      inputRef={inputRef}
                       inputProps={{ maxLength: 32 }}
                       value={joinGameId}
                       label="Game ID"
