@@ -38,19 +38,19 @@ custom:
     mappingTemplates:
       - dataSource: OnlineMemory
         type: Query
-        field: getUser
-        request: 'getUser-request-mapping-template.vtl'
-        response: 'getUser-response-mapping-template.vtl'
+        field: getUserGames
+        request: 'getUserGames-request-mapping-template.vtl'
+        response: 'getUserGames-response-mapping-template.vtl'
       - dataSource: OnlineMemory
-        type: User
-        field: completedGames
-        request: 'completedGames-request-mapping-template.vtl'
-        response: 'completedGames-response-mapping-template.vtl'
-      - dataSource: OnlineMemory
-        type: User
+        type: UserGames
         field: activeGames
         request: 'activeGames-request-mapping-template.vtl'
         response: 'activeGames-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: UserGames
+        field: completedGames
+        request: 'completedGames-request-mapping-template.vtl'
+        response: 'completedGames-response-mapping-template.vtl'
       - dataSource: OnlineMemory
         type: GameUser
         field: id

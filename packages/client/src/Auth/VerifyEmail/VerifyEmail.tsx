@@ -3,7 +3,7 @@ import { Container, Avatar, Typography, TextField, Grid, Button, CircularProgres
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useHistory } from 'react-router-dom';
 import { useForm } from '../useForm';
-import { useAuth } from '../useAuth';
+import { useAppState } from '../../AppState';
 import { useStyles } from './styles';
 
 const VerifyEmailComponent: React.FC = () => {
@@ -11,7 +11,7 @@ const VerifyEmailComponent: React.FC = () => {
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
-  const { verifyEmail, resendCode, operationLoading } = useAuth();
+  const { verifyEmail, resendCode, authLoading } = useAppState();
   const [error, setErrorState] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -109,9 +109,9 @@ const VerifyEmailComponent: React.FC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={operationLoading || !isFormValid}
+            disabled={authLoading || !isFormValid}
           >
-            {operationLoading && <CircularProgress size={24} className={classes.loader} />}
+            {authLoading && <CircularProgress size={24} className={classes.loader} />}
             Verify Code
           </Button>
           <Grid container>

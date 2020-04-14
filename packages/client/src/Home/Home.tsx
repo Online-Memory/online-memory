@@ -1,18 +1,14 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Link as LinkUI, useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, Button, TextField } from '@material-ui/core';
-import { UserData } from '../Auth/useAuth';
+import { useAppState } from '../AppState';
 import { useStyles } from './styles';
-import { UserStats } from './UserStats';
 import logo from '../assets/img/logo.png';
 
-interface Props {
-  user?: UserData;
-}
-
-export const Home: React.FC<Props> = ({ user }) => {
+export const Home: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { user } = useAppState();
   const inputRef = useRef<HTMLTextAreaElement>();
   const timeoutRef = useRef<NodeJS.Timeout>();
   const [joinGame, setJoinGame] = useState(false);
@@ -49,7 +45,11 @@ export const Home: React.FC<Props> = ({ user }) => {
             <Typography component="h1" variant="h2" align="center" color="textPrimary">
               OnLine Memory
             </Typography>
-            {user ? <UserStats user={user} /> : null}
+            {user.username && (
+              <Typography component="h4" variant="h5" align="center" gutterBottom>
+                Welcome back, {user.username}!
+              </Typography>
+            )}
             <div className={classes.heroButtons}>
               <Grid container spacing={4} justify="center">
                 <Grid item>

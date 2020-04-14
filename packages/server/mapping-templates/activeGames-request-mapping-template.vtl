@@ -1,6 +1,11 @@
-#set( $userId = $util.dynamodb.toDynamoDBJson($ctx.source.id) )
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+#set( $userId = $util.dynamodb.toDynamoDBJson($identityValue) )
 #set( $dataType = $util.dynamodb.toDynamoDBJson("Game") )
 #set( $gameStatusEnded = $util.dynamodb.toDynamoDBJson("ended") )
+
+#if($util.isNullOrEmpty($identityValue))
+    $util.unauthorized()
+#end
 
 {
     "version" : "2017-02-28",

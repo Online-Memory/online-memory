@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Container, Avatar, Typography, TextField, Grid, Button, CircularProgress, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useForm } from '../useForm';
-import { useAuth } from '../useAuth';
+import { useAppState } from '../../AppState';
 import { useStyles } from './styles';
 
 const RegisterComponent: React.FC = () => {
@@ -11,7 +11,7 @@ const RegisterComponent: React.FC = () => {
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
-  const { register, operationLoading } = useAuth();
+  const { register, authLoading } = useAppState();
   const [error, setErrorState] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -101,9 +101,9 @@ const RegisterComponent: React.FC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={operationLoading || !isFormValid}
+            disabled={authLoading || !isFormValid}
           >
-            {operationLoading && <CircularProgress size={24} className={classes.loader} />}
+            {authLoading && <CircularProgress size={24} className={classes.loader} />}
             Register
           </Button>
           <Grid container>

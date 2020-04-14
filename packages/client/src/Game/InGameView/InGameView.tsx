@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
-import { UserData } from '../../Auth/useAuth';
+import { UserData } from '../../AppState';
 import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';

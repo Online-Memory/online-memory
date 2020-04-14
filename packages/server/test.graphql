@@ -1,59 +1,66 @@
 mutation CreateGame($createGameInput: CreateGameInput!) {
-  createGame(input: $createGameInput) {
-    id
-  }
+	createGame(input: $createGameInput) {
+		id
+	}
 }
 
 query GetGame {
-  getGame(gameId: "faithful_blush_pig") {
-    id
-    createdAt
-    updatedAt
-    startedAt
-    owner
-    name
-    status
-    template
-    board {
-      gridX
-      gridY
-    }
-    users {
-      item {
-        username
-        avatar
-      }
-    }
-    moves
-    playerTurn {
-=      id
-      status
-      userId
-      currentPlaying
-      turn
-      tileRef
-    }
-    players {
-      id
-      status
-      moves
-      pairs
-      name
-      userId
-    }
-    tiles {
-      ref
-    }
-  }
+	getGame(gameId: "faithful_blush_pig") {
+		id
+		createdAt
+		updatedAt
+		startedAt
+		owner
+		name
+		status
+		template
+		board {
+			gridX
+			gridY
+		}
+		users {
+			item {
+				username
+				avatar
+			}
+		}
+		moves
+		playerTurn {
+			id
+			status
+			userId
+			currentPlaying
+			turn
+			tileRef
+		}
+		players {
+			id
+			status
+			moves
+			pairs
+			name
+			userId
+		}
+		tiles {
+			ref
+		}
+	}
 }
 
 query WhoAmI {
-  whoAmI {
-    id
-    completedGames {
-      id
-      name
-      status
-    }
-  }
+	whoAmI {
+		id
+		username
+	}
+}
+
+query UserGames {
+	 getUserGames {
+		completedGames {
+			id
+		}
+		activeGames {
+			id
+		}
+	}
 }

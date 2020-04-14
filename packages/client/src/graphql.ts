@@ -6,19 +6,13 @@ export const GET_USER = gql`
       id
       username
       avatar
-      completedGames {
-        id
-      }
-      activeGames {
-        id
-      }
     }
   }
 `;
 
-export const GET_GAMES = gql`
-  query GetGames {
-    whoAmI {
+export const GET_USER_GAMES = gql`
+  query GetUserGames {
+    getUserGames {
       completedGames {
         id
         name
@@ -28,16 +22,19 @@ export const GET_GAMES = gql`
         id
         name
         createdAt
+        updatedAt
       }
     }
   }
 `;
 
-export const LOG_OUT = gql`
-  mutation LogOut {
-    logOut @client
-  }
-`;
+// export const DELETE_GAME = gql`
+//   mutation DeleteGame($gameId: String!) {
+//     deleteGame(gameId: $gameId) {
+//       id
+//     }
+//   }
+// `;
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {

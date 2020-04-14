@@ -7,13 +7,7 @@ import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { Auth } from 'aws-amplify';
 
-import { AMPLIFY, API_URL, APP_NAME } from './config';
-
-const rootState = {
-  data: {
-    appName: APP_NAME,
-  },
-};
+import { AMPLIFY, API_URL } from './config';
 
 const cache = new InMemoryCache();
 
@@ -61,17 +55,4 @@ const link = ApolloLink.from([
 export const client = new ApolloClient({
   link,
   cache,
-  resolvers: {
-    Query: {
-      async appName(launch, args, { cache }): Promise<void> {
-        const data = {
-          appName: APP_NAME,
-          __typename: 'String',
-        };
-        cache.writeData({ data });
-      },
-    },
-  },
 });
-
-cache.writeData(rootState);
