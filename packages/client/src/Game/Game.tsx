@@ -3,18 +3,15 @@ import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography, CircularProgress } from '@material-ui/core';
 import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
-import { UserData } from '../Auth/useAuth';
+import { useAppState } from '../AppState';
 import { GameData } from './types';
 import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
-interface Props {
-  user: UserData;
-}
-
-export const Game: React.FC<Props> = memo(({ user }) => {
+export const Game: React.FC = memo(() => {
   const classes = useStyles();
   const { id } = useParams();
+  const { user } = useAppState();
 
   const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
@@ -41,7 +38,7 @@ export const Game: React.FC<Props> = memo(({ user }) => {
     });
   }, [claimPlayer, id]);
 
-  if (error || subError || (!loading && !data)) {
+  if (error || subError) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -49,7 +46,9 @@ export const Game: React.FC<Props> = memo(({ user }) => {
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
                 <Grid item>
-                  <Typography>{(error && error.message) || error || 'Ops! Something went wrong'}</Typography>
+                  <Typography>
+                    Ops! Something went wrong. Try to refresh this page or make sure this game really exists
+                  </Typography>
                 </Grid>
               </Grid>
             </CardContent>

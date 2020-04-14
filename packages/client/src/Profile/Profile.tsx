@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import {
   Container,
@@ -13,13 +12,8 @@ import {
   Button,
 } from '@material-ui/core';
 import { Avatar } from 'react-avataaars';
-import { UserData } from '../Auth/useAuth';
+import { useAppState } from '../AppState';
 import { useStyles } from './styles';
-import { UPDATE_USER, GET_USER } from '../graphql';
-
-interface Props {
-  user: UserData;
-}
 
 const randomUuid = () => {
   let dt = new Date().getTime();
@@ -31,18 +25,12 @@ const randomUuid = () => {
   });
 };
 
-export const Profile: React.FC<Props> = ({ user }) => {
+export const Profile: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [username, setUsername] = useState(user.username);
-  const [avatar, setAvatar] = useState(user.avatar);
-
-  const [updateUser, { loading: updateUserLoading }] = useMutation(UPDATE_USER, {
-    onError: err => {
-      console.warn(err);
-    },
-    refetchQueries: [{ query: GET_USER }],
-  });
+  const { updateUser, updateUserLoading, user } = useAppState();
+  const [username, setUsername] = useState(user?.username || '');
+  const [avatar, setAvatar] = useState(user?.avatar || '');
 
   const handleChangeUsername = useCallback((input: any) => {
     setUsername(input.target.value);
@@ -53,16 +41,12 @@ export const Profile: React.FC<Props> = ({ user }) => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    await updateUser({
-      variables: {
-        updateUserInput: { username, avatar },
-      },
-    });
-    history.push('/');
+    await updateUser(username, avatar);
+    history.goBack();
   }, [avatar, history, updateUser, username]);
 
   const handleCancel = useCallback(async () => {
-    history.push('/');
+    history.goBack();
   }, [history]);
 
   return (

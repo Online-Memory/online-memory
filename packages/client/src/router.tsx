@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
-import { Authenticator } from 'aws-amplify-react';
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Home } from './Home';
@@ -9,11 +8,11 @@ import { GameSetup } from './GameSetup';
 import { Dashboard } from './Dashboard';
 import { About } from './About';
 import { Profile } from './Profile';
-import { UserData } from './Auth/useAuth';
 import { LogIn } from './Auth/Login';
 import { Register } from './Auth/Register';
 import { VerifyEmail } from './Auth/VerifyEmail';
 import { ForgottenPassword } from './Auth/ForgottenPassword';
+import { useAppState } from './AppState';
 
 const useStyles = makeStyles(theme => ({
   loading: {
@@ -21,16 +20,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
-  isAuthenticated: boolean;
-  loading: boolean;
-  user?: UserData;
-}
-
-export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
+export const Router: React.FC = () => {
   const classes = useStyles();
+  const { isAuthenticated, authLoading } = useAppState();
 
-  if (loading || (isAuthenticated && !user)) {
+  if (authLoading) {
     return (
       <Grid container justify="center" className={classes.loading}>
         <CircularProgress size={60} />
@@ -41,88 +35,59 @@ export const Router: React.FC<Props> = ({ isAuthenticated, user, loading }) => {
   return (
     <Switch>
       <Route exact path="/">
-        <Home user={user} />
+        <Home />
+      </Route>
+      <Route path="/about">
+        <About />
       </Route>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
-        {user && <Game user={user} />}
+        <Game />
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/new">
         <GameSetup />
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
-        {user && <Profile user={user} />}
+        <Profile />
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/dashboard">
         <Dashboard />
       </PrivateRoute>
       {!isAuthenticated && (
-        <Route path="/login">
-          <LogIn />
-        </Route>
+        <>
+          <Route path="/login">
+            <LogIn />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/verify-email">
+            <VerifyEmail />
+          </Route>
+          <Route path="/forgot-password">
+            <ForgottenPassword />
+          </Route>
+        </>
       )}
-      {!isAuthenticated && (
-        <Route path="/register">
-          <Register />
-        </Route>
-      )}
-      {!isAuthenticated && (
-        <Route path="/verify-email">
-          <VerifyEmail />
-        </Route>
-      )}
-      {!isAuthenticated && (
-        <Route path="/forgot-password">
-          <ForgottenPassword />
-        </Route>
-      )}
-      <Route path="/about">
-        <About />
-      </Route>
+
       <Redirect to="/" />
     </Switch>
   );
 };
 
-interface AuthProps {
-  isAuthenticated: boolean;
-}
-
-export const Auth: React.FC<AuthProps> = ({ isAuthenticated }) => {
-  const history = useHistory();
-
-  const handleStateChange = useCallback(
-    state => {
-      if (state === 'signedIn') {
-        history.push(`/`);
-        window.location.reload();
-      }
-    },
-    [history]
-  );
-
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
-  }
-
-  return <Authenticator onStateChange={handleStateChange} />;
-};
-
-const PrivateRoute: React.FC<any> = ({ isAuthenticated, children, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+const PrivateRoute: React.FC<any> = ({ isAuthenticated, children, ...rest }) => (
+  <Route
+    {...rest}
+    render={({ location }) =>
+      isAuthenticated ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: location },
+          }}
+        />
+      )
+    }
+  />
+);

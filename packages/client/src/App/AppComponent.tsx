@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from 'react-avataaars';
 import {
@@ -11,20 +11,17 @@ import {
   Container,
   IconButton,
   Tooltip,
-  Snackbar,
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
-import { version } from '../version';
-import gitHub from './github.svg';
-import { Router } from '../router';
-import { useAuth } from '../Auth/useAuth';
-import { useStyles } from './styles';
-import * as serviceWorker from '../serviceWorker';
 import catButt from '../assets/img/catButt.png';
+import gitHub from './github.svg';
+import { useAppState } from '../AppState';
+import { Router } from '../router';
+import { version } from '../version';
+import { useStyles } from './styles';
 
 interface Props {
   darkTheme: boolean;
@@ -34,35 +31,13 @@ interface Props {
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const history = useHistory();
   const classes = useStyles();
-  const { isAuthenticated, user, loading, logOut } = useAuth();
-  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const { isAuthenticated, user, logOut } = useAppState();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  useEffect(() => {
-    serviceWorker.register({
-      onUpdate: (reg: any) => {
-        const registrationWaiting = reg.waiting;
-        if (registrationWaiting) {
-          registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
-          registrationWaiting.addEventListener('statechange', (e: any) => {
-            if (e.target.state === 'activated') {
-              setUpdateAvailable(true);
-            }
-          });
-        }
-      },
-    });
-  }, []);
-
-  const handleUpdateApp = useCallback(() => {
-    window.location.reload();
-  }, []);
-
-  const handleLogout = useCallback(async () => {
-    await logOut();
-    handleUpdateApp();
-  }, [handleUpdateApp, logOut]);
+  const handleLogout = useCallback(() => {
+    logOut();
+  }, [logOut]);
 
   const handleMenu = useCallback(event => {
     setAnchorEl(event.currentTarget);
@@ -89,19 +64,6 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
-      <Snackbar open={updateAvailable} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-        <Alert
-          severity="info"
-          action={
-            <Button color="default" size="small" onClick={handleUpdateApp}>
-              UPDATE
-            </Button>
-          }
-        >
-          A new version of Online Memory is available.
-        </Alert>
-      </Snackbar>
-
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.title} noWrap>
@@ -170,7 +132,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
         </Toolbar>
       </AppBar>
       <main className={classes.main}>
-        <Router isAuthenticated={isAuthenticated} user={user} loading={loading} />
+        <Router />
       </main>
       <footer className={classes.footer}>
         <Container maxWidth="sm">

@@ -7,9 +7,15 @@ export const useStyles = makeStyles(theme => ({
   scoreboardList: {
     marginTop: theme.spacing(1),
     backgroundColor: theme.palette.action.hover,
+    maxHeight: '400px',
+    overflowY: 'auto',
   },
   scoreboardListItem: {},
   loading: {
     marginTop: theme.spacing(20),
+  },
+  delete: {
+    margin: theme.spacing(1),
+    color: theme.palette.error.main,
   },
 }));

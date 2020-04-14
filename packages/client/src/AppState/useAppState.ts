@@ -1,7 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import { useCallback, useContext } from 'react';
+import { AppStateContext } from './AppStateProvider';
+import { MessageSeverity, Types } from './types';
 import {
-  currentAuthenticatedUser,
+  awsSignOut,
   awsLogin,
   awsRegister,
   awsVerifyEmail,
@@ -9,27 +10,66 @@ import {
   awsForgottenPassword,
   awsResetPassword,
 } from './AWS';
-import { resolvers } from './useAuth.resolvers';
-import { GET_USER, LOG_OUT } from '../graphql';
+import { UPDATE_USER, GET_USER } from '../graphql';
+import { useMutation } from '@apollo/react-hooks';
 
-export interface UserData {
-  id: string;
-  username: string;
-  avatar: string;
-  completedGames: {
-    id: string;
-  }[];
-  activeGames: {
-    id: string;
-  }[];
-}
+export const useAppState = () => {
+  const { state, dispatch } = useContext(AppStateContext);
 
-export const useAuth = () => {
-  const client = useApolloClient();
-  client.addResolvers(resolvers);
-  const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
-  const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
-  const [_logOut, { loading: logOutLoading }] = useMutation<void>(LOG_OUT);
+  if (dispatch === undefined || state === undefined) {
+    throw new Error('must be used within a Provider');
+  }
+
+  const [updateUserMutation, { loading: updateUserLoading }] = useMutation(UPDATE_USER, {
+    onError: err => {
+      console.warn(err);
+    },
+    refetchQueries: [{ query: GET_USER }],
+  });
+
+  const showMessage = useCallback(
+    (message: string, severity: MessageSeverity, title?: string) => {
+      dispatch({
+        type: Types.CREATE_MESSAGE,
+        payload: {
+          message,
+          severity,
+          title,
+          show: true,
+        },
+      });
+    },
+    [dispatch]
+  );
+
+  const updateUser = useCallback(
+    async (username: string, avatar: string) => {
+      const res = await updateUserMutation({
+        variables: {
+          updateUserInput: { username, avatar },
+        },
+      });
+
+      if (res.data.updateUser) {
+        dispatch({ type: Types.UPDATE_USER, payload: res.data.updateUser });
+      }
+    },
+    [dispatch, updateUserMutation]
+  );
+
+  const logOut = useCallback(async () => {
+    try {
+      const res = await awsSignOut();
+
+      if (res && res.error) {
+        return { error: res.error.message || res.error };
+      }
+    } catch (err) {
+      return { error: err.message || err };
+    }
+
+    window.location.reload();
+  }, []);
 
   const logIn = useCallback(async (username: string, password: string) => {
     try {
@@ -111,36 +151,13 @@ export const useAuth = () => {
     return { status: true };
   }, []);
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const user = await currentAuthenticatedUser();
-        if (user) {
-          if (!isAuthenticatedUser) {
-            setIsAuthenticatedUser(true);
-          }
-        } else {
-          setIsAuthenticatedUser(false);
-        }
-      } catch (err) {
-        setIsAuthenticatedUser(false);
-      }
-    };
-
-    getUser();
-  }, [isAuthenticatedUser]);
-
-  const logOut = useCallback(async () => {
-    await _logOut();
-  }, [_logOut]);
-
-  const user = whoAmIData && whoAmIData.whoAmI;
-
   return {
-    user,
-    isAuthenticated: isAuthenticatedUser,
-    loading: userDataLoading,
-    operationLoading: userDataLoading || logOutLoading,
+    showMessage,
+    isAuthenticated: state.user.isAuthenticated,
+    user: state.user.user,
+    authLoading: state.user.loading,
+    updateUser,
+    updateUserLoading,
     logIn,
     register,
     verifyEmail,

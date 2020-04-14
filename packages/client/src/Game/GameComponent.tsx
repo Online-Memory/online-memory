@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { GameData } from './types';
 import { WinningView } from './WinningView';
 import { InGameView } from './InGameView/InGameView';
-import { UserData } from '../Auth/useAuth';
+import { UserData } from '../AppState';
 
 interface Props {
   user: UserData;

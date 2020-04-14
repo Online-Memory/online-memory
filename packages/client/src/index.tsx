@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { ApolloProvider } from '@apollo/react-hooks';
 import dotenv from 'dotenv';
 import Amplify from 'aws-amplify';
+import { AppStateProvider } from './AppState';
 import { client } from './apolloClient';
 import { useTheme } from './App/useTheme';
 import { AppComponent } from './App';
@@ -30,8 +31,10 @@ const RootComponent = () => {
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <CssBaseline />
-          <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+          <AppStateProvider>
+            <CssBaseline />
+            <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+          </AppStateProvider>
         </BrowserRouter>
       </ThemeProvider>
     </ApolloProvider>

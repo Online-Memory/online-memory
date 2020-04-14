@@ -90,14 +90,18 @@ type User {
 	username: String!
 	avatar: String!
 	createdAt: String!
+	updatedAt: String!
+}
+
+type UserGames {
 	completedGames: [Game]!
 	activeGames: [Game]!
 }
 
 type Query {
 	whoAmI: User
+	getUserGames: UserGames
 	templates: [Templates]
-	getUser(userId: String!): User
 	getGame(gameId: String!): Game
 }
 
