@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.16.0](https://github.com/andreasonny83/online-memory/tree/v0.16.0) (2020-04-15)
+
+[Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.15.0...v0.16.0)
+
+**Implemented enhancements:**
+
+- Delete active games [\#46](https://github.com/andreasonny83/online-memory/issues/46)
+
+**Merged pull requests:**
+
+- refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/andreasonny83/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.15.0](https://github.com/andreasonny83/online-memory/tree/v0.15.0) (2020-04-12)
 
 [Full Changelog](https://github.com/andreasonny83/online-memory/compare/v0.14.0...v0.15.0)
