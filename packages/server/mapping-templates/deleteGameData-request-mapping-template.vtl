@@ -1,0 +1,51 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+
+#if($util.isNullOrEmpty($identityValue))
+    $utils.error("User not authorized to perform this operation", "ERROR")
+#end
+
+#set( $gameId = $context.prev.result.id )
+#set( $error = $context.prev.result.error )
+#set( $allowDeletion = $util.defaultIfNullOrEmpty($context.prev.result.allowDeletion, "FALSE") )
+#set( $allowRemoveUser = $util.defaultIfNullOrEmpty($context.prev.result.allowRemoveUser, "FALSE") )
+
+#if( $error )
+    $utils.error($error, "ERROR")
+#end
+
+#if( $util.isNullOrEmpty( $gameId ) )
+    $utils.error("Cannot delete missing game", "ERROR")
+#end
+
+#if( $allowDeletion == "TRUE" )
+    {
+        "version" : "2017-02-28",
+        "operation" : "DeleteItem",
+        "key" : {
+            "id": $util.dynamodb.toDynamoDBJson($gameId),
+            "__typename": $util.dynamodb.toDynamoDBJson("Game")
+        }
+    }
+#elseif( $allowRemoveUser == "TRUE" )
+    {
+        "version" : "2017-02-28",
+        "operation" : "UpdateItem",
+        "key" : {
+            "id": $util.dynamodb.toDynamoDBJson($gameId),
+            "__typename": $util.dynamodb.toDynamoDBJson("Game")
+        },
+        "update" : {
+            "expression" : "SET #users = :users, #players = :players",
+            "expressionNames" : {
+                "#users" : "users",
+                "#players" : "players"
+            },
+            "expressionValues" : {
+                ":users" : $util.dynamodb.toDynamoDBJson($context.prev.result.users),
+                ":players" : $util.dynamodb.toDynamoDBJson($context.prev.result.players)
+            }
+        }
+    }
+#else
+    $utils.error("Something went wrong. Cannot delete the game", "ERROR")
+#end

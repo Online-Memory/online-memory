@@ -1,13 +1,13 @@
 import React, { useReducer, createContext, useCallback, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { Snackbar, Slide, Button } from '@material-ui/core';
+import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { GET_USER } from '../graphql';
 import { currentAuthenticatedUser } from './AWS';
 import { AppState, AppAction, UserData, Types } from './types';
-import * as serviceWorker from '../serviceWorker';
 import { reducer } from './reducer';
+import * as serviceWorker from '../serviceWorker';
 
 const initialState: AppState = {
   notifications: {
@@ -34,16 +34,9 @@ interface AppContextType {
 
 export const AppStateContext = createContext<AppContextType>({});
 
-type Direction = 'down' | 'left' | 'right' | 'up';
-
-const Transition = ({ ...props }) => {
-  return <Slide {...props} direction="down" />;
-};
-
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
-
   useEffect(() => {
     serviceWorker.register({
       onUpdate: (reg: any) => {
@@ -99,9 +92,14 @@ export const AppStateProvider: React.FC = ({ children }) => {
     dispatch({ type: Types.CLEAR_NOTIFICATION });
   }, [dispatch]);
 
-  const closeNotification = useCallback(() => {
-    dispatch({ type: Types.CLOSE_NOTIFICATION });
-  }, [dispatch]);
+  const closeNotification = useCallback(
+    (_event: any, reason: string) => {
+      if (reason === 'timeout') {
+        dispatch({ type: Types.CLOSE_NOTIFICATION });
+      }
+    },
+    [dispatch]
+  );
 
   const updateApp = useCallback(() => {
     window.location.reload();
@@ -113,13 +111,12 @@ export const AppStateProvider: React.FC = ({ children }) => {
     <AppStateContext.Provider value={{ state, dispatch }}>
       <Snackbar
         open={notifications.show}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={closeNotification}
         onExited={clearNotification}
-        TransitionComponent={Transition}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert variant="standard" severity={notifications.severity} color={notifications.severity}>
+        <Alert elevation={8} variant="filled" severity={notifications.severity} color={notifications.severity}>
           {notifications.title && <AlertTitle>{notifications.title}</AlertTitle>}
           {notifications.message}
         </Alert>
@@ -128,8 +125,11 @@ export const AppStateProvider: React.FC = ({ children }) => {
       <Snackbar open={updateAvailable} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert
           severity="info"
+          variant="filled"
+          color="info"
+          elevation={8}
           action={
-            <Button color="default" size="small" onClick={updateApp}>
+            <Button color="inherit" size="small" variant="outlined" onClick={updateApp}>
               UPDATE
             </Button>
           }

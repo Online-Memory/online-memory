@@ -17,10 +17,10 @@ const httpLink = createHttpLink({
   uri: httpUri,
 });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError, response, operation }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
-      console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+      console.error(`Message: ${message}, Path: ${path}`, 'Location:', locations)
     );
   }
 

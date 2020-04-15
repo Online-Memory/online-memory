@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
-import { UserData } from '../../AppState';
+import { UserData, useAppState } from '../../AppState';
 import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
@@ -46,7 +46,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
-  const [notificationMessage, setNotificationMessage] = useState('');
+  const { showMessage } = useAppState();
 
   const userPlayer = players.find(player => player.userId === user.id);
   const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
@@ -135,14 +135,10 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   }, [deltaGameCreation, pad]);
 
-  const cleanNotificationMessage = useCallback(() => {
-    setNotificationMessage('');
-  }, []);
-
   const handleCopyId = useCallback(() => {
     (navigator as any).clipboard.writeText(gameData.id);
-    setNotificationMessage('Game Id copied to the clipboard');
-  }, [gameData.id]);
+    showMessage('Game Id copied to the clipboard', 'success');
+  }, [gameData.id, showMessage]);
 
   const handleCopyInvitation = useCallback(() => {
     const invitation = `Come play memory with me!
@@ -152,8 +148,8 @@ https://master.d3czed5ma25sw0.amplifyapp.com/game/${gameData.id}
 
 Game ID: ${gameData.id}`;
     (navigator as any).clipboard.writeText(invitation);
-    setNotificationMessage('Game invitation copied to the clipboard');
-  }, [gameData.id]);
+    showMessage('Game invitation copied to the clipboard', 'success');
+  }, [gameData.id, showMessage]);
 
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
@@ -194,17 +190,6 @@ Game ID: ${gameData.id}`;
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
           <Alert severity="info">{userPlaying.username} is playing</Alert>
-        </Snackbar>
-      )}
-
-      {notificationMessage && (
-        <Snackbar
-          open={Boolean(notificationMessage)}
-          autoHideDuration={2500}
-          onClose={cleanNotificationMessage}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert severity="success">{notificationMessage}</Alert>
         </Snackbar>
       )}
 

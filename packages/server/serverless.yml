@@ -87,6 +87,14 @@ custom:
         functions:
           - WhoAmI
       - type: Mutation
+        field: deleteGame
+        request: 'deleteGame-request-mapping-template-before.vtl'
+        response: 'deleteGame-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - DeleteGame
+          - DeleteGameData
+      - type: Mutation
         field: createGame
         request: 'createGame-request-mapping-template-before.vtl'
         response: 'createGame-response-mapping-template-after.vtl'
@@ -144,6 +152,14 @@ custom:
         name: 'WhoAmI'
         request: 'whoAmI-request-mapping-template.vtl'
         response: 'whoAmI-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'DeleteGame'
+        request: 'deleteGame-request-mapping-template.vtl'
+        response: 'deleteGame-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        name: 'DeleteGameData'
+        request: 'deleteGameData-request-mapping-template.vtl'
+        response: 'deleteGameData-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'CreateGame'
         request: 'createGame-request-mapping-template.vtl'
@@ -332,6 +348,7 @@ resources:
                     - 'dynamodb:GetItem'
                     - 'dynamodb:PutItem'
                     - 'dynamodb:UpdateItem'
+                    - 'dynamodb:DeleteItem'
                   Resource:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'

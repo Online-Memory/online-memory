@@ -6,6 +6,7 @@
 
 #set( $gameId = $context.prev.result.id )
 #set( $values = $context.prev.result.values )
+#set ( $shouldUpdate = $util.defaultIfNullOrEmpty($context.prev.result.update, "TRUE") )
 
 #if( $util.isNullOrEmpty( $gameId ) )
     $utils.error("Error: Cannot update game information with missing game id", "ERROR")
@@ -20,31 +21,44 @@
 #set( $expValues  = {} )
 #set( $expression = "SET" )
 
-$util.qr($values.put("updatedAt", $util.time.nowISO8601()))
-
-#foreach( $entry in $values.entrySet() )
-    $!{expSet.put("#${entry.key}", ":${entry.key}")}
-    $!{expNames.put("#${entry.key}", "$entry.key")}
-    $!{expValues.put(":${entry.key}", $util.dynamodb.toDynamoDB(${entry.value}))}
+#if ( $shouldUpdate )
+    $util.qr( $values.put("updatedAt", $util.time.nowISO8601()) )
 #end
 
-#foreach( $entry in $expSet.entrySet() )
-    #set( $expression = "${expression} ${entry.key} = ${entry.value}" )
-    #if ( $foreach.hasNext )
-      #set( $expression = "${expression}," )
-    #end
-#end
-
-{
-    "version" : "2017-02-28",
-    "operation" : "UpdateItem",
-    "key" : {
-        "id": $util.dynamodb.toDynamoDBJson($gameId),
-        "__typename": $util.dynamodb.toDynamoDBJson("Game")
-    },
-    "update" : {
-        "expression" : "${expression}",
-        "expressionNames" : $utils.toJson($expNames),
-        "expressionValues" : $utils.toJson($expValues)
+#if ( $values.isEmpty() )
+    {
+        "version" : "2017-02-28",
+        "operation" : "GetItem",
+        "key": {
+            "id": $util.dynamodb.toDynamoDBJson($gameId),
+            "__typename": $util.dynamodb.toDynamoDBJson("Game")
+        }
     }
-}
+#else
+  #foreach( $entry in $values.entrySet() )
+      $!{expSet.put("#${entry.key}", ":${entry.key}")}
+      $!{expNames.put("#${entry.key}", "$entry.key")}
+      $!{expValues.put(":${entry.key}", $util.dynamodb.toDynamoDB(${entry.value}))}
+  #end
+
+  #foreach( $entry in $expSet.entrySet() )
+      #set( $expression = "${expression} ${entry.key} = ${entry.value}" )
+      #if ( $foreach.hasNext )
+        #set( $expression = "${expression}," )
+      #end
+  #end
+
+  {
+      "version" : "2017-02-28",
+      "operation" : "UpdateItem",
+      "key" : {
+          "id": $util.dynamodb.toDynamoDBJson($gameId),
+          "__typename": $util.dynamodb.toDynamoDBJson("Game")
+      },
+      "update" : {
+          "expression" : "${expression}",
+          "expressionNames" : $utils.toJson($expNames),
+          "expressionValues" : $utils.toJson($expValues)
+      }
+  }
+#end

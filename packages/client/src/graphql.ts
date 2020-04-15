@@ -28,13 +28,13 @@ export const GET_USER_GAMES = gql`
   }
 `;
 
-// export const DELETE_GAME = gql`
-//   mutation DeleteGame($gameId: String!) {
-//     deleteGame(gameId: $gameId) {
-//       id
-//     }
-//   }
-// `;
+export const DELETE_GAME = gql`
+  mutation DeleteGame($gameId: String!) {
+    deleteGame(gameId: $gameId) {
+      id
+    }
+  }
+`;
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {

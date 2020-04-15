@@ -112,6 +112,7 @@ type Mutation {
 	claimPlayer(input: ClaimPlayerInput!): Game
 	checkoutTile(input: CheckoutTileInput!): Game
 	playTurn(input: PlayTurnInput!): Game
+	deleteGame(gameId: String!): Game
 }
 
 type Subscription {

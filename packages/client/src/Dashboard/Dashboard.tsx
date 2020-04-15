@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import {
   Container,
@@ -14,22 +14,31 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   CircularProgress,
-  // IconButton,
+  IconButton,
 } from '@material-ui/core';
-// import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { useStyles } from './styles';
-import { GET_USER_GAMES } from '../graphql';
-import { UserGames } from '../AppState';
+import { GET_USER_GAMES, DELETE_GAME } from '../graphql';
+import { UserGames, useAppState } from '../AppState';
 
 export const Dashboard: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { showMessage } = useAppState();
 
   const { data, error, loading } = useQuery<{ getUserGames: UserGames }>(GET_USER_GAMES, {
     onError: err => {
       console.warn(err);
     },
-    fetchPolicy: 'no-cache',
+  });
+
+  const [deleteGame, { loading: deleteGameLoading }] = useMutation(DELETE_GAME, {
+    onError: err => {
+      const message = err.message.replace('GraphQL error:', '');
+      showMessage(message, 'error', 'Error');
+    },
+    awaitRefetchQueries: true,
+    refetchQueries: [{ query: GET_USER_GAMES }],
   });
 
   const handleGoToGame = useCallback(
@@ -39,12 +48,16 @@ export const Dashboard: React.FC = () => {
     [history]
   );
 
-  // const handleDeleteGame = useCallback(
-  //   (gameId: string) => () => {
-  //     console.warn(gameId);
-  //   },
-  //   []
-  // );
+  const handleDeleteGame = useCallback(
+    (gameId: string) => async () => {
+      await deleteGame({
+        variables: {
+          gameId,
+        },
+      });
+    },
+    [deleteGame]
+  );
 
   if (error) {
     return (
@@ -80,69 +93,74 @@ export const Dashboard: React.FC = () => {
                   {completedGames?.length} played {completedGames?.length === 1 ? 'game' : 'games'}.
                 </Typography>
 
-                <Grid item container direction="column">
-                  <Grid item>
-                    <Typography component="h4" variant="h6" align="center">
-                      Your Active Games
-                    </Typography>
-                    <Typography variant="caption" align="center" paragraph>
-                      Games can only be deleted when they are not started or after 1 day of inactivity.
-                      <br />
-                      Multi-player games will remain visible for the other users.
-                    </Typography>
-                  </Grid>
+                {activeGames.length ? (
+                  <Grid item container direction="column">
+                    <Grid item>
+                      <Typography component="h4" variant="h6" align="center">
+                        Your Active Games
+                      </Typography>
+                      <Typography variant="caption" align="center" paragraph>
+                        Games can only be deleted when they are not started or after 1 day of inactivity.
+                        <br />
+                        Multi-player games will remain visible for the other users.
+                      </Typography>
+                    </Grid>
 
-                  <Grid item>
-                    <List component="nav" className={classes.scoreboardList}>
-                      {activeGames.map((game: any) => (
-                        <ListItem key={game.id} className={classes.scoreboardListItem} alignItems="flex-start" button>
-                          <ListItemText
-                            primary={game.name}
-                            secondary={`Created ${new Date(game.createdAt).toDateString()}`}
-                          />
-                          <ListItemSecondaryAction>
-                            {/* <IconButton
-                              aria-label="delete"
-                              className={classes.delete}
-                              onClick={handleDeleteGame(game.id)}
-                            >
-                              <DeleteIcon fontSize="small" />
-                            </IconButton> */}
-                            <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
-                              Go
-                            </Button>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      ))}
-                    </List>
+                    <Grid item>
+                      <List component="nav" className={classes.scoreboardList}>
+                        {activeGames.map((game: any) => (
+                          <ListItem key={game.id} className={classes.scoreboardListItem} alignItems="flex-start" button>
+                            <ListItemText
+                              primary={game.name}
+                              secondary={`Created ${new Date(game.createdAt).toDateString()}`}
+                            />
+                            <ListItemSecondaryAction>
+                              <IconButton
+                                aria-label="delete"
+                                className={classes.delete}
+                                disabled={deleteGameLoading}
+                                onClick={handleDeleteGame(game.id)}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
+                              <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
+                                Go
+                              </Button>
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Grid>
                   </Grid>
-                </Grid>
+                ) : null}
 
-                <Grid item container direction="column">
-                  <Grid item>
-                    <Typography component="h4" variant="h6" align="center" gutterBottom>
-                      Your Played Games
-                    </Typography>
-                  </Grid>
+                {completedGames.length ? (
+                  <Grid item container direction="column">
+                    <Grid item>
+                      <Typography component="h4" variant="h6" align="center" gutterBottom>
+                        Your Played Games
+                      </Typography>
+                    </Grid>
 
-                  <Grid item>
-                    <List component="nav" className={classes.scoreboardList}>
-                      {completedGames.map((game: any) => (
-                        <ListItem key={game.id} className={classes.scoreboardListItem} alignItems="flex-start" button>
-                          <ListItemText
-                            primary={game.name}
-                            secondary={`Created ${new Date(game.createdAt).toDateString()}`}
-                          />
-                          <ListItemSecondaryAction>
-                            <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
-                              Go
-                            </Button>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      ))}
-                    </List>
+                    <Grid item>
+                      <List component="nav" className={classes.scoreboardList}>
+                        {completedGames.map((game: any) => (
+                          <ListItem key={game.id} className={classes.scoreboardListItem} alignItems="flex-start" button>
+                            <ListItemText
+                              primary={game.name}
+                              secondary={`Created ${new Date(game.createdAt).toDateString()}`}
+                            />
+                            <ListItemSecondaryAction>
+                              <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
+                                Go
+                              </Button>
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Grid>
                   </Grid>
-                </Grid>
+                ) : null}
               </Grid>
             </Container>
           </CardContent>
