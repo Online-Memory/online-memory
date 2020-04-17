@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest --watchAll",
     "serverless": "serverless",
     "dev:deploy": "./checks.sh && serverless --accountId=$ACCOUNT_ID deploy",
     "prod:deploy": "./checks.sh && serverless --stage=prod --accountId=$ACCOUNT_ID deploy",
@@ -15,7 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^25.3.0"
+  },
   "dependencies": {
     "aws-appsync": "^3.0.2",
     "aws-sdk": "^2.643.0",

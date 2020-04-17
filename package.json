@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:andreasonny83/online-memory.git"
+    "url": "git@github.com:Online-Memory/online-memory.git"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
+    "test": "yarn workspace server test",
     "start": "yarn workspace client start",
     "build": "yarn workspace client build",
     "server:dev:deploy": "yarn workspace server dev:deploy",
