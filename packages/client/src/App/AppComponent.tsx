@@ -149,13 +149,13 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
             <Grid item>
               <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
                 What's new in v{version}? Read the{' '}
-                <Link color="inherit" href="https://github.com/andreasonny83/online-memory/blob/master/CHANGELOG.md">
+                <Link color="inherit" href="https://github.com/Online-Memory/online-memory/blob/master/CHANGELOG.md">
                   CHANGELOG
                 </Link>
               </Typography>
             </Grid>
             <Grid item>
-              <Link color="inherit" href="https://github.com/andreasonny83/online-memory/blob/master/CHANGELOG.md">
+              <Link color="inherit" href="https://github.com/Online-Memory">
                 <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />
               </Link>
             </Grid>
