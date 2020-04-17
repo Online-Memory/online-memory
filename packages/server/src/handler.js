@@ -122,9 +122,14 @@ exports.graphqlHandler = async (event, context, callback) => {
         return;
       }
 
-      const players = gameDataItem.players || [];
+      const players = gameDataItem.players;
       const gameOwner = gameDataItem.owner;
       const gameStatus = gameDataItem.status;
+
+      if (!gameOwner || !players) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+        return;
+      }
 
       let startGameData;
       try {

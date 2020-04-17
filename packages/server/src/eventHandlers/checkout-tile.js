@@ -23,6 +23,11 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
 exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, currTile, tileId, moves) => {
   const isWin = playerTurn.status === 'playing' && playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
 
+  console.warn('isWin', isWin);
+  console.warn('playerTurn.status', playerTurn.status);
+  console.warn('playerTurn.turn === 2', playerTurn.turn === 2);
+  console.warn('currTile.ref === playerTurn.tileRef', `${currTile.ref}` === playerTurn.tileRef);
+
   let playersUpdated = players.map(player => {
     if (player.userId === userId) {
       return {

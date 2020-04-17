@@ -88,7 +88,7 @@ Then just run the following Yarn script to make use of AWS Cloud Formation for c
 $ ACCOUNT_ID={YOUR_AWS_ACCOUNT_ID_HERE} yarn server:dev:deploy
 ```
 
-Once done, rename the `.env.sample` file under the `packages/server/` to `.env` and fill the missing information
+Once done, rename the `.env.sample` file under the `packages/client/` to `.env` and fill the missing information
 
 ### What AWS services are going to be used by this app?
 

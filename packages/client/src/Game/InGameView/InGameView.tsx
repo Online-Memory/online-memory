@@ -154,16 +154,14 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
 
   return (
     <div className={`Game ${classes.gameContainer}`}>
-      <Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert
-          severity="info"
-          action={
-            <Button color="default" size="small" onClick={handleClose}>
-              PLAY
-            </Button>
-          }
-        >
-          It's your turn!
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        className={classes.turnAlert}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="info" color="info" elevation={8} variant="standard">
+          It's your turn! Make your move
         </Alert>
       </Snackbar>
 
