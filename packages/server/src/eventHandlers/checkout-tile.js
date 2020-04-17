@@ -3,15 +3,15 @@ const updatePlayerTurn = (isMultiPlayer, playerTurn, isWin, nextPlayer, currTile
     if (isMultiPlayer) {
       return {
         ...nextPlayer,
-        turn: 1,
-        status: 'playing',
+        turn: 0,
+        status: 'idle',
         currentPlaying: playerTurn.currentPlaying,
       };
     }
     return {
       ...playerTurn,
-      turn: 1,
-      status: 'playing',
+      turn: 0,
+      status: 'idle',
       tileRef: `${currTile.ref}`,
     };
   } else if (playerTurn.turn > 1 && isWin) {

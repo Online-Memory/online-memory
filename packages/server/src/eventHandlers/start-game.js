@@ -3,7 +3,7 @@ const updatePlayers = (players, userId) =>
     if (player.userId === userId) {
       return {
         ...player,
-        status: 'ready',
+        status: 'idle',
       };
     }
 
@@ -23,8 +23,8 @@ const startGame = async (isOwner, gameStatus, players, userId) => {
       players: playersUpdated,
       playerTurn: {
         ...playersUpdated[0],
-        status: 'playing',
-        turn: 1,
+        status: 'idle',
+        turn: 0,
         currentPlaying: playersUpdated[0].userId,
       },
     };

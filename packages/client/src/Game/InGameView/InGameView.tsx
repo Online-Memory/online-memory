@@ -16,7 +16,7 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
 import { UserData } from '../../AppState';
-import { CHECKOUT_TILE, START_GAME } from '../../graphql';
+import { CHECKOUT_TILE, START_GAME, PLAY_TURN } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import { Dashboard } from '../Dashboard';
@@ -83,6 +83,24 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
     },
   });
 
+  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const handleClose = useCallback(() => {
+    if (playerTurn && playerTurn.status === 'idle') {
+      playTurn({
+        variables: {
+          playTurnInput: {
+            gameId: gameData.id,
+          },
+        },
+      });
+    }
+  }, [gameData.id, playTurn, playerTurn]);
+
   const handleStartGame = useCallback(() => {
     startGame({
       variables: {
@@ -137,7 +155,12 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
 
   return (
     <div className={`Game ${classes.gameContainer}`}>
-      <Snackbar className={classes.turnAlert} open={open} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar
+        className={classes.turnAlert}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
         <Alert severity="info" color="info" elevation={8} variant="standard">
           It's your turn! Make your move
         </Alert>
@@ -222,8 +245,8 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
               template={template}
               tiles={tiles}
               tileSize={tileSize}
-              loading={startGameLoading || checkoutTileLoading}
-              disabled={startGameLoading || checkoutTileLoading || playerTurn.userId !== user.id}
+              loading={startGameLoading || checkoutTileLoading || playTurnLoading}
+              disabled={startGameLoading || playTurnLoading || checkoutTileLoading || playerTurn.userId !== user.id}
               onCheckoutTile={handleCheckOutTile}
             />
           ) : null}
