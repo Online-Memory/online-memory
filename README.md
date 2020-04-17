@@ -1,6 +1,6 @@
 # Online Memory
 
-![Ruby](https://github.com/andreasonny83/online-memory/workflows/Ruby/badge.svg?branch=master)
+![Ruby](https://github.com/Online-Memory/online-memory/workflows/Ruby/badge.svg?branch=master)
 
 <p align="center">
   <img width="460" height="300" src="/assets/Readme.png">
@@ -92,6 +92,12 @@ AWS Cognito will take care of the user authentication process
 #### Iam
 
 The AWS Identity and Access Management service will be used to manage the access/permissions to the different services allowing them to interact with each other
+
+#### CloudWatch
+
+CloudWatch is used for debugging the backend services running on AWS.
+This is not enabled by default and it recommended to only turn this on on a Development or Staging environment.
+To enable the debug mode, uncomment the last section of the `serverless.yml` file inside the `packages/server` folder
 
 ## Changelog Script
 
