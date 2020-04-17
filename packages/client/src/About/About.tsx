@@ -28,6 +28,7 @@ export const About = () => {
                 <Typography paragraph>Graphics</Typography>
                 <Typography paragraph>QA / Testing</Typography>
                 <Typography paragraph>Beta Tester</Typography>
+                <Typography paragraph>Copywriting</Typography>
               </Grid>
 
               <Grid item>
