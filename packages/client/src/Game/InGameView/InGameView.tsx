@@ -15,12 +15,13 @@ import {
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
-import { UserData, useAppState } from '../../AppState';
+import { UserData } from '../../AppState';
 import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import { Dashboard } from '../Dashboard';
 import { Board } from '../Board';
+import { GameHost } from './GameHost';
 
 interface Props {
   user: UserData;
@@ -46,7 +47,6 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
   const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
-  const { showMessage } = useAppState();
 
   const userPlayer = players.find(player => player.userId === user.id);
   const gameUpdated = new Date(new Date(updatedAt).toUTCString()).valueOf();
@@ -135,22 +135,6 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   }, [deltaGameCreation, pad]);
 
-  const handleCopyId = useCallback(() => {
-    (navigator as any).clipboard.writeText(gameData.id);
-    showMessage('Game Id copied to the clipboard', 'success');
-  }, [gameData.id, showMessage]);
-
-  const handleCopyInvitation = useCallback(() => {
-    const invitation = `Come play memory with me!
-
-Join the Online Memory game at:
-https://master.d3czed5ma25sw0.amplifyapp.com/game/${gameData.id}
-
-Game ID: ${gameData.id}`;
-    (navigator as any).clipboard.writeText(invitation);
-    showMessage('Game invitation copied to the clipboard', 'success');
-  }, [gameData.id, showMessage]);
-
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
       checkoutTile({
@@ -195,12 +179,12 @@ Game ID: ${gameData.id}`;
 
       <Dialog
         open={Boolean(status === 'idle' && userPlayer && userPlayer.status === 'offline')}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="alert-start-game-dialog-title"
+        aria-describedby="alert-start-game-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Are you ready?'}</DialogTitle>
+        <DialogTitle id="alert-start-game-dialog-title">Are you ready?</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-start-game-dialog-description">
             This game is ready to begin.
             <br /> Click "Let's go" when you're ready start playing
           </DialogContentText>
@@ -227,47 +211,7 @@ Game ID: ${gameData.id}`;
           />
 
           {status === 'new' && owner === user.id ? (
-            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={6} item container>
-              <Grid item>
-                <Typography component="h4" variant="h5" align="center">
-                  You are the game host
-                </Typography>
-              </Grid>
-
-              <Grid item justify="center" alignItems="center" direction="column" container>
-                <Typography variant="subtitle1" align="center">
-                  Share this game id with other user: <strong>{gameData.id}</strong>
-                </Typography>
-                <Grid item container justify="space-evenly">
-                  <Button variant="outlined" color="default" onClick={handleCopyInvitation}>
-                    Copy Invitation
-                  </Button>
-
-                  <Button variant="outlined" color="default" onClick={handleCopyId}>
-                    Copy Game ID
-                  </Button>
-                </Grid>
-              </Grid>
-
-              <Grid item direction="column" spacing={10} container>
-                <Grid item>
-                  <Typography paragraph align="center">
-                    Click <strong>"Start game"</strong> once all the users have joined
-                  </Typography>
-                </Grid>
-                <Grid item container justify="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    onClick={handleStartGame}
-                    disabled={startGameLoading}
-                  >
-                    Start Game
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
           ) : null}
 
           {status === 'new' && owner !== user.id ? (
