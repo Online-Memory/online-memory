@@ -23,8 +23,8 @@ const startGame = async (isOwner, gameStatus, players, userId) => {
       players: playersUpdated,
       playerTurn: {
         ...playersUpdated[0],
-        status: 'idle',
-        turn: 0,
+        status: 'playing',
+        turn: 1,
         currentPlaying: playersUpdated[0].userId,
       },
     };
