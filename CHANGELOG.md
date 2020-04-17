@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
+
+**Implemented enhancements:**
+
+- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
+
+**Merged pull requests:**
+
+- Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.15.0...v0.16.0)
