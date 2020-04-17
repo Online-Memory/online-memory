@@ -8,6 +8,29 @@
 
 This is an Online Memory game build with Love, React, NodeJS, AWS AppSync, GraphQL and more.
 
+The production version of this project is running live at [master.d3czed5ma25sw0.amplifyapp.com](https://master.d3czed5ma25sw0.amplifyapp.com)
+
+- [Online Memory](#online-memory)
+  - [Prerequisites](#prerequisites)
+  - [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Serving the app](#serving-the-app)
+  - [Server Side App](#server-side-app)
+    - [What AWS services are going to be used by this app?](#what-aws-services-are-going-to-be-used-by-this-app)
+      - [AppSync](#appsync)
+      - [Lambda](#lambda)
+      - [S3](#s3)
+      - [DynamoDB](#dynamodb)
+      - [Cognito](#cognito)
+      - [Iam](#iam)
+      - [CloudWatch](#cloudwatch)
+  - [Changelog Script](#changelog-script)
+  - [Contributing](#contributing)
+  - [Built With](#built-with)
+  - [Versioning](#versioning)
+  - [License](#license)
+
 ## Prerequisites
 
 This project requires NodeJS (version 12.4.0 or later) and NPM.
@@ -22,7 +45,7 @@ v12.4.0
 ```
 
 This project will also require a server side instance running on AWS.
-Read the Server side App section to know more
+Read the [Server side App section](#server-side-app) to know more
 
 ## Getting Started
 
@@ -67,7 +90,7 @@ $ ACCOUNT_ID={YOUR_AWS_ACCOUNT_ID_HERE} yarn server:dev:deploy
 
 Once done, rename the `.env.sample` file under the `packages/server/` to `.env` and fill the missing information
 
-### What AWS services are going to be created/used by this app?
+### What AWS services are going to be used by this app?
 
 #### AppSync
 
@@ -130,3 +153,35 @@ Now you can run `github_changelog_generator` with
 ```sh
 $ github_changelog_generator -u andreasonny83 -p online-memory --token YOUR_GITHUB_TOKEN --no-unreleased
 ```
+
+
+## Contributing
+
+1.  Fork it!
+2.  Create your feature branch: `git checkout -b my-new-feature`
+3.  Add your changes: `git add .`
+4.  Commit your changes: `git commit -am 'Add some feature'`
+5.  Push to the branch: `git push origin my-new-feature`
+6.  Submit a pull request :sunglasses:
+
+
+## Built With
+
+* JavaScript
+* React
+* Apollo
+* NodeJS
+* AWS
+* Amplify
+* Serverless
+* Ruby
+* VSCode
+* Love
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [CHANGELOG](CHANGELOG.md).
+
+## License
+
+[MIT License](https://andreasonny.mit-license.org) © Andrea SonnY
