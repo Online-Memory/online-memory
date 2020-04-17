@@ -16,7 +16,7 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
 import { UserData } from '../../AppState';
-import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
+import { CHECKOUT_TILE, START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import { Dashboard } from '../Dashboard';
@@ -77,28 +77,11 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
     },
   });
 
-  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
   const [checkoutTile, { loading: checkoutTileLoading }] = useMutation(CHECKOUT_TILE, {
     onError: err => {
       console.warn(err);
     },
   });
-  const handleClose = useCallback(() => {
-    if (playerTurn && playerTurn.status === 'idle') {
-      playTurn({
-        variables: {
-          playTurnInput: {
-            gameId: gameData.id,
-          },
-        },
-      });
-    }
-  }, [gameData.id, playTurn, playerTurn]);
 
   const handleStartGame = useCallback(() => {
     startGame({
@@ -111,11 +94,11 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
   }, [gameData.id, startGame]);
 
   const open = useMemo(() => {
-    return status === 'started' && playerTurn && playerTurn.userId === user.id && playerTurn.status === 'idle';
+    return status === 'started' && playerTurn && playerTurn.userId === user.id && playerTurn.turn === 1;
   }, [playerTurn, status, user.id]);
 
   const playerTurnOpen = useMemo(() => {
-    return status === 'started' && playerTurn && playerTurn.userId !== user.id && playerTurn.status !== 'idle';
+    return status === 'started' && playerTurn && playerTurn.userId !== user.id && playerTurn.turn === 2;
   }, [playerTurn, status, user.id]);
 
   const getTurnTimer = useCallback(() => {
@@ -154,16 +137,9 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
 
   return (
     <div className={`Game ${classes.gameContainer}`}>
-      <Snackbar open={open} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert
-          severity="info"
-          action={
-            <Button color="default" size="small" onClick={handleClose}>
-              PLAY
-            </Button>
-          }
-        >
-          It's your turn!
+      <Snackbar className={classes.turnAlert} open={open} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity="info" color="info" elevation={8} variant="standard">
+          It's your turn! Make your move
         </Alert>
       </Snackbar>
 
@@ -246,14 +222,8 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
               template={template}
               tiles={tiles}
               tileSize={tileSize}
-              loading={startGameLoading || checkoutTileLoading || playTurnLoading}
-              disabled={
-                startGameLoading ||
-                playTurnLoading ||
-                checkoutTileLoading ||
-                playerTurn.userId !== user.id ||
-                playerTurn.status === 'idle'
-              }
+              loading={startGameLoading || checkoutTileLoading}
+              disabled={startGameLoading || checkoutTileLoading || playerTurn.userId !== user.id}
               onCheckoutTile={handleCheckOutTile}
             />
           ) : null}

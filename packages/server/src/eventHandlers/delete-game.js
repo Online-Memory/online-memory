@@ -15,12 +15,6 @@ exports.deleteGame = async (userId, gameDataItem) => {
   }
 
   if (status !== 'started') {
-    if (owner === userId) {
-      return {
-        allowDeletion: true,
-      };
-    }
-
     return {
       allowRemoveUser: true,
       users: users.filter(user => user !== userId),
@@ -33,12 +27,6 @@ exports.deleteGame = async (userId, gameDataItem) => {
   const wasLastInteractedMoreThanOneDayAgo = Boolean(Math.floor((now - lastUpdate) / 1000 / 60 / 60 / 24));
 
   if (wasLastInteractedMoreThanOneDayAgo) {
-    if (owner === userId) {
-      return {
-        allowDeletion: true,
-      };
-    }
-
     return {
       allowRemoveUser: true,
       users: users.filter(user => user !== userId),

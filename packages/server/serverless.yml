@@ -134,14 +134,6 @@ custom:
         functions:
           - CheckoutTile
           - UpdateGameData
-      - type: Mutation
-        field: playTurn
-        request: 'playTurn-request-mapping-template-before.vtl'
-        response: 'playTurn-response-mapping-template-after.vtl'
-        kind: PIPELINE
-        functions:
-          - PlayTurn
-          - UpdateGameData
 
     functionConfigurations:
       - dataSource: graphqlLambda
@@ -184,10 +176,6 @@ custom:
         name: 'CheckoutTile'
         request: 'checkoutTile-request-mapping-template.vtl'
         response: 'checkoutTile-response-mapping-template.vtl'
-      - dataSource: graphqlLambda
-        name: 'PlayTurn'
-        request: 'playTurn-request-mapping-template.vtl'
-        response: 'playTurn-response-mapping-template.vtl'
       - dataSource: OnlineMemory
         name: 'UpdateGameData'
         request: 'updateGameData-request-mapping-template.vtl'

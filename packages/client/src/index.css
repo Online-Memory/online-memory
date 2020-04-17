@@ -46,3 +46,28 @@ div#bmc-wbtn.show {
               0 0 8px rgba(0, 0, 0, 0.25),
               1px 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
+
+@keyframes turn-popup {
+  0% {
+    transform-origin: bottom center;
+    transform: translateY(-80px) rotateX(-45deg);
+  }
+  60% {
+    transform: translateY(-80px) rotateX(-45deg);
+  }
+  70% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  80% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  85% {
+    transform: translateY(-15px) scale(1.15) rotateX(0deg);
+  }
+  90% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  100% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+}

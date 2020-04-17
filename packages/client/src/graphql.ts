@@ -159,54 +159,6 @@ export const START_GAME = gql`
   }
 `;
 
-export const PLAY_TURN = gql`
-  mutation PlayTurn($playTurnInput: PlayTurnInput!) {
-    playTurn(input: $playTurnInput) {
-      id
-      name
-      owner
-      status
-      template
-      moves
-      createdAt
-      updatedAt
-      startedAt
-      users {
-        id
-        item {
-          username
-          avatar
-        }
-      }
-      playerTurn {
-        turn
-        id
-        userId
-        currentPlaying
-        status
-      }
-      players {
-        id
-        status
-        name
-        userId
-        moves
-        pairs
-      }
-      board {
-        gridX
-        gridY
-      }
-      tiles {
-        id
-        ref
-        status
-        owner
-      }
-    }
-  }
-`;
-
 export const CHECKOUT_TILE = gql`
   mutation CheckoutTile($checkoutTileInput: CheckoutTileInput!) {
     checkoutTile(input: $checkoutTileInput) {

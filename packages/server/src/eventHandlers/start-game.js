@@ -1,15 +1,5 @@
-const shufflePlayers = player =>
-  player.sort(() => Math.random() - 0.5).map((player, index) => ({ ...player, id: index + 1 }));
-
-exports.startGame = (isOwner, gameStatus, players, userId) => {
-  if (isOwner && gameStatus === 'new') {
-    return {
-      status: 'idle',
-      players: shufflePlayers(players),
-    };
-  }
-
-  const playersUpdated = players.map(player => {
+const updatePlayers = (players, userId) =>
+  players.map(player => {
     if (player.userId === userId) {
       return {
         ...player,
@@ -19,6 +9,33 @@ exports.startGame = (isOwner, gameStatus, players, userId) => {
 
     return player;
   });
+
+const shufflePlayers = player =>
+  player.sort(() => Math.random() - 0.5).map((player, index) => ({ ...player, id: index + 1 }));
+
+const startGame = async (isOwner, gameStatus, players, userId) => {
+  const playersUpdated = updatePlayers(players, userId);
+
+  if (isOwner && gameStatus === 'new' && players.length === 1) {
+    return {
+      status: 'started',
+      startedAt: new Date().toISOString(),
+      players: playersUpdated,
+      playerTurn: {
+        ...playersUpdated[0],
+        status: 'idle',
+        turn: 0,
+        currentPlaying: playersUpdated[0].userId,
+      },
+    };
+  }
+
+  if (isOwner && gameStatus === 'new' && players.length > 1) {
+    return {
+      status: 'idle',
+      players: shufflePlayers(playersUpdated),
+    };
+  }
 
   const offlinePlayers = playersUpdated.filter(player => player.status === 'offline');
 
@@ -39,4 +56,8 @@ exports.startGame = (isOwner, gameStatus, players, userId) => {
   return {
     players: playersUpdated,
   };
+};
+
+module.exports = {
+  startGame,
 };

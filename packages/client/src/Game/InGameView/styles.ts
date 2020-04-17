@@ -7,4 +7,7 @@ export const useStyles = makeStyles(theme => ({
   playerTurnOpen: {
     bottom: '40px',
   },
+  turnAlert: {
+    animation: 'turn-popup 5s cubic-bezier(.9,-1.2,.2,1.9) infinite alternate forwards',
+  },
 }));

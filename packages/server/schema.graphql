@@ -17,10 +17,6 @@ input ClaimPlayerInput {
 	gameId: String!
 }
 
-input PlayTurnInput {
-	gameId: String!
-}
-
 input CheckoutTileInput {
 	gameId: String!
 	tileId: String!
@@ -111,12 +107,11 @@ type Mutation {
 	createGame(input: CreateGameInput!): Game
 	claimPlayer(input: ClaimPlayerInput!): Game
 	checkoutTile(input: CheckoutTileInput!): Game
-	playTurn(input: PlayTurnInput!): Game
 	deleteGame(gameId: String!): Game
 }
 
 type Subscription {
-	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer", "checkoutTile", "playTurn", "startGame"])
+	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer", "checkoutTile", "startGame"])
 }
 
 schema {

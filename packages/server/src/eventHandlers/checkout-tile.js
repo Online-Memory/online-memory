@@ -1,10 +1,18 @@
-const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
+const updatePlayerTurn = (isMultiPlayer, playerTurn, isWin, nextPlayer, currTile) => {
   if (playerTurn.turn > 1 && !isWin) {
+    if (isMultiPlayer) {
+      return {
+        ...nextPlayer,
+        turn: 1,
+        status: 'playing',
+        currentPlaying: playerTurn.currentPlaying,
+      };
+    }
     return {
-      ...nextPlayer,
-      currentPlaying: playerTurn.currentPlaying,
-      status: 'idle',
-      turn: 0,
+      ...playerTurn,
+      turn: 1,
+      status: 'playing',
+      tileRef: `${currTile.ref}`,
     };
   } else if (playerTurn.turn > 1 && isWin) {
     return {
@@ -15,6 +23,7 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
 
   return {
     ...playerTurn,
+    status: isMultiPlayer ? playerTurn.status : 'playing',
     turn: (playerTurn.turn || 0) + 1,
     tileRef: `${currTile.ref}`,
   };
@@ -22,6 +31,11 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
 
 exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, currTile, tileId, moves) => {
   const isWin = playerTurn.status === 'playing' && playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
+
+  console.warn('isWin', isWin);
+  console.warn('playerTurn.status', playerTurn.status);
+  console.warn('playerTurn.turn === 2', playerTurn.turn === 2);
+  console.warn('currTile.ref === playerTurn.tileRef', `${currTile.ref}` === playerTurn.tileRef);
 
   let playersUpdated = players.map(player => {
     if (player.userId === userId) {
@@ -43,11 +57,14 @@ exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, cu
     return tile;
   });
 
+  const isMultiPlayer = players.length > 1;
   const currPlayer = players.findIndex(player => player.userId === playerTurn.userId);
   const nextPlayer = currPlayer < players.length - 1 ? players[currPlayer + 1] : players[0];
-  const playerTurnUpdated = updatePlayerTurn(playerTurn, isWin, nextPlayer, currTile);
+  const playerTurnUpdated = updatePlayerTurn(isMultiPlayer, playerTurn, isWin, nextPlayer, currTile);
 
   if (isWin) {
+    console.warn('isWin');
+
     tilesUpdated = tiles.map(tile => {
       if (`${tile.ref}` === `${currTile.ref}`) {
         return {
@@ -67,6 +84,22 @@ exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, cu
       }
 
       return player;
+    });
+  } else if (playerTurn.turn === 1) {
+    console.warn('is not Win', playerTurn.turn);
+
+    tilesUpdated = tiles.map(tile => {
+      if (`${tile.id}` === `${tileId}`) {
+        return {
+          ...tile,
+          status: 'show',
+        };
+      }
+
+      return {
+        ...tile,
+        status: tile.status === 'taken' ? 'taken' : 'hidden',
+      };
     });
   }
 

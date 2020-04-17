@@ -5,7 +5,6 @@ const { whoAmI } = require('./eventHandlers/who-am-i');
 const { createGame } = require('./eventHandlers/create-game');
 const { startGame } = require('./eventHandlers/start-game');
 const { claimPlayer } = require('./eventHandlers/claim-player');
-const { playTurn } = require('./eventHandlers/play-turn');
 const { checkoutTile } = require('./eventHandlers/checkout-tile');
 const { deleteGame } = require('./eventHandlers/delete-game');
 
@@ -122,9 +121,14 @@ exports.graphqlHandler = async (event, context, callback) => {
         return;
       }
 
-      const players = gameDataItem.players || [];
+      const players = gameDataItem.players;
       const gameOwner = gameDataItem.owner;
       const gameStatus = gameDataItem.status;
+
+      if (!gameOwner || !players) {
+        callback(null, { error: `Game ${gameId} does not exist` });
+        return;
+      }
 
       let startGameData;
       try {
@@ -254,41 +258,6 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       callback(null, { id: gameId, values: checkoutTileData });
-      break;
-    }
-
-    case 'playTurn': {
-      const { input, userId } = event;
-      const { gameId } = input;
-      const gameData = await findItem(gameId);
-      const gameExists = doesItemExist(gameData);
-
-      if (!gameExists) {
-        callback(null, { error: `Game ${gameId} does not exist` });
-        return;
-      }
-
-      const gameDataItem = gameData.Items[0];
-
-      if (!gameDataItem.playerTurn) {
-        callback(null, { error: `Cannot update this game. A playerTurn must be available in the game first` });
-        return;
-      }
-      if (gameDataItem.playerTurn.status !== 'idle') {
-        callback(null, { error: `Player cannot play turn at this point since they're not in idle state` });
-        return;
-      }
-
-      let playTurnData;
-      try {
-        playTurnData = await playTurn(gameDataItem.tiles, gameDataItem.playerTurn, userId);
-        console.log('playTurnData', playTurnData);
-      } catch (err) {
-        console.log(err);
-        callback(null, { error: 'Something went wrong while trying to play the turn' });
-      }
-
-      callback(null, { id: gameId, values: playTurnData });
       break;
     }
 
