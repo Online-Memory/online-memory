@@ -4,6 +4,7 @@ export const useStyles = makeStyles(theme => ({
   app: {
     minHeight: '100%',
     flexWrap: 'nowrap',
+    backgroundImage: theme.palette.type === 'dark' ? `url('/Background_Dark.png')` : `url('/Background_Light.png')`,
   },
   title: {
     flexGrow: 1,
