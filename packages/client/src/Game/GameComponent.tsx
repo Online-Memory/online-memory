@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { GameData } from './types';
 import { WinningView } from './WinningView';
-import { InGameView } from './InGameView/InGameView';
+import { InGameView } from './InGameView';
 import { UserData } from '../AppState';
 
 interface Props {

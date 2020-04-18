@@ -73,7 +73,7 @@ Game ID: ${gameId}`;
       </Grid>
 
       <Grid item justify="center" alignItems="center" direction="column" container>
-        <Typography variant="subtitle1" align="center">
+        <Typography variant="subtitle1" align="center" gutterBottom>
           Share this game id with other user: <strong>{gameId}</strong>
         </Typography>
         <Grid item container justify="space-evenly">

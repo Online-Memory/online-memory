@@ -52,22 +52,25 @@ div#bmc-wbtn.show {
     transform-origin: bottom center;
     transform: translateY(-80px) rotateX(-45deg);
   }
-  60% {
+  2% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  12% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  14% {
+    transform: translateY(-5px) scale(1.19) rotateX(0deg);
+  }
+  16% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  26% {
+    transform: translateY(-15px) scale(1) rotateX(0deg);
+  }
+  30% {
     transform: translateY(-80px) rotateX(-45deg);
   }
-  70% {
-    transform: translateY(-15px) scale(1) rotateX(0deg);
-  }
-  80% {
-    transform: translateY(-15px) scale(1) rotateX(0deg);
-  }
-  85% {
-    transform: translateY(-15px) scale(1.15) rotateX(0deg);
-  }
-  90% {
-    transform: translateY(-15px) scale(1) rotateX(0deg);
-  }
   100% {
-    transform: translateY(-15px) scale(1) rotateX(0deg);
+    transform: translateY(-80px) rotateX(-45deg);
   }
 }

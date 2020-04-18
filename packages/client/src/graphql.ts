@@ -111,6 +111,7 @@ export const CLAIM_PLAYER = gql`
     }
   }
 `;
+
 export const START_GAME = gql`
   mutation StartGame($startGameInput: StartGameInput!) {
     startGame(input: $startGameInput) {
