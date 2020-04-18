@@ -32,6 +32,8 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   const winningPlayers = winningPlayersOrdered.filter(player => player.pairs === winningPlayerScore);
   const endGameTime = gameData.updatedAt;
   const gameLengthTimestamp = (new Date(endGameTime).valueOf() - new Date(gameData.startedAt).valueOf()) / 1000;
+  const longestStreak = gameData.players.sort((playerA, playerB) => (playerB.streak || 0) - (playerA.streak || 0));
+  const longestStreakPlayer = gameData.users.find(user => user.id === longestStreak[0].userId);
 
   const pad = (num: number) => {
     return ('0' + num).slice(-2);
@@ -76,7 +78,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                     </Typography>
                     <Typography align="center" component="h2" variant="h3">
                       {winningPlayers.map(winningPlayer => (
-                        <Typography component="span" variant="h3">
+                        <Typography key={winningPlayer.userId} component="span" variant="h3">
                           {gameData.users.find(user => user.id === winningPlayer.userId)?.item.username},{' '}
                         </Typography>
                       ))}
@@ -110,10 +112,10 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                                 <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
                               </div>
                             </ListItemIcon>
-                            <ListItemText
-                              primary={user.username}
-                              secondary={`${player.pairs || 0} ${player.pairs === 1 ? 'match' : 'matches'} found`}
-                            />
+                            <ListItemText primary={user.username} secondary={`Longest streak: ${player.streak}`} />
+                            <ListItemText>{`${player.pairs || 0} ${
+                              player.pairs === 1 ? 'match' : 'matches'
+                            } found`}</ListItemText>
                           </ListItem>
                         )
                       );
@@ -122,13 +124,17 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                 </div>
               </Grid>
               <Grid item xs={10}>
-                <Typography component="h6" variant="h6">
+                <Typography component="h6" variant="h6" gutterBottom>
                   This was a {gameData.tiles.length} tiles game
                 </Typography>
-                <Typography component="h6" variant="h6">
+                <Typography component="h6" paragraph>
+                  <strong>{longestStreakPlayer?.item.username}</strong> scored the longest streak with{' '}
+                  <strong>{longestStreak[0].streak}</strong> tiles found in a row
+                </Typography>
+                <Typography component="h6" paragraph>
                   Game duration: {getGameLength()}
                 </Typography>
-                <Typography component="h6" variant="h6">
+                <Typography component="h6" paragraph>
                   Tiles flipped: {`${gameData.moves}`}
                 </Typography>
               </Grid>

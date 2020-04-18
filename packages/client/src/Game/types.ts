@@ -3,6 +3,7 @@ export interface Player {
   name: string;
   moves: number;
   pairs: number;
+  streak: number;
   status?: string;
   userId?: string;
   turn?: number;
@@ -13,6 +14,7 @@ export interface PlayerTurn {
   id: string;
   status: string;
   userId: string;
+  streak: number;
   turn?: number;
   tileRef?: string;
   currentPlaying?: string;

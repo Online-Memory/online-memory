@@ -137,7 +137,6 @@ export const AppStateProvider: React.FC = ({ children }) => {
           A new version of Online Memory is available.
         </Alert>
       </Snackbar>
-
       {children}
     </AppStateContext.Provider>
   );

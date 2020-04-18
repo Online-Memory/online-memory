@@ -8,9 +8,11 @@ interface Props {
   user: UserData;
   gameData: GameData;
   onClaimPlayer: () => void;
+  loading: boolean;
+  onSetLoading: () => void;
 }
 
-export const GameComponent: React.FC<Props> = memo(({ gameData, user, onClaimPlayer }) => {
+export const GameComponent: React.FC<Props> = memo(({ gameData, user, onClaimPlayer, loading, onSetLoading }) => {
   const [gameStatus, setGameStatus] = useState(gameData.status);
   const isAPlayer = Boolean(gameData.users.find(currUser => currUser.id === user.id));
 
@@ -34,5 +36,5 @@ export const GameComponent: React.FC<Props> = memo(({ gameData, user, onClaimPla
     return <WinningView gameData={gameData} />;
   }
 
-  return <InGameView user={user} gameData={gameData} />;
+  return <InGameView user={user} gameData={gameData} loading={loading} onSetLoading={onSetLoading} />;
 });

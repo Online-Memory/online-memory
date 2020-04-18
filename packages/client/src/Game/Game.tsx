@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState, useRef } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography, CircularProgress } from '@material-ui/core';
@@ -12,8 +12,19 @@ export const Game: React.FC = memo(() => {
   const classes = useStyles();
   const { id } = useParams();
   const { user } = useAppState();
+  const [loading, _setLoading] = useState(false);
+  const timer = useRef<any>();
 
-  const { data, loading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
+  const setLoading = useCallback(() => {
+    _setLoading(true);
+    if (timer && timer.current) {
+      clearTimeout(timer.current);
+    }
+
+    timer.current = setTimeout(() => _setLoading(false), 750);
+  }, []);
+
+  const { data, loading: dataLoading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
     onError: err => {
       console.warn(err);
@@ -26,7 +37,9 @@ export const Game: React.FC = memo(() => {
     },
   });
 
-  const { error: subError } = useSubscription(GAME_UPDATED, { variables: { id } });
+  const { error: subError } = useSubscription(GAME_UPDATED, {
+    variables: { id },
+  });
 
   const handleClaimPlayer = useCallback(() => {
     claimPlayer({
@@ -58,7 +71,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (loading || claimPlayerLoading || !user || !user.id) {
+  if (dataLoading || claimPlayerLoading || !user || !user.id) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -94,5 +107,13 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  return <GameComponent gameData={data.getGame} user={user} onClaimPlayer={handleClaimPlayer} />;
+  return (
+    <GameComponent
+      gameData={data.getGame}
+      user={user}
+      onClaimPlayer={handleClaimPlayer}
+      loading={loading}
+      onSetLoading={setLoading}
+    />
+  );
 });

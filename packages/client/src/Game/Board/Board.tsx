@@ -7,6 +7,7 @@ import { Tile } from '../types';
 interface Props {
   loading: boolean;
   disabled: boolean;
+  startTurn: boolean;
   tiles: Tile[];
   tileSize: number;
   template: string;
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export const Board: React.FC<Props> = memo(
-  ({ board, template, tiles, tileSize, loading, disabled, onCheckoutTile }) => {
+  ({ board, template, tiles, tileSize, loading, disabled, startTurn, onCheckoutTile }) => {
     const classes = useStyles();
     const gridX = new Array(board.gridX).fill('');
     const gridY = new Array(board.gridY).fill('');
@@ -41,6 +42,7 @@ export const Board: React.FC<Props> = memo(
                     tile={getTile(tiles, indexX, indexY, board.gridX)}
                     tileSize={tileSize}
                     disabled={disabled}
+                    startTurn={startTurn}
                     loading={loading}
                     onCheckout={onCheckoutTile}
                   />

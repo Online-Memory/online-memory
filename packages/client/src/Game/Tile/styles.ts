@@ -24,4 +24,7 @@ export const useStyles = makeStyles(theme => ({
   tileLoading: {
     cursor: 'progress',
   },
+  startTurn: {
+    cursor: 'pointer',
+  },
 }));

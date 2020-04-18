@@ -26,9 +26,11 @@ import { GameHost } from './GameHost';
 interface Props {
   user: UserData;
   gameData: GameData;
+  loading: boolean;
+  onSetLoading: () => void;
 }
 
-export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
+export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSetLoading }) => {
   const {
     name,
     players,
@@ -88,19 +90,9 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
       console.warn(err);
     },
   });
-  const handleClose = useCallback(() => {
-    if (playerTurn && playerTurn.status === 'idle') {
-      playTurn({
-        variables: {
-          playTurnInput: {
-            gameId: gameData.id,
-          },
-        },
-      });
-    }
-  }, [gameData.id, playTurn, playerTurn]);
 
   const handleStartGame = useCallback(() => {
+    onSetLoading();
     startGame({
       variables: {
         startGameInput: {
@@ -108,7 +100,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
         },
       },
     });
-  }, [gameData.id, startGame]);
+  }, [gameData.id, onSetLoading, startGame]);
 
   const open = useMemo(() => {
     return status === 'started' && playerTurn && playerTurn.userId === user.id && playerTurn.status === 'idle';
@@ -117,11 +109,6 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
   const playerTurnOpen = useMemo(() => {
     return status === 'started' && playerTurn && playerTurn.userId !== user.id && playerTurn.status !== 'idle';
   }, [playerTurn, status, user.id]);
-
-  const getTurnTimer = useCallback(() => {
-    const delta = 30 - deltaGameUpdated;
-    return delta >= 0 ? `${delta}` : '0';
-  }, [deltaGameUpdated]);
 
   const pad = useCallback((num: number) => {
     return ('0' + num).slice(-2);
@@ -135,8 +122,32 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   }, [deltaGameCreation, pad]);
 
+  const getTurnTimer = useCallback(() => {
+    const deltaHours = Math.floor(deltaGameUpdated / 60 / 60);
+    const deltaMinutes = Math.floor(deltaGameUpdated / 60) % 60;
+    const deltaSeconds = Math.floor(deltaGameUpdated - deltaMinutes * 60);
+
+    return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
+  }, [deltaGameUpdated, pad]);
+
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
+      if (playTurnLoading) {
+        return;
+      }
+
+      onSetLoading();
+      if (playerTurn && playerTurn.status === 'idle' && playerTurn.userId === user.id) {
+        playTurn({
+          variables: {
+            playTurnInput: {
+              gameId: gameData.id,
+            },
+          },
+        });
+        return;
+      }
+
       checkoutTile({
         variables: {
           checkoutTileInput: {
@@ -146,7 +157,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
         },
       });
     },
-    [checkoutTile, gameData.id]
+    [checkoutTile, gameData.id, onSetLoading, playTurn, playTurnLoading, playerTurn, user.id]
   );
 
   const userPlaying =
@@ -154,12 +165,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
 
   return (
     <div className={`Game ${classes.gameContainer}`}>
-      <Snackbar
-        open={open}
-        onClose={handleClose}
-        className={classes.turnAlert}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
+      <Snackbar open={open} className={classes.turnAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert severity="info" color="info" elevation={8} variant="standard">
           It's your turn! Make your move
         </Alert>
@@ -244,14 +250,11 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData }) => {
               template={template}
               tiles={tiles}
               tileSize={tileSize}
-              loading={startGameLoading || checkoutTileLoading || playTurnLoading}
+              loading={loading || startGameLoading || checkoutTileLoading || playTurnLoading}
               disabled={
-                startGameLoading ||
-                playTurnLoading ||
-                checkoutTileLoading ||
-                playerTurn.userId !== user.id ||
-                playerTurn.status === 'idle'
+                loading || startGameLoading || playTurnLoading || checkoutTileLoading || playerTurn.userId !== user.id
               }
+              startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
               onCheckoutTile={handleCheckOutTile}
             />
           ) : null}

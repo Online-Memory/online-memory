@@ -97,6 +97,7 @@ export const CLAIM_PLAYER = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX
@@ -145,6 +146,7 @@ export const START_GAME = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX
@@ -193,6 +195,7 @@ export const PLAY_TURN = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX
@@ -241,6 +244,7 @@ export const CHECKOUT_TILE = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX
@@ -289,6 +293,7 @@ export const GET_GAME = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX
@@ -337,6 +342,7 @@ export const GAME_UPDATED = gql`
         userId
         moves
         pairs
+        streak
       }
       board {
         gridX

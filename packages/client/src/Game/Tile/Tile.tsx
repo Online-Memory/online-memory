@@ -8,20 +8,32 @@ interface Props {
   tileSize: number;
   disabled: boolean;
   loading: boolean;
+  startTurn?: boolean;
   className?: string;
   style?: CSSProperties;
   onCheckout?: (tileId: number) => void;
 }
 
 export const TileComponent: React.FC<Props> = memo(
-  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout }) => {
+  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn }) => {
     const classes = useStyles({ template });
 
     const handleCheckOutTile = useCallback(
       (tileId: number) => () => {
-        onCheckout && !disabled && !loading && onCheckout(tileId);
+        if (loading || !onCheckout) {
+          return;
+        }
+
+        if (startTurn) {
+          onCheckout(tileId);
+          return;
+        }
+
+        if (!disabled && tile.status === 'hidden') {
+          onCheckout(tileId);
+        }
       },
-      [disabled, loading, onCheckout]
+      [disabled, loading, onCheckout, startTurn, tile.status]
     );
 
     const x = tile.status === 'hidden' ? 0 : (Number(tile.ref) % 8) * tileSize;
@@ -37,10 +49,10 @@ export const TileComponent: React.FC<Props> = memo(
         <div className={classes.tileBox}>
           <div
             className={`tile ${classes.tile} ${tile.ref} ${tile.status} ${
-              disabled ? classes.tileDisabled : classes.tileEnabled
-            } ${disabled ? 'disabled' : ''} ${loading ? classes.tileLoading : ''}`}
+              disabled ? classes.tileDisabled : startTurn ? classes.startTurn : classes.tileEnabled
+            } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${loading ? classes.tileLoading : ''}`}
             style={{ backgroundPosition: `-${x}px -${y}px`, backgroundSize: `${tileSize * 8}px` }}
-            onClick={!disabled && !loading && tile.status === 'hidden' ? handleCheckOutTile(tile.id) : () => null}
+            onClick={handleCheckOutTile(tile.id)}
           />
         </div>
       </div>
