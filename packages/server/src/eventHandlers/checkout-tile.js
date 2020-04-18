@@ -5,28 +5,31 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
       currentPlaying: playerTurn.currentPlaying,
       status: 'idle',
       turn: 0,
+      streak: 0,
     };
-  } else if (playerTurn.turn > 1 && isWin) {
+  }
+
+  if (playerTurn.turn > 1 && isWin) {
     return {
       ...playerTurn,
+      streak: (playerTurn.streak || 0) + 1,
       turn: 1,
     };
   }
 
   return {
     ...playerTurn,
-    turn: (playerTurn.turn || 0) + 1,
+    turn: playerTurn.turn + 1,
     tileRef: `${currTile.ref}`,
   };
 };
 
-exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, currTile, tileId, moves) => {
-  const isWin = playerTurn.status === 'playing' && playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
+const checkoutTile = async (userId, players, playerTurn, tiles, currTile, tileId, moves) => {
+  if (!playerTurn.turn) {
+    return { error: 'The user is not allowed to play. The user must start the turn first' };
+  }
 
-  console.warn('isWin', isWin);
-  console.warn('playerTurn.status', playerTurn.status);
-  console.warn('playerTurn.turn === 2', playerTurn.turn === 2);
-  console.warn('currTile.ref === playerTurn.tileRef', `${currTile.ref}` === playerTurn.tileRef);
+  const isWin = playerTurn.status === 'playing' && playerTurn.turn === 2 && `${currTile.ref}` === playerTurn.tileRef;
 
   let playersUpdated = players.map(player => {
     if (player.userId === userId) {
@@ -53,6 +56,8 @@ exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, cu
   const playerTurnUpdated = updatePlayerTurn(playerTurn, isWin, nextPlayer, currTile);
 
   if (isWin) {
+    delete playerTurnUpdated.tileRef;
+
     tilesUpdated = tiles.map(tile => {
       if (`${tile.ref}` === `${currTile.ref}`) {
         return {
@@ -65,8 +70,12 @@ exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, cu
 
     playersUpdated = playersUpdated.map(player => {
       if (player.userId === userId) {
+        const longestStreak = player.streak || 0;
+        const playerStreakUpdated = playerTurnUpdated.streak > longestStreak ? playerTurnUpdated.streak : longestStreak;
+
         return {
           ...player,
+          streak: playerStreakUpdated,
           pairs: (player.pairs || 0) + 1,
         };
       }
@@ -76,13 +85,17 @@ exports.checkoutTile = async (userId, gameStatus, players, playerTurn, tiles, cu
   }
 
   const tilesAvailable = tilesUpdated.filter(tile => tile.status !== 'taken');
-  const gameStatusUpdated = !tilesAvailable.length ? 'ended' : gameStatus;
+  const gameStatusUpdated = !tilesAvailable.length ? 'ended' : undefined;
 
   return {
     moves: moves + 1,
     tiles: tilesUpdated,
     playerTurn: playerTurnUpdated,
     players: playersUpdated,
-    status: gameStatusUpdated,
+    ...(gameStatusUpdated && { status: gameStatusUpdated }),
   };
+};
+
+module.exports = {
+  checkoutTile,
 };

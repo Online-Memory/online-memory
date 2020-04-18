@@ -49,6 +49,7 @@
     "babel-plugin-named-asset-import": "^0.3.6",
     "babel-preset-react-app": "^9.1.2",
     "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-loader": "3.0.3",

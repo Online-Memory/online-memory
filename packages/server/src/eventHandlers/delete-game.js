@@ -1,5 +1,5 @@
-exports.deleteGame = async (userId, gameDataItem) => {
-  const { status, users, players, owner, updatedAt } = gameDataItem;
+const deleteGame = async (userId, gameDataItem) => {
+  const { status, users, players, updatedAt } = gameDataItem;
   const isMultiPlayer = Number(users && users.length) > 1;
 
   if (status === 'ended') {
@@ -37,4 +37,8 @@ exports.deleteGame = async (userId, gameDataItem) => {
   return {
     error: 'Games can only be deleted after 1 day from the their last interaction. Try again later',
   };
+};
+
+module.exports = {
+  deleteGame,
 };

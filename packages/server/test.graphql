@@ -32,6 +32,7 @@ query GetGame {
 			currentPlaying
 			turn
 			tileRef
+			streak
 		}
 		players {
 			id
@@ -40,6 +41,7 @@ query GetGame {
 			pairs
 			name
 			userId
+			streak
 		}
 		tiles {
 			ref

@@ -1,6 +1,6 @@
 const { getUser, createUser, putRandomAvatar } = require('../helpers/db-operations');
 
-exports.whoAmI = async userId => {
+const whoAmI = async userId => {
   let userData;
   try {
     userData = await getUser(userId);
@@ -20,4 +20,8 @@ exports.whoAmI = async userId => {
   }
 
   return userData.Item;
+};
+
+module.exports = {
+  whoAmI,
 };

@@ -5,15 +5,20 @@
 #end
 
 #set( $gameId = $context.prev.result.id )
+#set( $error = $context.prev.result.error )
 #set( $values = $context.prev.result.values )
 #set ( $shouldUpdate = $util.defaultIfNullOrEmpty($context.prev.result.update, "TRUE") )
 
+#if( $error )
+    $utils.error($error, "ERROR")
+#end
+
 #if( $util.isNullOrEmpty( $gameId ) )
-    $utils.error("Error: Cannot update game information with missing game id", "ERROR")
+    $utils.error("Cannot find a game matching the provided game id", "ERROR")
 #end
 
 #if( $util.isNullOrEmpty( $values ) )
-    $utils.error("Error: Cannot update a game with missing game information", "ERROR")
+    $utils.error("Cannot update a game with missing game information", "ERROR")
 #end
 
 #set( $expNames  = {} )

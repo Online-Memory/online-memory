@@ -29,16 +29,18 @@ input CheckoutTileInput {
 type Player {
 	id: String!
 	status: String!
+	userId: String
 	moves: Int!
 	pairs: Int!
 	name: String
-	userId: String
+	streak: Int!
 }
 
 type PlayerTurn {
 	id: String!
 	status: String!
 	userId: String!
+	streak: Int!
 	currentPlaying: String
 	turn: Int
 	tileRef: String

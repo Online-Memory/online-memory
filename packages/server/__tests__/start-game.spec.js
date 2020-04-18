@@ -21,12 +21,19 @@ describe('start game', () => {
     });
 
     it(`should set the player turn`, async () => {
+      const expectedPlayerTurn = {
+        userId,
+        currentPlaying: userId,
+        status: 'idle',
+        id: players[0].id,
+        turn: 0,
+        streak: 0,
+      };
+
       const res = await startGame(isOwner, gameStatus, players, userId);
 
       expect(res.playerTurn).toBeDefined();
-      expect(res.playerTurn.status).toBe('idle');
-      expect(res.playerTurn.turn).toBe(0);
-      expect(res.playerTurn.currentPlaying).toBe(userId);
+      expect(res.playerTurn).toStrictEqual(expectedPlayerTurn);
     });
 
     it(`should record the starting game time`, async () => {
@@ -42,7 +49,7 @@ describe('start game', () => {
     const gameStatus = 'new';
     const userId = 'testUserId';
     const players = [
-      { id: 1, userId: userId, status: 'offline' },
+      { id: 1, userId, status: 'offline' },
       { id: 2, userId: 'user#2', status: 'offline' },
     ];
 
@@ -53,7 +60,7 @@ describe('start game', () => {
       expect(res.status).toBe('idle');
     });
 
-    it(`should switch the player status to 'idle'`, async () => {
+    it(`should set the player status to 'idle'`, async () => {
       const res = await startGame(isOwner, gameStatus, players, userId);
 
       expect(res.players).toBeDefined();
@@ -63,7 +70,7 @@ describe('start game', () => {
 
     it(`should start the game when the game is idle and there are no pending players left`, async () => {
       const playersReady = [
-        { id: 1, userId: userId, status: 'offline' },
+        { id: 1, userId, status: 'offline' },
         { id: 2, userId: 'user#2', status: 'idle' },
       ];
       const gameStatusIdle = 'idle';
@@ -74,21 +81,28 @@ describe('start game', () => {
 
     it(`should set the player turn when the game starts`, async () => {
       const playersReady = [
-        { id: 1, userId: userId, status: 'offline' },
+        { id: 1, userId, status: 'offline' },
         { id: 2, userId: 'user#2', status: 'idle' },
       ];
       const gameStatusIdle = 'idle';
+      const expectedPlayerTurn = {
+        userId,
+        currentPlaying: userId,
+        status: 'idle',
+        id: players[0].id,
+        turn: 0,
+        streak: 0,
+      };
+
       const res = await startGame(isOwner, gameStatusIdle, playersReady, userId);
 
       expect(res.playerTurn).toBeDefined();
-      expect(res.playerTurn.status).toBe('idle');
-      expect(res.playerTurn.turn).toBe(0);
-      expect(res.playerTurn.currentPlaying).toBe(userId);
+      expect(res.playerTurn).toStrictEqual(expectedPlayerTurn);
     });
 
     it(`should record the starting game time`, async () => {
       const playersReady = [
-        { id: 1, userId: userId, status: 'offline' },
+        { id: 1, userId, status: 'offline' },
         { id: 2, userId: 'user#2', status: 'idle' },
       ];
       const gameStatusIdle = 'idle';

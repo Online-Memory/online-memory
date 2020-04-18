@@ -1,12 +1,7 @@
-exports.claimPlayer = async (userId, gameStatus, users, players, claimPlayer = false) => {
-  const userPlayer = players.find(player => player.userId === userId);
-  const isUser = Boolean(~users.indexOf(userId));
+const claimPlayer = async (userId = '', gameStatus = '', users = [], players = []) => {
+  const isUser = Boolean(users.indexOf(userId) >= 0);
 
-  if (!claimPlayer) {
-    return {};
-  }
-
-  if (gameStatus !== 'new' || (userPlayer && userPlayer.userId) || isUser) {
+  if (gameStatus !== 'new' || isUser) {
     return {};
   }
 
@@ -19,6 +14,7 @@ exports.claimPlayer = async (userId, gameStatus, users, players, claimPlayer = f
       status: 'offline',
       moves: 0,
       pairs: 0,
+      streak: 0,
     },
   ];
 
@@ -26,4 +22,8 @@ exports.claimPlayer = async (userId, gameStatus, users, players, claimPlayer = f
     players: playersUpdated,
     users: usersUpdated,
   };
+};
+
+module.exports = {
+  claimPlayer,
 };

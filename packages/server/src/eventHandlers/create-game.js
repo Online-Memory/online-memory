@@ -63,7 +63,7 @@ const getBoardSizeFromTiles = (tiles = 100, gameTemplate) => {
   }
 };
 
-exports.createGame = async (owner, name, template, gameTiles) => {
+const createGame = async (owner, name, template, gameTiles) => {
   const gameTemplate = gameTemplates.find(currTemplate => currTemplate.id === template);
   const board = getBoardSizeFromTiles(gameTiles, gameTemplate);
   const players = [
@@ -73,6 +73,7 @@ exports.createGame = async (owner, name, template, gameTiles) => {
       userId: owner,
       moves: 0,
       pairs: 0,
+      streak: 0,
     },
   ];
   const users = [owner];
@@ -94,4 +95,8 @@ exports.createGame = async (owner, name, template, gameTiles) => {
   };
 
   return { values, gameName };
+};
+
+module.exports = {
+  createGame,
 };

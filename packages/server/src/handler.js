@@ -39,17 +39,16 @@ exports.graphqlHandler = async (event, context, callback) => {
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while generating a new game' });
-        return;
+        return null;
       }
 
       const { values, gameName } = newGameData;
 
       if (gameName) {
         callback(null, { id: gameName, values });
-      } else {
-        callback(null, { error: 'Cannot find an available game name' });
+        return null;
       }
-
+      callback(null, { error: 'Cannot find an available game name' });
       break;
     }
 
@@ -61,13 +60,13 @@ exports.graphqlHandler = async (event, context, callback) => {
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       const gameDataItem = gameData.Items[0];
       if (!gameDataItem) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       let deleteGameData;
@@ -77,12 +76,12 @@ exports.graphqlHandler = async (event, context, callback) => {
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while trying to delete the game' });
-        return;
+        return null;
       }
 
       if (deleteGameData.error) {
         callback(null, { error: deleteGameData.error });
-        return;
+        return null;
       }
 
       if (deleteGameData.allowRemoveUser) {
@@ -92,12 +91,12 @@ exports.graphqlHandler = async (event, context, callback) => {
           users: deleteGameData.users,
           players: deleteGameData.players,
         });
-        return;
+        return null;
       }
 
       if (deleteGameData.allowDeletion) {
         callback(null, { allowDeletion: 'TRUE', id: gameId });
-        return;
+        return null;
       }
 
       callback(null, { error: 'Something went wrong while trying to delete the game' });
@@ -105,30 +104,30 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'startGame': {
-      const { input, userId } = event;
+      const { userId } = event;
       const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       const gameDataItem = gameData.Items[0];
 
       if (!gameDataItem) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
-      const players = gameDataItem.players;
+      const { players } = gameDataItem;
       const gameOwner = gameDataItem.owner;
       const gameStatus = gameDataItem.status;
 
       if (!gameOwner || !players) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       let startGameData;
@@ -138,70 +137,53 @@ exports.graphqlHandler = async (event, context, callback) => {
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while trying to start the game' });
+        return null;
       }
 
       if (startGameData) {
         callback(null, { id: gameId, values: startGameData });
-      } else {
-        callback(null, { error: 'Cannot start the game' });
+        return null;
       }
-
+      callback(null, { error: 'Cannot start the game' });
       break;
     }
 
     case 'getGame': {
-      const { input } = event;
       const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!(gameExists && gameData.Items && gameData.Items[0])) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
-      const gameDataItem = gameData.Items[0];
-      const { players = [], users = [], status } = gameDataItem;
-
-      let claimPlayerData;
-      try {
-        claimPlayerData = await claimPlayer(owner, status, users, players, false);
-        console.log('claimPlayerData', claimPlayerData);
-      } catch (err) {
-        console.log(err);
-        callback(null, { error: 'Something went wrong while trying to get the game information' });
-      }
-
-      if (!claimPlayerData.users) {
-        callback(null, { id: gameId, values: claimPlayerData, update: false });
-        return;
-      }
-
-      callback(null, { id: gameId, values: claimPlayerData });
+      callback(null, { id: gameId, values: {}, update: false });
       break;
     }
 
     case 'claimPlayer': {
-      const { input, userId } = event;
+      const { userId } = event;
       const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!(gameExists && gameData.Items && gameData.Items[0])) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       const gameDataItem = gameData.Items[0];
-      const { players = [], users = [], status } = gameDataItem;
+      const { players, users, status } = gameDataItem;
 
       let claimPlayerData;
       try {
-        claimPlayerData = await claimPlayer(userId, status, users, players, true);
+        claimPlayerData = await claimPlayer(userId, status, users, players);
         console.log('claimPlayerData', claimPlayerData);
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while trying to claim the player' });
+        return null;
       }
 
       callback(null, { id: gameId, values: claimPlayerData });
@@ -209,30 +191,30 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'checkoutTile': {
-      const { input, userId } = event;
+      const { userId } = event;
       const { gameId, tileId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       const gameDataItem = gameData.Items[0];
-      const tiles = gameDataItem.tiles;
-      const playerTurn = gameDataItem.playerTurn;
-      const moves = gameDataItem.moves;
-      const players = gameDataItem.players;
+      const { tiles } = gameDataItem;
+      const { playerTurn } = gameDataItem;
+      const { moves } = gameDataItem;
+      const { players } = gameDataItem;
       const gameStatus = gameDataItem.status;
 
       if (gameStatus === 'ended') {
         callback(null, { error: `Cannot update an already ended game` });
-        return;
+        return null;
       }
       if (userId !== playerTurn.userId) {
         callback(null, { error: `Invalid move` });
-        return;
+        return null;
       }
 
       const currTile = tiles.find(tile => `${tile.id}` === `${tileId}`);
@@ -240,22 +222,23 @@ exports.graphqlHandler = async (event, context, callback) => {
       if (!currTile.status === 'hidden') {
         // Only hidden tile can be checked out. if already in show state. don't take any action
         callback(null, { error: `Invalid move. Cannot flip this tile` });
-        return;
+        return null;
       }
 
       if (playerTurn.status === 'idle' || !playerTurn.turn) {
         // Avoid player checking out more than 2 cards per turn
         callback(null, { error: `Invalid move. User not allowed to flip tiles` });
-        return;
+        return null;
       }
 
       let checkoutTileData;
       try {
-        checkoutTileData = await checkoutTile(userId, gameStatus, players, playerTurn, tiles, currTile, tileId, moves);
+        checkoutTileData = await checkoutTile(userId, players, playerTurn, tiles, currTile, tileId, moves);
         console.log('checkoutTileData', checkoutTileData);
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while trying to checkout the tile' });
+        return null;
       }
 
       callback(null, { id: gameId, values: checkoutTileData });
@@ -263,34 +246,32 @@ exports.graphqlHandler = async (event, context, callback) => {
     }
 
     case 'playTurn': {
-      const { input, userId } = event;
+      const { userId } = event;
       const { gameId } = input;
       const gameData = await findItem(gameId);
       const gameExists = doesItemExist(gameData);
 
       if (!gameExists) {
         callback(null, { error: `Game ${gameId} does not exist` });
-        return;
+        return null;
       }
 
       const gameDataItem = gameData.Items[0];
-
-      if (!gameDataItem.playerTurn) {
-        callback(null, { error: `Cannot update this game. A playerTurn must be available in the game first` });
-        return;
-      }
-      if (gameDataItem.playerTurn.status !== 'idle') {
-        callback(null, { error: `Player cannot play turn at this point since they're not in idle state` });
-        return;
-      }
+      const { playerTurn, tiles } = gameDataItem;
 
       let playTurnData;
       try {
-        playTurnData = await playTurn(gameDataItem.tiles, gameDataItem.playerTurn, userId);
+        playTurnData = await playTurn(tiles, playerTurn, userId);
         console.log('playTurnData', playTurnData);
       } catch (err) {
         console.log(err);
         callback(null, { error: 'Something went wrong while trying to play the turn' });
+        return null;
+      }
+
+      if (playTurnData.error) {
+        callback(null, { error: playTurnData.error });
+        return null;
       }
 
       callback(null, { id: gameId, values: playTurnData });
@@ -307,4 +288,6 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
   }
+
+  return null;
 };

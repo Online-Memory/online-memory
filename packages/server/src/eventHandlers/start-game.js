@@ -11,7 +11,7 @@ const updatePlayers = (players, userId) =>
   });
 
 const shufflePlayers = player =>
-  player.sort(() => Math.random() - 0.5).map((player, index) => ({ ...player, id: index + 1 }));
+  player.sort(() => Math.random() - 0.5).map((currPlayer, index) => ({ ...currPlayer, id: index + 1 }));
 
 const startGame = async (isOwner, gameStatus, players, userId) => {
   const playersUpdated = updatePlayers(players, userId);
@@ -25,6 +25,7 @@ const startGame = async (isOwner, gameStatus, players, userId) => {
         ...playersUpdated[0],
         status: 'idle',
         turn: 0,
+        streak: 0,
         currentPlaying: playersUpdated[0].userId,
       },
     };
@@ -48,6 +49,7 @@ const startGame = async (isOwner, gameStatus, players, userId) => {
         ...playersUpdated[0],
         status: 'idle',
         turn: 0,
+        streak: 0,
         currentPlaying: playersUpdated[0].userId,
       },
     };
