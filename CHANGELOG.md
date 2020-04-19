@@ -53,7 +53,6 @@
 **Implemented enhancements:**
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
-- Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
@@ -63,6 +62,7 @@
 
 **Implemented enhancements:**
 
+- User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
 - Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Merged pull requests:**
@@ -79,7 +79,6 @@
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
 - Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
-- Add users to games based on user profiles [\#36](https://github.com/Online-Memory/online-memory/issues/36)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
@@ -87,7 +86,6 @@
 
 **Implemented enhancements:**
 
-- User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
 **Merged pull requests:**
@@ -105,6 +103,10 @@
 ## [v0.11.0](https://github.com/Online-Memory/online-memory/tree/v0.11.0) (2020-04-10)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.10.0...v0.11.0)
+
+**Implemented enhancements:**
+
+- Add users to games based on user profiles [\#36](https://github.com/Online-Memory/online-memory/issues/36)
 
 ## [v0.10.0](https://github.com/Online-Memory/online-memory/tree/v0.10.0) (2020-04-10)
 
@@ -129,6 +131,7 @@
 **Implemented enhancements:**
 
 - Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
+- Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
