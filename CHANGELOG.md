@@ -57,10 +57,6 @@
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
-**Fixed bugs:**
-
-- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
-
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.13.0...v0.14.0)
@@ -153,6 +149,7 @@
 
 **Fixed bugs:**
 
+- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
 - You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
@@ -168,10 +165,6 @@
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
 - Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
 
-**Fixed bugs:**
-
-- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
-
 ## [v0.5.0](https://github.com/Online-Memory/online-memory/tree/v0.5.0) (2020-04-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.5.0)
@@ -179,6 +172,10 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
+
+**Fixed bugs:**
+
+- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
 
 **Merged pull requests:**
 
