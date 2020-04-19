@@ -1,8 +1,8 @@
-import React, { memo, useCallback, useState, useRef } from 'react';
+import React, { memo, useCallback, useState, useEffect } from 'react';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Container, Card, CardContent, Grid, Typography, CircularProgress } from '@material-ui/core';
-import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED } from '../graphql';
+import { GET_GAME, CLAIM_PLAYER, GAME_UPDATED, PLAY_TURN, CHECKOUT_TILE } from '../graphql';
 import { useAppState } from '../AppState';
 import { GameData } from './types';
 import { GameComponent } from './GameComponent';
@@ -12,19 +12,10 @@ export const Game: React.FC = memo(() => {
   const classes = useStyles();
   const { id } = useParams();
   const { user } = useAppState();
-  const [loading, _setLoading] = useState(false);
-  const timer = useRef<any>();
+  const [skip, setSkip] = useState<boolean>(true);
+  const [_loading, _setLoading] = useState<boolean>(false);
 
-  const setLoading = useCallback(() => {
-    _setLoading(true);
-    if (timer && timer.current) {
-      clearTimeout(timer.current);
-    }
-
-    timer.current = setTimeout(() => _setLoading(false), 750);
-  }, []);
-
-  const { data, loading: dataLoading, error } = useQuery<{ getGame: GameData }>(GET_GAME, {
+  const { data, loading: dataLoading, error: dataError } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
     onError: err => {
       console.warn(err);
@@ -37,11 +28,32 @@ export const Game: React.FC = memo(() => {
     },
   });
 
-  const { error: subError } = useSubscription(GAME_UPDATED, {
-    variables: { id },
+  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
+    onError: err => {
+      console.warn(err);
+    },
   });
 
+  const [checkoutTile, { loading: checkoutTileLoading }] = useMutation(CHECKOUT_TILE, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const { error: subError, data: subData, loading: subLoading } = useSubscription<{ gameUpdated: GameData }>(
+    GAME_UPDATED,
+    {
+      skip,
+      variables: { id },
+      shouldResubscribe: true,
+      onSubscriptionData: () => {
+        _setLoading(false);
+      },
+    }
+  );
+
   const handleClaimPlayer = useCallback(() => {
+    _setLoading(true);
     claimPlayer({
       variables: {
         claimPlayerInput: {
@@ -51,7 +63,50 @@ export const Game: React.FC = memo(() => {
     });
   }, [claimPlayer, id]);
 
-  if (error || subError) {
+  const handleCheckOutTile = useCallback(
+    (tileId: string) => {
+      if (_loading) {
+        return;
+      }
+
+      _setLoading(true);
+
+      checkoutTile({
+        variables: {
+          checkoutTileInput: {
+            gameId: data?.getGame?.id,
+            tileId,
+          },
+        },
+      });
+    },
+    [_loading, checkoutTile, data]
+  );
+
+  const handlePlayTurn = useCallback(() => {
+    if (_loading) {
+      return;
+    }
+
+    _setLoading(true);
+
+    playTurn({
+      variables: {
+        playTurnInput: {
+          gameId: data?.getGame?.id,
+        },
+      },
+    });
+  }, [_loading, data, playTurn]);
+
+  useEffect(() => {
+    setSkip(false);
+  }, []);
+
+  const error = dataError || subError;
+  const loading = _loading || dataLoading || claimPlayerLoading || checkoutTileLoading || playTurnLoading || subLoading;
+
+  if (error) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -71,7 +126,7 @@ export const Game: React.FC = memo(() => {
     );
   }
 
-  if (dataLoading || claimPlayerLoading || !user || !user.id) {
+  if (dataLoading || !user || !user.id) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
         <Container maxWidth="lg">
@@ -109,11 +164,12 @@ export const Game: React.FC = memo(() => {
 
   return (
     <GameComponent
-      gameData={data.getGame}
+      gameData={(subData && subData.gameUpdated) || data.getGame}
       user={user}
       onClaimPlayer={handleClaimPlayer}
+      onPlayTurn={handlePlayTurn}
+      onCheckOutTile={handleCheckOutTile}
       loading={loading}
-      onSetLoading={setLoading}
     />
   );
 });

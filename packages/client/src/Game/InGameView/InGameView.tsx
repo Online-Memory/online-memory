@@ -16,7 +16,7 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import { ZoomControl, useZoom } from '../../ZoomControl';
 import { UserData } from '../../AppState';
-import { PLAY_TURN, CHECKOUT_TILE, START_GAME } from '../../graphql';
+import { START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import { Dashboard } from '../Dashboard';
@@ -27,10 +27,11 @@ interface Props {
   user: UserData;
   gameData: GameData;
   loading: boolean;
-  onSetLoading: () => void;
+  onPlayTurn: () => void;
+  onCheckOutTile: (tileId: string) => void;
 }
 
-export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSetLoading }) => {
+export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPlayTurn, onCheckOutTile }) => {
   const {
     name,
     players,
@@ -79,20 +80,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSe
     },
   });
 
-  const [playTurn, { loading: playTurnLoading }] = useMutation(PLAY_TURN, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
-  const [checkoutTile, { loading: checkoutTileLoading }] = useMutation(CHECKOUT_TILE, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
-
   const handleStartGame = useCallback(() => {
-    onSetLoading();
     startGame({
       variables: {
         startGameInput: {
@@ -100,7 +88,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSe
         },
       },
     });
-  }, [gameData.id, onSetLoading, startGame]);
+  }, [gameData.id, startGame]);
 
   const open = useMemo(() => {
     return status === 'started' && playerTurn && playerTurn.userId === user.id && playerTurn.status === 'idle';
@@ -132,32 +120,18 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSe
 
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
-      if (playTurnLoading) {
+      if (loading) {
         return;
       }
 
-      onSetLoading();
       if (playerTurn && playerTurn.status === 'idle' && playerTurn.userId === user.id) {
-        playTurn({
-          variables: {
-            playTurnInput: {
-              gameId: gameData.id,
-            },
-          },
-        });
+        onPlayTurn();
         return;
       }
 
-      checkoutTile({
-        variables: {
-          checkoutTileInput: {
-            gameId: gameData.id,
-            tileId,
-          },
-        },
-      });
+      onCheckOutTile(`${tileId}`);
     },
-    [checkoutTile, gameData.id, onSetLoading, playTurn, playTurnLoading, playerTurn, user.id]
+    [loading, onCheckOutTile, onPlayTurn, playerTurn, user.id]
   );
 
   const userPlaying =
@@ -250,10 +224,8 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onSe
               template={template}
               tiles={tiles}
               tileSize={tileSize}
-              loading={loading || startGameLoading || checkoutTileLoading || playTurnLoading}
-              disabled={
-                loading || startGameLoading || playTurnLoading || checkoutTileLoading || playerTurn.userId !== user.id
-              }
+              loading={loading || startGameLoading}
+              disabled={loading || startGameLoading || playerTurn.userId !== user.id}
               startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
               onCheckoutTile={handleCheckOutTile}
             />
