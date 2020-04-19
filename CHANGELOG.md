@@ -15,7 +15,6 @@
 **Implemented enhancements:**
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
-- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
 **Merged pull requests:**
@@ -28,6 +27,7 @@
 
 **Implemented enhancements:**
 
+- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 
 **Merged pull requests:**
