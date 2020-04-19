@@ -26,6 +26,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
 
+**Implemented enhancements:**
+
+- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
+
 **Merged pull requests:**
 
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
@@ -49,10 +53,13 @@
 **Implemented enhancements:**
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
-- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
+
+**Fixed bugs:**
+
+- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -146,7 +153,6 @@
 
 **Fixed bugs:**
 
-- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
 - You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
