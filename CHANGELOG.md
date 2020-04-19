@@ -63,7 +63,6 @@
 
 **Implemented enhancements:**
 
-- User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
 - Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Merged pull requests:**
@@ -80,6 +79,7 @@
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
 - Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
+- Add users to games based on user profiles [\#36](https://github.com/Online-Memory/online-memory/issues/36)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
@@ -87,6 +87,7 @@
 
 **Implemented enhancements:**
 
+- User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
 **Merged pull requests:**
@@ -104,10 +105,6 @@
 ## [v0.11.0](https://github.com/Online-Memory/online-memory/tree/v0.11.0) (2020-04-10)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.10.0...v0.11.0)
-
-**Implemented enhancements:**
-
-- Add users to games based on user profiles [\#36](https://github.com/Online-Memory/online-memory/issues/36)
 
 ## [v0.10.0](https://github.com/Online-Memory/online-memory/tree/v0.10.0) (2020-04-10)
 
@@ -165,6 +162,10 @@
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
 - Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
 
+**Fixed bugs:**
+
+- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
+
 ## [v0.5.0](https://github.com/Online-Memory/online-memory/tree/v0.5.0) (2020-04-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.5.0)
@@ -172,10 +173,6 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
-
-**Fixed bugs:**
-
-- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
 
 **Merged pull requests:**
 
