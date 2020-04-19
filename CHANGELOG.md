@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.18.0](https://github.com/Online-Memory/online-memory/tree/v0.18.0) (2020-04-18)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.17.0...v0.18.0)
+
+**Implemented enhancements:**
+
+- Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
+- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
+- Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
+
+**Merged pull requests:**
+
+- Updated Tile's back Image [\#53](https://github.com/Online-Memory/online-memory/pull/53) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
