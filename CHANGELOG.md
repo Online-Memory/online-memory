@@ -53,6 +53,7 @@
 **Implemented enhancements:**
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
+- Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
@@ -131,7 +132,6 @@
 **Implemented enhancements:**
 
 - Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
-- Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
