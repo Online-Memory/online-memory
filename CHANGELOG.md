@@ -26,10 +26,6 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
 
-**Implemented enhancements:**
-
-- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
-
 **Merged pull requests:**
 
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
@@ -53,6 +49,7 @@
 **Implemented enhancements:**
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
+- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
@@ -141,7 +138,6 @@
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
-- Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
@@ -173,6 +169,10 @@
 ## [v0.5.0](https://github.com/Online-Memory/online-memory/tree/v0.5.0) (2020-04-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.5.0)
+
+**Implemented enhancements:**
+
+- Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
 
 **Merged pull requests:**
 
