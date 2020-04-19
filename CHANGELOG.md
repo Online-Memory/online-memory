@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.18.1](https://github.com/Online-Memory/online-memory/tree/v0.18.1) (2020-04-19)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.18.0...v0.18.1)
+
+**Fixed bugs:**
+
+- Tiles disappearing during game [\#54](https://github.com/Online-Memory/online-memory/issues/54)
+
 ## [v0.18.0](https://github.com/Online-Memory/online-memory/tree/v0.18.0) (2020-04-18)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.17.0...v0.18.0)
@@ -45,6 +53,7 @@
 **Implemented enhancements:**
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
+- Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
@@ -120,10 +129,6 @@
 ## [v0.9.0](https://github.com/Online-Memory/online-memory/tree/v0.9.0) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.8.0...v0.9.0)
-
-**Implemented enhancements:**
-
-- Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
