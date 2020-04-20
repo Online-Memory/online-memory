@@ -5,4 +5,5 @@ exports.gameTemplates = [
   { id: '004', name: 'Animals', tiles: 100, board: [10, 10] },
   { id: '005', name: 'Food 2', tiles: 100, board: [10, 10] },
   { id: '006', name: 'Kids', tiles: 100, board: [10, 10] },
+  { id: '007', name: 'Nature', tiles: 100, board: [10, 10] },
 ];
