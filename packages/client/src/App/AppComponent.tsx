@@ -1,5 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSubscription } from '@apollo/react-hooks';
+import { USER_INVITE } from '../graphql';
 import { Avatar } from 'react-avataaars';
 import {
   Typography,
@@ -31,9 +33,21 @@ interface Props {
 export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
   const history = useHistory();
   const classes = useStyles();
-  const { isAuthenticated, user, logOut } = useAppState();
+  const { isAuthenticated, user, logOut, showUserInvite } = useAppState();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const { data: subData } = useSubscription(USER_INVITE, {
+    variables: {
+      userId: user.id,
+    },
+  });
+
+  useEffect(() => {
+    if (subData?.invites?.gameId && subData?.invites?.from) {
+      showUserInvite(subData.invites.from);
+    }
+  }, [showUserInvite, subData]);
 
   const handleLogout = useCallback(() => {
     logOut();

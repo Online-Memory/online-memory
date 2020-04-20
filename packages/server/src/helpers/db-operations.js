@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+
 const REGION = process.env.REGION || 'us-east-1';
 const TABLE_NAME = process.env.TABLE_NAME || '';
 

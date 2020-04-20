@@ -357,3 +357,13 @@ export const GAME_UPDATED = gql`
     }
   }
 `;
+
+export const USER_INVITE = gql`
+  subscription UserInvite($userId: String!) {
+    invites(userId: $userId) {
+      userId
+      gameId
+      from
+    }
+  }
+`;

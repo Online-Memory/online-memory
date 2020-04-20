@@ -278,6 +278,29 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
 
+    case 'inviteUser': {
+      const { userId, gameId } = input;
+
+      const userData = await findItem(owner);
+      const userExists = doesItemExist(userData);
+
+      if (!userExists) {
+        callback(null, { error: `User does not exist` });
+        return null;
+      }
+
+      const userDataItem = userData.Items[0];
+      if (!userDataItem) {
+        callback(null, { error: `User does not exist` });
+        return null;
+      }
+
+      const from = userDataItem.username;
+
+      callback(null, { userId, gameId, from });
+      break;
+    }
+
     case 'templates': {
       callback(null, gameTemplates);
       break;

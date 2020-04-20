@@ -26,6 +26,12 @@ input CheckoutTileInput {
 	tileId: String!
 }
 
+type InviteToGame {
+	userId: String
+	from: String
+	gameId: String
+}
+
 type Player {
 	id: String!
 	status: String!
@@ -115,10 +121,12 @@ type Mutation {
 	checkoutTile(input: CheckoutTileInput!): Game
 	playTurn(input: PlayTurnInput!): Game
 	deleteGame(gameId: String!): Game
+	inviteUser(userId: String!, gameId: String!): InviteToGame
 }
 
 type Subscription {
 	gameUpdated(id: String!): Game @aws_subscribe(mutations: ["claimPlayer", "checkoutTile", "playTurn", "startGame"])
+	invites(userId: String!): InviteToGame @aws_subscribe(mutations: ["inviteUser"])
 }
 
 schema {

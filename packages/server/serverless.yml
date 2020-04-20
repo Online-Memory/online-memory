@@ -71,6 +71,11 @@ custom:
         field: updateUser
         request: 'updateUser-request-mapping-template.vtl'
         response: 'updateUser-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        type: Mutation
+        field: inviteUser
+        request: 'inviteUser-request-mapping-template.vtl'
+        response: 'inviteUser-response-mapping-template.vtl'
 
       - type: Query
         field: templates
@@ -86,6 +91,7 @@ custom:
         kind: PIPELINE
         functions:
           - WhoAmI
+
       - type: Mutation
         field: deleteGame
         request: 'deleteGame-request-mapping-template-before.vtl'

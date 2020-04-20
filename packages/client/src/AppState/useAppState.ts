@@ -42,6 +42,16 @@ export const useAppState = () => {
     [dispatch]
   );
 
+  const showUserInvite = useCallback(
+    (from: string) => {
+      dispatch({
+        type: Types.USER_INVITE,
+        payload: { from },
+      });
+    },
+    [dispatch]
+  );
+
   const updateUser = useCallback(
     async (username: string, avatar: string) => {
       const res = await updateUserMutation({
@@ -153,6 +163,7 @@ export const useAppState = () => {
 
   return {
     showMessage,
+    showUserInvite,
     isAuthenticated: state.user.isAuthenticated,
     user: state.user.user,
     authLoading: state.user.loading,

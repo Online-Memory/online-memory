@@ -15,6 +15,11 @@ const initialState: AppState = {
     severity: undefined,
     show: false,
   },
+  userInvite: {
+    show: false,
+    from: undefined,
+    gameId: undefined,
+  },
   updateAvailable: false,
   user: {
     isAuthenticated: false,
@@ -37,6 +42,7 @@ export const AppStateContext = createContext<AppContextType>({});
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
+
   useEffect(() => {
     serviceWorker.register({
       onUpdate: (reg: any) => {
@@ -88,6 +94,14 @@ export const AppStateProvider: React.FC = ({ children }) => {
     }
   }, [state.user.isAuthenticated, userDataLoading, whoAmIData]);
 
+  const ignoreInvite = useCallback(() => {
+    dispatch({ type: Types.CLEAR_INVITE });
+  }, []);
+
+  const acceptInvite = useCallback(() => {
+    dispatch({ type: Types.ACCEPT_INVITE });
+  }, []);
+
   const clearNotification = useCallback(() => {
     dispatch({ type: Types.CLEAR_NOTIFICATION });
   }, [dispatch]);
@@ -121,7 +135,6 @@ export const AppStateProvider: React.FC = ({ children }) => {
           {notifications.message}
         </Alert>
       </Snackbar>
-
       <Snackbar open={updateAvailable} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert
           severity="info"
@@ -135,6 +148,42 @@ export const AppStateProvider: React.FC = ({ children }) => {
           }
         >
           A new version of Online Memory is available.
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={state.userInvite.show}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        style={{ top: '80px' }}
+      >
+        <Alert
+          severity="info"
+          color="warning"
+          variant="filled"
+          elevation={8}
+          action={
+            <>
+              <Button color="secondary" size="small" variant="outlined" onClick={ignoreInvite}>
+                IGNORE
+              </Button>
+              <Button
+                style={{ marginLeft: '0.5em' }}
+                color="inherit"
+                size="small"
+                variant="outlined"
+                onClick={acceptInvite}
+              >
+                ACCEPT
+              </Button>
+            </>
+          }
+        >
+          <AlertTitle>
+            <span role="img" aria-label="hello emoji">
+              👋
+            </span>{' '}
+            Hello!
+          </AlertTitle>
+          {state.userInvite.from} has invited you to play a game
         </Alert>
       </Snackbar>
       {children}

@@ -42,6 +42,35 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
         user: action.payload,
       };
 
+    case Types.USER_INVITE:
+      return {
+        ...state,
+        userInvite: {
+          show: true,
+          from: action.payload.from,
+        },
+      };
+
+    case Types.ACCEPT_INVITE:
+      return {
+        ...state,
+        userInvite: {
+          show: false,
+          from: undefined,
+          gameId: undefined,
+        },
+      };
+
+    case Types.CLEAR_INVITE:
+      return {
+        ...state,
+        userInvite: {
+          show: false,
+          from: undefined,
+          gameId: undefined,
+        },
+      };
+
     case Types.UPDATE_USER:
       return {
         ...state,

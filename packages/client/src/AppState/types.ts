@@ -7,6 +7,12 @@ export interface MessageState {
   show: boolean;
 }
 
+export interface UserInvite {
+  show: boolean;
+  from?: string;
+  gameId?: string;
+}
+
 export interface UserData {
   id: string;
   username: string;
@@ -40,6 +46,9 @@ export enum Types {
   'UPDATE_AVAILABLE',
   'AUTHENTICATE_USER',
   'UPDATE_USER',
+  'USER_INVITE',
+  'ACCEPT_INVITE',
+  'CLEAR_INVITE',
 }
 
 export interface AppAction {
@@ -49,6 +58,7 @@ export interface AppAction {
 
 export interface AppState {
   notifications: MessageState;
+  userInvite: UserInvite;
   updateAvailable: boolean;
   user: User;
 }
