@@ -16,10 +16,11 @@ interface Props {
     gridY: number;
   };
   onCheckoutTile: (tileId: number) => void;
+  onBoardClick: () => void;
 }
 
 export const Board: React.FC<Props> = memo(
-  ({ board, template, tiles, tileSize, loading, disabled, startTurn, onCheckoutTile }) => {
+  ({ board, template, tiles, tileSize, loading, disabled, startTurn, onCheckoutTile, onBoardClick }) => {
     const classes = useStyles();
     const gridX = new Array(board.gridX).fill('');
     const gridY = new Array(board.gridY).fill('');
@@ -31,7 +32,15 @@ export const Board: React.FC<Props> = memo(
     }, []);
 
     return (
-      <Grid className={`Board ${classes.container}`} justify="center" xs={12} md={9} item container>
+      <Grid
+        onClick={onBoardClick}
+        className={`Board ${classes.container}`}
+        justify="center"
+        xs={12}
+        md={9}
+        item
+        container
+      >
         <Grid direction="column" className={classes.boardContainer} item container>
           {gridY.map((_, indexY) => (
             <Grid key={`col-${indexY}`} container item>

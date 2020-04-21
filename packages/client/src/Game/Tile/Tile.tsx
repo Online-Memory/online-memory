@@ -24,16 +24,11 @@ export const TileComponent: React.FC<Props> = memo(
           return;
         }
 
-        if (startTurn) {
-          onCheckout(tileId);
-          return;
-        }
-
         if (!disabled && tile.status === 'hidden') {
           onCheckout(tileId);
         }
       },
-      [disabled, loading, onCheckout, startTurn, tile.status]
+      [disabled, loading, onCheckout, tile.status]
     );
 
     const x = tile.status === 'hidden' ? 0 : (Number(tile.ref) % 8) * tileSize;
@@ -49,7 +44,7 @@ export const TileComponent: React.FC<Props> = memo(
         <div className={classes.tileBox}>
           <div
             className={`tile ${classes.tile} ${tile.ref} ${tile.status} ${
-              disabled ? classes.tileDisabled : startTurn ? classes.startTurn : classes.tileEnabled
+              disabled ? classes.tileDisabled : classes.tileEnabled
             } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${loading ? classes.tileLoading : ''}`}
             style={{ backgroundPosition: `-${x}px -${y}px`, backgroundSize: `${tileSize * 8}px` }}
             onClick={handleCheckOutTile(tile.id)}
