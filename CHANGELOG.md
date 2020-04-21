@@ -158,6 +158,7 @@
 
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
 - Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
+- Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
 
 **Fixed bugs:**
 
@@ -166,10 +167,6 @@
 ## [v0.5.0](https://github.com/Online-Memory/online-memory/tree/v0.5.0) (2020-04-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/dee5b6f4679bef5c23a7e96d471b2d599243221d...v0.5.0)
-
-**Implemented enhancements:**
-
-- Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
 
 
 
