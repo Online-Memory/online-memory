@@ -1,8 +1,9 @@
 name: Update Changelog
 
 on:
-  push:
-    branches: [ master ]
+  create:
+    tags:
+      - v*
 
 jobs:
   Update_Changelog:
