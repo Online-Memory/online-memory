@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.19.1](https://github.com/Online-Memory/online-memory/tree/v0.19.1) (2020-04-21)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.19.0...v0.19.1)
+
+**Fixed bugs:**
+
+- Wrong players order in winning view [\#61](https://github.com/Online-Memory/online-memory/issues/61)
+- Turn doesn't start when clicking on the board [\#60](https://github.com/Online-Memory/online-memory/issues/60)
+
 ## [v0.19.0](https://github.com/Online-Memory/online-memory/tree/v0.19.0) (2020-04-20)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.18.1...v0.19.0)
@@ -51,7 +60,6 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
-- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -127,6 +135,7 @@
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
+- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
 
