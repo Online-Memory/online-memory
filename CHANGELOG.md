@@ -24,7 +24,6 @@
 **Implemented enhancements:**
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
-- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
@@ -99,17 +98,13 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.1...v0.10.0)
 
-## [v0.9.1](https://github.com/Online-Memory/online-memory/tree/v0.9.1) (2020-04-08)
-
-[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
-
 **Implemented enhancements:**
 
 - User profile page [\#23](https://github.com/Online-Memory/online-memory/issues/23)
 
-**Fixed bugs:**
+## [v0.9.1](https://github.com/Online-Memory/online-memory/tree/v0.9.1) (2020-04-08)
 
-- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
 
 ## [v0.9.0](https://github.com/Online-Memory/online-memory/tree/v0.9.0) (2020-04-08)
 
@@ -118,6 +113,10 @@
 **Implemented enhancements:**
 
 - Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
+
+**Fixed bugs:**
+
+- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
@@ -131,6 +130,10 @@
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.7.0...v0.7.1)
+
+**Implemented enhancements:**
+
+- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 
 **Fixed bugs:**
 
