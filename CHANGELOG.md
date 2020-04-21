@@ -6,7 +6,6 @@
 
 **Fixed bugs:**
 
-- Wrong players order in winning view [\#61](https://github.com/Online-Memory/online-memory/issues/61)
 - Turn doesn't start when clicking on the board [\#60](https://github.com/Online-Memory/online-memory/issues/60)
 
 ## [v0.19.0](https://github.com/Online-Memory/online-memory/tree/v0.19.0) (2020-04-20)
@@ -36,6 +35,10 @@
 - Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
+**Fixed bugs:**
+
+- Wrong players order in winning view [\#61](https://github.com/Online-Memory/online-memory/issues/61)
+
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
@@ -60,6 +63,7 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
+- Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
@@ -157,7 +161,6 @@
 **Implemented enhancements:**
 
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
-- Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
 
 **Fixed bugs:**
 
