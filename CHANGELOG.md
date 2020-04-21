@@ -60,6 +60,7 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
+- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -135,7 +136,6 @@
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
-- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
 
