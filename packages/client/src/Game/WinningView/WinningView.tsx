@@ -25,15 +25,16 @@ interface Props {
 export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   const classes = useStyles();
   const history = useHistory();
-  const winningPlayersOrdered = gameData.players.sort(
-    (playerA, playerB) => (playerB.pairs || 0) - (playerA.pairs || 0)
-  );
+
+  const { players } = gameData;
+
+  const winningPlayersOrdered = [...players].sort((playerA, playerB) => (playerB.pairs || 0) - (playerA.pairs || 0));
   const winningPlayerScore = winningPlayersOrdered[0].pairs;
   const winningPlayers = winningPlayersOrdered.filter(player => player.pairs === winningPlayerScore);
   const endGameTime = gameData.updatedAt;
   const gameLengthTimestamp = (new Date(endGameTime).valueOf() - new Date(gameData.startedAt).valueOf()) / 1000;
-  const longestStreak = gameData.players.sort((playerA, playerB) => (playerB.streak || 0) - (playerA.streak || 0));
-  const longestStreakPlayer = gameData.users.find(user => user.id === longestStreak[0].userId);
+  const longestStreak = [...players].sort((playerA, playerB) => (playerB.streak || 0) - (playerA.streak || 0));
+  const longestStreakPlayers = longestStreak.filter(player => player.streak === longestStreak[0].streak);
 
   const pad = (num: number) => {
     return ('0' + num).slice(-2);
@@ -102,7 +103,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
               <Grid item container xs={10} md={6} justify="center">
                 <div className={classes.scoreboardList}>
                   <List component="nav">
-                    {gameData.players.map(player => {
+                    {winningPlayersOrdered.map(player => {
                       const user = gameData.users.find(user => user.id === player.userId)?.item;
                       return (
                         user && (
@@ -128,8 +129,16 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                   This was a {gameData.tiles.length} tiles game
                 </Typography>
                 <Typography component="h6" paragraph>
-                  <strong>{longestStreakPlayer?.item.username}</strong> scored the longest streak with{' '}
-                  <strong>{longestStreak[0].streak}</strong> tiles found in a row
+                  The longest streak with <strong>{longestStreak[0].streak}</strong> tiles found in a row was scored by{' '}
+                  <strong>
+                    {longestStreakPlayers.length > 1
+                      ? longestStreakPlayers
+                          .reduce((store: any, curr: any) => {
+                            return [...store, gameData?.users.find(user => user.id === curr.userId)?.item.username];
+                          }, [])
+                          .join(', ')
+                      : gameData?.users.find(user => user.id === longestStreakPlayers[0].userId)?.item.username}
+                  </strong>
                 </Typography>
                 <Typography component="h6" paragraph>
                   Game duration: {getGameLength()}
