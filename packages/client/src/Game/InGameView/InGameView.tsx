@@ -118,6 +118,12 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     return `${pad(deltaHours)}:${pad(deltaMinutes)}:${pad(deltaSeconds)}`;
   }, [deltaGameUpdated, pad]);
 
+  const handleBoardClick = useCallback(() => {
+    if (playerTurn && playerTurn.status === 'idle' && playerTurn.userId === user.id) {
+      onPlayTurn();
+    }
+  }, [onPlayTurn, playerTurn, user.id]);
+
   const handleCheckOutTile = useCallback(
     (tileId: number) => {
       if (loading) {
@@ -125,13 +131,12 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
       }
 
       if (playerTurn && playerTurn.status === 'idle' && playerTurn.userId === user.id) {
-        onPlayTurn();
         return;
       }
 
       onCheckOutTile(`${tileId}`);
     },
-    [loading, onCheckOutTile, onPlayTurn, playerTurn, user.id]
+    [loading, onCheckOutTile, playerTurn, user.id]
   );
 
   const userPlaying =
@@ -228,6 +233,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
               disabled={loading || startGameLoading || playerTurn.userId !== user.id}
               startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
               onCheckoutTile={handleCheckOutTile}
+              onBoardClick={handleBoardClick}
             />
           ) : null}
         </Grid>
