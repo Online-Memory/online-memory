@@ -24,6 +24,7 @@
 **Implemented enhancements:**
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
+- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
@@ -51,6 +52,10 @@
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
+
+**Fixed bugs:**
+
+- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -106,6 +111,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
 
+**Fixed bugs:**
+
+- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
+
 ## [v0.9.0](https://github.com/Online-Memory/online-memory/tree/v0.9.0) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.8.0...v0.9.0)
@@ -113,10 +122,6 @@
 **Implemented enhancements:**
 
 - Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
-
-**Fixed bugs:**
-
-- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
@@ -131,14 +136,9 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.7.0...v0.7.1)
 
-**Implemented enhancements:**
-
-- Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
-
 **Fixed bugs:**
 
 - Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
-- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
 
