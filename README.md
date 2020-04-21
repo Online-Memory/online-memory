@@ -151,7 +151,7 @@ $ gem install github_changelog_generator
 Now you can run `github_changelog_generator` with
 
 ```sh
-$ github_changelog_generator -u Online-Memory -p online-memory --token YOUR_GITHUB_TOKEN --no-unreleased
+$ github_changelog_generator -u Online-Memory -p online-memory --token YOUR_GITHUB_TOKEN --no-unreleased --no-pull-requests
 ```
 
 
