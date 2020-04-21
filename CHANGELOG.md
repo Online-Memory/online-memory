@@ -53,10 +53,6 @@
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
-**Fixed bugs:**
-
-- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
-
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.13.0...v0.14.0)
@@ -139,6 +135,7 @@
 **Fixed bugs:**
 
 - Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
+- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
 
