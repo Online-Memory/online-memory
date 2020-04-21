@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Avatar } from 'react-avataaars';
 import {
   Container,
@@ -17,6 +16,7 @@ import {
 import { useStyles } from './styles';
 import { GameData } from '../types';
 import trophy from '../../assets/img/trophy.gif';
+import { useAppState } from '../../AppState';
 
 interface Props {
   gameData: GameData;
@@ -24,9 +24,9 @@ interface Props {
 
 export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const { user, playAgain } = useAppState();
 
-  const { players } = gameData;
+  const { players, owner } = gameData;
 
   const winningPlayersOrdered = [...players].sort((playerA, playerB) => (playerB.pairs || 0) - (playerA.pairs || 0));
   const winningPlayerScore = winningPlayersOrdered[0].pairs;
@@ -49,8 +49,8 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   };
 
   const handlePlayAgain = useCallback(() => {
-    history.push('/new');
-  }, [history]);
+    playAgain(gameData);
+  }, [gameData, playAgain]);
 
   return (
     <div className={`WinningGame ${classes.container}`}>
@@ -149,18 +149,20 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
               </Grid>
             </Grid>
 
-            <Grid
-              container
-              className={classes.grid}
-              alignContent="center"
-              alignItems="center"
-              direction="column"
-              spacing={5}
-            >
-              <Button size="large" color="primary" variant="outlined" onClick={handlePlayAgain}>
-                Play Again
-              </Button>
-            </Grid>
+            {user.id === owner ? (
+              <Grid
+                container
+                className={classes.grid}
+                alignContent="center"
+                alignItems="center"
+                direction="column"
+                spacing={5}
+              >
+                <Button size="large" color="primary" variant="outlined" onClick={handlePlayAgain}>
+                  Play Again
+                </Button>
+              </Grid>
+            ) : null}
           </CardContent>
         </Card>
       </Container>

@@ -1,4 +1,5 @@
 import React, { useReducer, createContext, useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
@@ -41,6 +42,7 @@ export const AppStateContext = createContext<AppContextType>({});
 
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const history = useHistory();
   const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
 
   useEffect(() => {
@@ -100,7 +102,9 @@ export const AppStateProvider: React.FC = ({ children }) => {
 
   const acceptInvite = useCallback(() => {
     dispatch({ type: Types.ACCEPT_INVITE });
-  }, []);
+
+    history.push(`/game/${state.userInvite.gameId}`);
+  }, [history, state.userInvite]);
 
   const clearNotification = useCallback(() => {
     dispatch({ type: Types.CLEAR_NOTIFICATION });

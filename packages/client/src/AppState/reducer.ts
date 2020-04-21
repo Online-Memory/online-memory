@@ -48,6 +48,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
         userInvite: {
           show: true,
           from: action.payload.from,
+          gameId: action.payload.gameId,
         },
       };
 
@@ -82,6 +83,18 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
             avatar: action.payload.avatar,
           },
         },
+      };
+
+    case Types.PLAY_AGAIN:
+      return {
+        ...state,
+        playAgain: action.payload,
+      };
+
+    case Types.CLEAR_PLAY_AGAIN_DATA:
+      return {
+        ...state,
+        playAgain: undefined,
       };
 
     default:

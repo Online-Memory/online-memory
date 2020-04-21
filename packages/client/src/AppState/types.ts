@@ -1,3 +1,5 @@
+import { GameData } from '../Game/types';
+
 export type MessageSeverity = 'info' | 'success' | 'warning' | 'error';
 
 export interface MessageState {
@@ -49,6 +51,8 @@ export enum Types {
   'USER_INVITE',
   'ACCEPT_INVITE',
   'CLEAR_INVITE',
+  'PLAY_AGAIN',
+  'CLEAR_PLAY_AGAIN_DATA',
 }
 
 export interface AppAction {
@@ -61,4 +65,5 @@ export interface AppState {
   userInvite: UserInvite;
   updateAvailable: boolean;
   user: User;
+  playAgain?: GameData;
 }

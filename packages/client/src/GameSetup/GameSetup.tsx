@@ -3,12 +3,14 @@ import { Redirect } from 'react-router-dom';
 import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
-import { CREATE_GAME, GET_TEMPLATES } from '../graphql';
+import { CREATE_GAME, GET_TEMPLATES, INVITE_USER } from '../graphql';
 import { Template } from './types';
 import { useStyles } from './styles';
+import { useAppState } from '../AppState';
 
 export const GameSetup = memo(() => {
   const classes = useStyles();
+  const { playAgainData, clearPlayAgainData, user } = useAppState();
   const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
     GET_TEMPLATES,
     {
@@ -27,19 +29,38 @@ export const GameSetup = memo(() => {
     }
   );
 
+  const [inviteUser, { loading: inviteUserLoading, error: inviteUserError }] = useMutation(INVITE_USER, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
   const handleSubmit = useCallback(
-    data => {
-      createGame({
+    async data => {
+      const { users, ...createGameData } = data;
+
+      const gameData = await createGame({
         variables: {
-          createGameInput: data,
+          createGameInput: createGameData,
         },
       });
+
+      if (users && users.length) {
+        const usersToInvite = users.filter((currUser: any) => currUser.id !== user.id);
+        if (usersToInvite.length) {
+          for (const userToInvite of usersToInvite) {
+            await inviteUser({ variables: { userId: userToInvite.id, gameId: gameData?.data?.createGame?.id } });
+          }
+        }
+      }
+
+      clearPlayAgainData();
     },
-    [createGame]
+    [clearPlayAgainData, createGame, inviteUser, user.id]
   );
 
-  const error = templatesError || createGameError;
-  const loading = templatesLoading || createGameLoading;
+  const error = templatesError || createGameError || inviteUserError;
+  const loading = templatesLoading || createGameLoading || inviteUserLoading;
 
   if (error) {
     return (
@@ -83,5 +104,5 @@ export const GameSetup = memo(() => {
     return <Redirect to={`/game/${id}`} />;
   }
 
-  return <Component templates={templatesData.templates} onSubmit={handleSubmit} />;
+  return <Component templates={templatesData.templates} playAgainData={playAgainData} onSubmit={handleSubmit} />;
 });

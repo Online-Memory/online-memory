@@ -1,5 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { AppStateContext } from './AppStateProvider';
+import { useHistory } from 'react-router-dom';
 import { MessageSeverity, Types } from './types';
 import {
   awsSignOut,
@@ -12,9 +13,11 @@ import {
 } from './AWS';
 import { UPDATE_USER, GET_USER } from '../graphql';
 import { useMutation } from '@apollo/react-hooks';
+import { GameData } from '../Game/types';
 
 export const useAppState = () => {
   const { state, dispatch } = useContext(AppStateContext);
+  const history = useHistory();
 
   if (dispatch === undefined || state === undefined) {
     throw new Error('must be used within a Provider');
@@ -43,10 +46,10 @@ export const useAppState = () => {
   );
 
   const showUserInvite = useCallback(
-    (from: string) => {
+    (from: string, gameId: string) => {
       dispatch({
         type: Types.USER_INVITE,
-        payload: { from },
+        payload: { from, gameId },
       });
     },
     [dispatch]
@@ -161,6 +164,18 @@ export const useAppState = () => {
     return { status: true };
   }, []);
 
+  const playAgain = useCallback(
+    (gameData: GameData) => {
+      dispatch({ type: Types.PLAY_AGAIN, payload: gameData });
+      history.push('/new');
+    },
+    [dispatch, history]
+  );
+
+  const clearPlayAgainData = useCallback(() => {
+    dispatch({ type: Types.CLEAR_PLAY_AGAIN_DATA });
+  }, [dispatch]);
+
   return {
     showMessage,
     showUserInvite,
@@ -176,5 +191,8 @@ export const useAppState = () => {
     passwordReset,
     resendCode,
     logOut,
+    playAgain,
+    clearPlayAgainData,
+    playAgainData: state.playAgain,
   };
 };

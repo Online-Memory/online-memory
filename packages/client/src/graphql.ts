@@ -358,6 +358,16 @@ export const GAME_UPDATED = gql`
   }
 `;
 
+export const INVITE_USER = gql`
+  mutation inviteUser($userId: String!, $gameId: String!) {
+    inviteUser(userId: $userId, gameId: $gameId) {
+      userId
+      from
+      gameId
+    }
+  }
+`;
+
 export const USER_INVITE = gql`
   subscription UserInvite($userId: String!) {
     invites(userId: $userId) {

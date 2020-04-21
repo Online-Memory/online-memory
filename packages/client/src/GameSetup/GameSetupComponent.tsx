@@ -15,7 +15,7 @@ import {
 import { TileComponent } from '../Game/Tile';
 import { Template } from './types';
 import { useStyles } from './styles';
-import { Tile } from '../Game/types';
+import { Tile, GameData } from '../Game/types';
 
 const sampleTiles: Tile[] = [
   { id: 1, ref: '000', status: 'show' },
@@ -29,24 +29,26 @@ const sampleTiles: Tile[] = [
 
 interface Props {
   templates: Template[];
+  playAgainData?: GameData;
   onSubmit: any;
 }
 
 const GAME_TILES = [100, 72, 48, 36];
 
-export const Component: React.FC<Props> = memo(({ templates, onSubmit }) => {
+export const Component: React.FC<Props> = memo(({ templates, playAgainData, onSubmit }) => {
   const classes = useStyles();
-  const [gameName, setGameName] = useState('');
-  const [gameTemplate, setGameTemplate] = useState(templates[0].id);
-  const [gameTiles, setGameTiles] = useState(templates[0].tiles);
+  const [gameName, setGameName] = useState(playAgainData?.name || '');
+  const [gameTemplate, setGameTemplate] = useState(playAgainData?.template || templates[0].id);
+  const [gameTiles, setGameTiles] = useState(playAgainData?.tiles?.length || templates[0].tiles);
 
   const handleSubmit = useCallback(() => {
     onSubmit({
       name: gameName,
       template: gameTemplate,
       tiles: gameTiles,
+      users: playAgainData?.users,
     });
-  }, [gameName, gameTemplate, gameTiles, onSubmit]);
+  }, [gameName, gameTemplate, gameTiles, onSubmit, playAgainData]);
 
   const handleTemplateChange = useCallback(
     event => {

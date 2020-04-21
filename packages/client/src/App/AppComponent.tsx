@@ -45,7 +45,7 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
 
   useEffect(() => {
     if (subData?.invites?.gameId && subData?.invites?.from) {
-      showUserInvite(subData.invites.from);
+      showUserInvite(subData.invites.from, subData.invites.gameId);
     }
   }, [showUserInvite, subData]);
 
