@@ -99,13 +99,13 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.1...v0.10.0)
 
-**Implemented enhancements:**
-
-- User profile page [\#23](https://github.com/Online-Memory/online-memory/issues/23)
-
 ## [v0.9.1](https://github.com/Online-Memory/online-memory/tree/v0.9.1) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
+
+**Implemented enhancements:**
+
+- User profile page [\#23](https://github.com/Online-Memory/online-memory/issues/23)
 
 **Fixed bugs:**
 
