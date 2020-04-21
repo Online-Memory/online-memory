@@ -30,3 +30,4 @@ jobs:
         commit-message: '[Auto] update CHANGELOG'
         remote: origin
         ref: refs/heads/master
+        remote-ref: refs/heads/master
