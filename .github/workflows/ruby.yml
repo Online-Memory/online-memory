@@ -24,10 +24,6 @@ jobs:
       run: |
         CHANGELOG_GITHUB_TOKEN=${{ secrets.TOKEN }} bundle exec rake changelog
     - name: Push changes
-      uses: actions-go/push@v1
+      uses: ad-m/github-push-action@master
       with:
-        token: ${{ secrets.PUSH_TOKEN }}
-        commit-message: '[Auto] update CHANGELOG'
-        remote: origin
-        ref: master
-        remote-ref: master
+        github_token: ${{ secrets.PUSH_TOKEN }}
