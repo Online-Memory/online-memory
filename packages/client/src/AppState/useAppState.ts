@@ -31,7 +31,10 @@ export const useAppState = () => {
   });
 
   const showMessage = useCallback(
-    (message: string, severity: MessageSeverity, title?: string) => {
+    async (message: string, severity: MessageSeverity, title?: string) => {
+      dispatch({ type: Types.CLEAR_NOTIFICATION });
+      dispatch({ type: Types.CLOSE_NOTIFICATION });
+      await new Promise(res => setTimeout(res, 250));
       dispatch({
         type: Types.CREATE_MESSAGE,
         payload: {

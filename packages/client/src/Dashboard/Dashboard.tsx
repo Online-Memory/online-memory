@@ -50,13 +50,17 @@ export const Dashboard: React.FC = () => {
 
   const handleDeleteGame = useCallback(
     (gameId: string) => async () => {
-      await deleteGame({
+      const res = await deleteGame({
         variables: {
           gameId,
         },
       });
+
+      if (res?.data?.deleteGame?.id) {
+        showMessage(`Game ${res.data.deleteGame.id} has been correctly removed`, 'success', 'Success');
+      }
     },
-    [deleteGame]
+    [deleteGame, showMessage]
   );
 
   if (error) {
@@ -115,14 +119,16 @@ export const Dashboard: React.FC = () => {
                               secondary={`Created ${new Date(game.createdAt).toDateString()}`}
                             />
                             <ListItemSecondaryAction>
-                              <IconButton
-                                aria-label="delete"
-                                className={classes.delete}
-                                disabled={deleteGameLoading}
-                                onClick={handleDeleteGame(game.id)}
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
+                              {!deleteGameLoading && (
+                                <IconButton
+                                  aria-label="delete"
+                                  className={classes.delete}
+                                  disabled={deleteGameLoading}
+                                  onClick={handleDeleteGame(game.id)}
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              )}
                               <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
                                 Go
                               </Button>

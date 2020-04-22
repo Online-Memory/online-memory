@@ -29,5 +29,5 @@ jobs:
         token: ${{ secrets.PUSH_TOKEN }}
         commit-message: '[Auto] update CHANGELOG'
         remote: origin
-        ref: refs/heads/master
-        remote-ref: refs/heads/master
+        ref: master
+        remote-ref: master
