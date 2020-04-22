@@ -24,6 +24,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.TOKEN }}
+        ref: master
     - name: Generate Changelog
       run: |
         CHANGELOG_GITHUB_TOKEN=${{ secrets.TOKEN }} bundle exec rake changelog
@@ -31,4 +32,4 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4.1.4
       with:
         commit_message: '[Auto] update Changelog'
-        branch: 'master'
+        branch: ${{ github.head_ref }}
