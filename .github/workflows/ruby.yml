@@ -31,4 +31,4 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4.1.4
       with:
         commit_message: '[Auto] update Changelog'
-        branch: ${{ github.head_ref }}
+        branch: 'master'
