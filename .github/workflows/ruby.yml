@@ -20,10 +20,15 @@ jobs:
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.TOKEN }}
     - name: Generate Changelog
       run: |
         CHANGELOG_GITHUB_TOKEN=${{ secrets.TOKEN }} bundle exec rake changelog
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: stefanzweifel/git-auto-commit-action@v4.1.4
       with:
-        github_token: ${{ secrets.PUSH_TOKEN }}
+        commit_message: '[Auto] update Changelog'
+        branch: ${{ github.head_ref }}
