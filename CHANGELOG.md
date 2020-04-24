@@ -36,6 +36,10 @@
 
 - Invite all user on Play Again [\#62](https://github.com/Online-Memory/online-memory/issues/62)
 
+**Fixed bugs:**
+
+- Tiles disappearing during game [\#54](https://github.com/Online-Memory/online-memory/issues/54)
+
 ## [v0.19.1](https://github.com/Online-Memory/online-memory/tree/v0.19.1) (2020-04-21)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.19.0...v0.19.1)
@@ -61,10 +65,6 @@
 ## [v0.18.1](https://github.com/Online-Memory/online-memory/tree/v0.18.1) (2020-04-19)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.18.0...v0.18.1)
-
-**Fixed bugs:**
-
-- Tiles disappearing during game [\#54](https://github.com/Online-Memory/online-memory/issues/54)
 
 ## [v0.18.0](https://github.com/Online-Memory/online-memory/tree/v0.18.0) (2020-04-18)
 
@@ -110,7 +110,6 @@
 
 **Implemented enhancements:**
 
-- Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
@@ -147,6 +146,10 @@
 
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
+**Fixed bugs:**
+
+- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
+
 **Merged pull requests:**
 
 - New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
@@ -179,10 +182,6 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
 
-**Fixed bugs:**
-
-- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
-
 ## [v0.9.0](https://github.com/Online-Memory/online-memory/tree/v0.9.0) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.8.0...v0.9.0)
@@ -205,9 +204,13 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.7.0...v0.7.1)
 
+**Implemented enhancements:**
+
+- Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
+
 **Fixed bugs:**
 
-- Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
+- Show last move animation [\#34](https://github.com/Online-Memory/online-memory/issues/34)
 - You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
