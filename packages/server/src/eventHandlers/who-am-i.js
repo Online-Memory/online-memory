@@ -1,4 +1,4 @@
-const { getUser, createUser, putRandomAvatar } = require('../helpers/db-operations');
+const { getUser, createUser, putRandomAvatar, updateTTL } = require('../helpers/db-operations');
 
 const whoAmI = async userId => {
   let userData;
@@ -14,6 +14,10 @@ const whoAmI = async userId => {
       await putRandomAvatar(userId);
       userData = await getUser(userId);
     }
+
+    // Expire user TimeToLive in 30 minutes after last interaction
+    const ttl = Math.floor(Date.now() / 1000 + 30 * 60);
+    await updateTTL(userId, ttl);
   } catch (err) {
     console.log(err);
     return null;

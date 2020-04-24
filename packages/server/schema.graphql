@@ -99,6 +99,7 @@ type User {
 	avatar: String!
 	createdAt: String!
 	updatedAt: String!
+	user_ttl: String
 }
 
 type UserGames {
@@ -111,6 +112,7 @@ type Query {
 	getUserGames: UserGames
 	templates: [Templates]
 	getGame(gameId: String!): Game
+	getUsers(name: String!): [User]
 }
 
 type Mutation {

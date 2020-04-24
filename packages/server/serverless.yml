@@ -38,6 +38,11 @@ custom:
     mappingTemplates:
       - dataSource: OnlineMemory
         type: Query
+        field: getUsers
+        request: 'getUsers-request-mapping-template.vtl'
+        response: 'getUsers-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Query
         field: getUserGames
         request: 'getUserGames-request-mapping-template.vtl'
         response: 'getUserGames-response-mapping-template.vtl'
@@ -66,11 +71,6 @@ custom:
         field: users
         request: 'gameUsers-request-mapping-template.vtl'
         response: 'gameUsers-response-mapping-template.vtl'
-      - dataSource: OnlineMemory
-        type: Mutation
-        field: updateUser
-        request: 'updateUser-request-mapping-template.vtl'
-        response: 'updateUser-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         type: Mutation
         field: inviteUser
@@ -92,6 +92,14 @@ custom:
         functions:
           - WhoAmI
 
+      - type: Mutation
+        field: updateUser
+        request: 'updateUser-request-mapping-template-before.vtl'
+        response: 'updateUser-response-mapping-template-after.vtl'
+        kind: PIPELINE
+        functions:
+          - UpdateUser
+          - UpdateUserData
       - type: Mutation
         field: deleteGame
         request: 'deleteGame-request-mapping-template-before.vtl'
@@ -158,6 +166,14 @@ custom:
         name: 'WhoAmI'
         request: 'whoAmI-request-mapping-template.vtl'
         response: 'whoAmI-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        name: 'UpdateUser'
+        request: 'updateUser-request-mapping-template.vtl'
+        response: 'updateUser-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        name: 'UpdateUserData'
+        request: 'updateUserData-request-mapping-template.vtl'
+        response: 'updateUserData-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         name: 'DeleteGame'
         request: 'deleteGame-request-mapping-template.vtl'
@@ -271,6 +287,9 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 2
               WriteCapacityUnits: 2
+        TimeToLiveSpecification:
+          AttributeName: user_ttl
+          Enabled: true
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2

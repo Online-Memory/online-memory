@@ -41,6 +41,7 @@ const createUser = async userId => {
       id: userId,
       __typename: 'User',
       username: 'user',
+      searchableUsername: 'user',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
@@ -66,9 +67,27 @@ const putRandomAvatar = async userId => {
   return docClient.update(params).promise();
 };
 
+const updateTTL = async (userId, ttl) => {
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      id: userId,
+      __typename: 'UserTTL',
+    },
+    UpdateExpression: 'set #ttl = :ttl',
+    ExpressionAttributeNames: { '#ttl': 'user_ttl' },
+    ExpressionAttributeValues: {
+      ':ttl': ttl,
+    },
+  };
+
+  return docClient.update(params).promise();
+};
+
 module.exports = {
   findItem,
   getUser,
   createUser,
   putRandomAvatar,
+  updateTTL,
 };

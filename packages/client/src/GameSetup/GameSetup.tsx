@@ -1,9 +1,9 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
-import { CREATE_GAME, GET_TEMPLATES, INVITE_USER } from '../graphql';
+import { CREATE_GAME, GET_TEMPLATES, INVITE_USER, GET_USERS } from '../graphql';
 import { Template } from './types';
 import { useStyles } from './styles';
 import { useAppState } from '../AppState';
@@ -11,6 +11,7 @@ import { useAppState } from '../AppState';
 export const GameSetup = memo(() => {
   const classes = useStyles();
   const { playAgainData, clearPlayAgainData, user } = useAppState();
+  const [variables, setVariables] = useState({ name: '' });
   const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
     GET_TEMPLATES,
     {
@@ -19,6 +20,13 @@ export const GameSetup = memo(() => {
       },
     }
   );
+  const { data: getUsersData, loading: getUsersLoading, refetch: refetchUsersData } = useQuery(GET_USERS, {
+    onError: err => {
+      console.warn(err);
+    },
+    variables,
+    skip: !variables?.name,
+  });
 
   const [createGame, { loading: createGameLoading, error: createGameError, data: createGameData }] = useMutation(
     CREATE_GAME,
@@ -34,6 +42,17 @@ export const GameSetup = memo(() => {
       console.warn(err);
     },
   });
+
+  const handleSearchUser = useCallback(
+    (name: string) => {
+      if (!name) {
+        return;
+      }
+      setVariables({ name: name || '' });
+      refetchUsersData({ name });
+    },
+    [refetchUsersData]
+  );
 
   const handleSubmit = useCallback(
     async data => {
@@ -104,5 +123,14 @@ export const GameSetup = memo(() => {
     return <Redirect to={`/game/${id}`} />;
   }
 
-  return <Component templates={templatesData.templates} playAgainData={playAgainData} onSubmit={handleSubmit} />;
+  return (
+    <Component
+      templates={templatesData.templates}
+      playAgainData={playAgainData}
+      onSubmit={handleSubmit}
+      onSearchUser={handleSearchUser}
+      searchUserData={getUsersData?.getUsers}
+      searchUserLoading={getUsersLoading}
+    />
+  );
 });

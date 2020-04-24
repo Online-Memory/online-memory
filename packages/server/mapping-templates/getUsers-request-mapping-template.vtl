@@ -1,0 +1,27 @@
+#set( $username = $util.dynamodb.toDynamoDBJson($ctx.args.name) )
+
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "index" : "TypenameGSI",
+    "scanIndexForward": false,
+    "limit" : 5,
+    "query" : {
+        "expression": "#type = :typeValue",
+        "expressionNames" : {
+            "#type" : "__typename"
+        },
+        "expressionValues" : {
+            ":typeValue" : $util.dynamodb.toDynamoDBJson("User")
+        }
+    },
+    "filter" : {
+        "expression": "contains (#username, :username) ",
+        "expressionNames" : {
+            "#username" : "searchableUsername"
+        },
+        "expressionValues" : {
+            ":username" : $username
+        }
+    }
+}

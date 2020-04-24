@@ -64,6 +64,16 @@ export const GET_TEMPLATES = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query GetUsers($name: String!) {
+    getUsers(name: $name) {
+      id
+      username
+      avatar
+    }
+  }
+`;
+
 export const CLAIM_PLAYER = gql`
   mutation ClaimPlayer($claimPlayerInput: ClaimPlayerInput!) {
     claimPlayer(input: $claimPlayerInput) {

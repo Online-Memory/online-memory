@@ -162,6 +162,14 @@ exports.graphqlHandler = async (event, context, callback) => {
       break;
     }
 
+    case 'updateUser': {
+      const { username, ...rest } = input;
+      const searchableUsername = username.toLowerCase();
+
+      callback(null, { ...rest, username, searchableUsername });
+      break;
+    }
+
     case 'claimPlayer': {
       const { userId } = event;
       const { gameId } = input;
