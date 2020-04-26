@@ -82,8 +82,8 @@ const RegisterComponent: React.FC = () => {
             id="name"
             name="name"
             autoComplete="name"
-            label="Name"
-            placeholder="Choose your display name"
+            label="Username"
+            placeholder="Choose your username"
             value={formData.name}
             onChange={setFormField}
             required
