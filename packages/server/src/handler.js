@@ -15,11 +15,11 @@ exports.graphqlHandler = async (event, context, callback) => {
 
   switch (field) {
     case 'whoAmI': {
-      const { userId } = event;
+      const { userId, username } = event;
 
       let userData;
       try {
-        userData = await whoAmI(userId);
+        userData = await whoAmI(userId, username);
       } catch (err) {
         console.log(err);
         return null;
@@ -159,14 +159,6 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       callback(null, { id: gameId, values: {}, update: false });
-      break;
-    }
-
-    case 'updateUser': {
-      const { username, ...rest } = input;
-      const searchableUsername = username.toLowerCase();
-
-      callback(null, { ...rest, username, searchableUsername });
       break;
     }
 

@@ -56,6 +56,7 @@ const ForgottenPasswordComponent: React.FC = () => {
             margin="normal"
             label="Email"
             placeholder="Your email address"
+            id="username"
             name="username"
             autoComplete="username"
             value={formData.username}

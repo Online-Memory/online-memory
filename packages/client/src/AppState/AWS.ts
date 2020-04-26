@@ -42,10 +42,17 @@ export const awsLogin = async (username: string, password: string) => {
   return user;
 };
 
-export const awsRegister = async (username: string, password: string): Promise<any> => {
+export const awsRegister = async (email: string, name: string, password: string): Promise<any> => {
   let res;
   try {
-    res = await Auth.signUp(username, password);
+    res = await Auth.signUp({
+      username: email,
+      password,
+      attributes: {
+        email,
+        name,
+      },
+    });
   } catch (err) {
     if (err && err.code && err.code === 'UserNotConfirmedException') {
       return {

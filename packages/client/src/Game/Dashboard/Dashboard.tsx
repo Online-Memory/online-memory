@@ -77,7 +77,7 @@ export const Dashboard: React.FC<Props> = memo(
                     </div>
                   </ListItemIcon>
                   <ListItemText
-                    primary={user.username}
+                    primary={user.displayName}
                     classes={{
                       primary:
                         currPlayer && currPlayer.id === player.id

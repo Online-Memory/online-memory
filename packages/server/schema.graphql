@@ -1,5 +1,5 @@
 input UpdateUserInput {
-	username: String!
+	displayName: String!
 	avatar: String!
 }
 
@@ -96,6 +96,7 @@ type Templates {
 type User {
 	id: String!
 	username: String!
+	displayName: String!
 	avatar: String!
 	createdAt: String!
 	updatedAt: String!

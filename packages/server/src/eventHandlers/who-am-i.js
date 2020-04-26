@@ -1,17 +1,18 @@
-const { getUser, createUser, putRandomAvatar, updateTTL } = require('../helpers/db-operations');
+const { getUser, createUser, updateUsername, updateTTL } = require('../helpers/db-operations');
 
-const whoAmI = async userId => {
+const whoAmI = async (userId, username) => {
   let userData;
   try {
     userData = await getUser(userId);
 
     // Create a new user in the database if doesn't exist
     if (!userData || !userData.Item) {
-      await createUser(userId);
+      await createUser(userId, username);
       userData = await getUser(userId);
     }
-    if (!userData.Item.avatar) {
-      await putRandomAvatar(userId);
+
+    if (userData.Item.username !== username) {
+      await updateUsername(userId, username);
       userData = await getUser(userId);
     }
 

@@ -36,7 +36,7 @@ const auth: AuthOptions = {
 
     try {
       const session = await Auth.currentSession();
-      const accessToken = await session.getAccessToken();
+      const accessToken = await session.getIdToken();
       jwt = accessToken.getJwtToken();
     } catch (err) {
       jwt = '';

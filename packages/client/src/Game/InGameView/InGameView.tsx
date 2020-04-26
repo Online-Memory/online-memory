@@ -156,7 +156,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
           classes={{ anchorOriginBottomLeft: classes.playerTurnOpen }}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <Alert severity="info">{userPlaying.username} is playing</Alert>
+          <Alert severity="info">{userPlaying.displayName} is playing</Alert>
         </Snackbar>
       )}
 

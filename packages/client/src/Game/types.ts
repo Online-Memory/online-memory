@@ -36,6 +36,7 @@ export interface User {
   id: string;
   item: {
     username: string;
+    displayName: string;
     avatar: string;
   };
 }

@@ -79,7 +79,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
           ...state.user,
           user: {
             ...state.user.user,
-            username: action.payload.username,
+            displayName: action.payload.displayName,
             avatar: action.payload.avatar,
           },
         },

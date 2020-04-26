@@ -5,6 +5,7 @@ export const GET_USER = gql`
     whoAmI {
       id
       username
+      displayName
       avatar
     }
   }
@@ -39,7 +40,7 @@ export const DELETE_GAME = gql`
 export const UPDATE_USER = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
     updateUser(input: $updateUserInput) {
-      username
+      displayName
       avatar
     }
   }
@@ -69,6 +70,7 @@ export const GET_USERS = gql`
     getUsers(name: $name) {
       id
       username
+      displayName
       avatar
     }
   }
@@ -90,6 +92,7 @@ export const CLAIM_PLAYER = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }
@@ -139,6 +142,7 @@ export const START_GAME = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }
@@ -188,6 +192,7 @@ export const PLAY_TURN = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }
@@ -237,6 +242,7 @@ export const CHECKOUT_TILE = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }
@@ -286,6 +292,7 @@ export const GET_GAME = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }
@@ -335,6 +342,7 @@ export const GAME_UPDATED = gql`
         id
         item {
           username
+          displayName
           avatar
         }
       }

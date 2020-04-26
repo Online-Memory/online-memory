@@ -29,11 +29,11 @@ export const Profile: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { updateUser, updateUserLoading, user } = useAppState();
-  const [username, setUsername] = useState(user?.username || '');
+  const [displayName, setDisplayName] = useState(user?.displayName || '');
   const [avatar, setAvatar] = useState(user?.avatar || '');
 
-  const handleChangeUsername = useCallback((input: any) => {
-    setUsername(input.target.value);
+  const handleChangeDisplayName = useCallback((input: any) => {
+    setDisplayName(input.target.value);
   }, []);
 
   const handleChangeAvatar = useCallback((input: any) => {
@@ -41,9 +41,9 @@ export const Profile: React.FC = () => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    await updateUser(username, avatar);
+    await updateUser(displayName, avatar);
     history.goBack();
-  }, [avatar, history, updateUser, username]);
+  }, [avatar, displayName, history, updateUser]);
 
   const handleCancel = useCallback(async () => {
     history.goBack();
@@ -60,15 +60,15 @@ export const Profile: React.FC = () => {
               <Grid container direction="column" spacing={6}>
                 <Grid item>
                   <Typography component="h4" variant="h6" align="center" gutterBottom>
-                    User Name
+                    Display Name
                   </Typography>
-                  <Typography gutterBottom>Choose your user name</Typography>
+                  <Typography gutterBottom>Choose your display name</Typography>
                   <TextField
                     type="text"
                     variant="outlined"
                     inputProps={{ maxLength: 30 }}
-                    value={username}
-                    onChange={handleChangeUsername}
+                    value={displayName}
+                    onChange={handleChangeDisplayName}
                     fullWidth
                   />
                 </Grid>

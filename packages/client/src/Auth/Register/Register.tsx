@@ -7,7 +7,7 @@ import { useAppState } from '../../AppState';
 import { useStyles } from './styles';
 
 const RegisterComponent: React.FC = () => {
-  const initialData = { username: '', password: '' };
+  const initialData = { username: '', name: '', password: '' };
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
@@ -23,10 +23,10 @@ const RegisterComponent: React.FC = () => {
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const { username, password } = formData;
+      const { name, username, password } = formData;
       setErrorState('');
 
-      const res = await register(username, password);
+      const res = await register(username, name, password);
 
       if (res && res.error) {
         setErrorState(res.error);
@@ -75,6 +75,19 @@ const RegisterComponent: React.FC = () => {
             required
             fullWidth
             autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            id="name"
+            name="name"
+            autoComplete="name"
+            label="Name"
+            placeholder="Choose your display name"
+            value={formData.name}
+            onChange={setFormField}
+            required
+            fullWidth
           />
           <TextField
             variant="outlined"
