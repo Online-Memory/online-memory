@@ -150,14 +150,12 @@
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
 - Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
+- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
+- New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.11.2...v0.12.0)
-
-**Implemented enhancements:**
-
-- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
 **Merged pull requests:**
 
@@ -209,7 +207,6 @@
 
 **Implemented enhancements:**
 
-- New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
