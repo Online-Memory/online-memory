@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.22.0](https://github.com/Online-Memory/online-memory/tree/v0.22.0) (2020-04-26)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.21.0...v0.22.0)
+
+**Implemented enhancements:**
+
+- chore\(userAuth\): Redesign user authentication flow [\#65](https://github.com/Online-Memory/online-memory/pull/65) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.21.0](https://github.com/Online-Memory/online-memory/tree/v0.21.0) (2020-04-24)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.20.7...v0.21.0)
@@ -99,6 +107,7 @@
 **Implemented enhancements:**
 
 - Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
+- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -125,7 +134,6 @@
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
-- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -134,7 +142,6 @@
 **Implemented enhancements:**
 
 - User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
-- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Merged pull requests:**
 
@@ -150,12 +157,15 @@
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
 - Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
-- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
-- New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
+- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.11.2...v0.12.0)
+
+**Implemented enhancements:**
+
+- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
 **Merged pull requests:**
 
@@ -207,6 +217,7 @@
 
 **Implemented enhancements:**
 
+- New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
