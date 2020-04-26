@@ -94,9 +94,9 @@ const LogInComponent: React.FC = () => {
             variant="outlined"
             margin="normal"
             id="username"
+            name="username"
             label="Email"
             placeholder="Your email address"
-            name="username"
             autoComplete="username"
             value={formData.username}
             onChange={setFormField}

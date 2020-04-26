@@ -28,6 +28,7 @@ const initialState: AppState = {
       id: '',
       avatar: '',
       username: '',
+      displayName: '',
     },
   },
 };

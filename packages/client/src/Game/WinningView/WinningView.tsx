@@ -80,7 +80,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                     <Typography align="center" component="h2" variant="h3">
                       {winningPlayers.map(winningPlayer => (
                         <Typography key={winningPlayer.userId} component="span" variant="h3">
-                          {gameData.users.find(user => user.id === winningPlayer.userId)?.item.username},{' '}
+                          {gameData.users.find(user => user.id === winningPlayer.userId)?.item.displayName},{' '}
                         </Typography>
                       ))}
                     </Typography>
@@ -90,7 +90,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                   </>
                 ) : (
                   <Typography align="center" component="h2" variant="h3" gutterBottom>
-                    {gameData.users.find(user => user.id === winningPlayers[0].userId)?.item.username} won this game
+                    {gameData.users.find(user => user.id === winningPlayers[0].userId)?.item.displayName} won this game
                     with {winningPlayers[0].pairs} points!
                   </Typography>
                 )}
@@ -113,7 +113,7 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                                 <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
                               </div>
                             </ListItemIcon>
-                            <ListItemText primary={user.username} secondary={`Longest streak: ${player.streak}`} />
+                            <ListItemText primary={user.displayName} secondary={`Longest streak: ${player.streak}`} />
                             <ListItemText>{`${player.pairs || 0} ${
                               player.pairs === 1 ? 'match' : 'matches'
                             } found`}</ListItemText>
@@ -134,10 +134,10 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
                     {longestStreakPlayers.length > 1
                       ? longestStreakPlayers
                           .reduce((store: any, curr: any) => {
-                            return [...store, gameData?.users.find(user => user.id === curr.userId)?.item.username];
+                            return [...store, gameData?.users.find(user => user.id === curr.userId)?.item.displayName];
                           }, [])
                           .join(', ')
-                      : gameData?.users.find(user => user.id === longestStreakPlayers[0].userId)?.item.username}
+                      : gameData?.users.find(user => user.id === longestStreakPlayers[0].userId)?.item.displayName}
                   </strong>
                 </Typography>
                 <Typography component="h6" paragraph>

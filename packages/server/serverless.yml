@@ -9,14 +9,6 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'dev'}
 
-functions:
-  graphql:
-    description: 'Online Memory ${self:provider.stage} function'
-    handler: src/handler.graphqlHandler
-    role: GraphQLServiceRole
-    environment:
-      TABLE_NAME: ${self:custom.tableName}
-
 plugins:
   - serverless-appsync-plugin
   - serverless-dynamodb-local
@@ -24,9 +16,11 @@ plugins:
 custom:
   accountId: ${opt:accountId}
   tableName: 'OnlineMemory-${self:provider.stage}'
+  userPoolName: OnlineMemory-${self:provider.stage}
+
   appSync:
     name: OnlineMemory-${self:provider.stage}
-    authenticationType: AMAZON_COGNITO_USER_POOLS # API_KEY is also supported
+    authenticationType: AMAZON_COGNITO_USER_POOLS
     serviceRole: 'OnlineMemory-${self:provider.stage}'
 
     userPoolConfig:
@@ -34,7 +28,6 @@ custom:
       defaultAction: ALLOW
       userPoolId: { Ref: CognitoUserPoolUsers }
 
-    # mappingTemplatesLocation: # defaults to mapping-templates
     mappingTemplates:
       - dataSource: OnlineMemory
         type: Query
@@ -76,30 +69,22 @@ custom:
         field: inviteUser
         request: 'inviteUser-request-mapping-template.vtl'
         response: 'inviteUser-response-mapping-template.vtl'
-
-      - type: Query
-        field: templates
-        request: 'templates-request-mapping-template-before.vtl'
-        response: 'templates-response-mapping-template-after.vtl'
-        kind: PIPELINE
-        functions:
-          - Templates
-      - type: Query
-        field: whoAmI
-        request: 'whoAmI-request-mapping-template-before.vtl'
-        response: 'whoAmI-response-mapping-template-after.vtl'
-        kind: PIPELINE
-        functions:
-          - WhoAmI
-
-      - type: Mutation
+      - dataSource: OnlineMemory
+        type: Mutation
         field: updateUser
-        request: 'updateUser-request-mapping-template-before.vtl'
-        response: 'updateUser-response-mapping-template-after.vtl'
-        kind: PIPELINE
-        functions:
-          - UpdateUser
-          - UpdateUserData
+        request: 'updateUser-request-mapping-template.vtl'
+        response: 'updateUser-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        type: Query
+        field: whoAmI
+        request: 'whoAmI-request-mapping-template.vtl'
+        response: 'whoAmI-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        type: Query
+        field: templates
+        request: 'templates-request-mapping-template.vtl'
+        response: 'templates-response-mapping-template.vtl'
+
       - type: Mutation
         field: deleteGame
         request: 'deleteGame-request-mapping-template-before.vtl'
@@ -167,14 +152,6 @@ custom:
         request: 'whoAmI-request-mapping-template.vtl'
         response: 'whoAmI-response-mapping-template.vtl'
       - dataSource: graphqlLambda
-        name: 'UpdateUser'
-        request: 'updateUser-request-mapping-template.vtl'
-        response: 'updateUser-response-mapping-template.vtl'
-      - dataSource: OnlineMemory
-        name: 'UpdateUserData'
-        request: 'updateUserData-request-mapping-template.vtl'
-        response: 'updateUserData-response-mapping-template.vtl'
-      - dataSource: graphqlLambda
         name: 'DeleteGame'
         request: 'deleteGame-request-mapping-template.vtl'
         response: 'deleteGame-response-mapping-template.vtl'
@@ -230,15 +207,40 @@ custom:
           lambdaFunctionArn: { Fn::GetAtt: [GraphqlLambdaFunction, Arn] } # Where GraphqlLambdaFunction is the lambda function cloudformation resource created by serverless for the serverless function named graphql
           serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] } # Where AppSyncLambdaServiceRole is an IAM role defined in Resources
 
+functions:
+  graphql:
+    description: 'Online Memory ${self:provider.stage} function'
+    handler: src/handler.graphqlHandler
+    role: GraphQLServiceRole
+    environment:
+      TABLE_NAME: ${self:custom.tableName}
+  preSignUp:
+    description: 'Online Memory ${self:provider.stage} preSignUp function'
+    handler: src/preSignUp.handler
+    role: LambdaforCognito
+    environment:
+      TABLE_NAME: ${self:custom.tableName}
+    events:
+      - cognitoUserPool:
+          pool: ${self:custom.userPoolName}
+          trigger: PreSignUp
+          existing: true
+
 resources:
   Resources:
     CognitoUserPoolUsers:
       Type: AWS::Cognito::UserPool
       DeletionPolicy: Delete
       Properties:
-        UserPoolName: OnlineMemory-${self:provider.stage}
+        UserPoolName: ${self:custom.userPoolName}
+        AdminCreateUserConfig:
+          AllowAdminCreateUserOnly: false
         AutoVerifiedAttributes:
           - email
+        AccountRecoverySetting:
+          RecoveryMechanisms:
+            - Name: verified_email
+              Priority: 1
         EmailVerificationMessage: "Hello from Online Memory.\nHere's your verification code: {####}"
         EmailVerificationSubject: 'Online Memory'
         Policies:
@@ -250,6 +252,18 @@ resources:
             RequireUppercase: false
         UsernameAttributes:
           - email
+        Schema:
+          - Name: email
+            Required: true
+            Mutable: false
+            AttributeDataType: String
+          - Name: name
+            Required: true
+            Mutable: true
+            AttributeDataType: String
+            StringAttributeConstraints:
+              MinLength: 5
+              MaxLength: 16
 
     WebUserPoolClient:
       Type: AWS::Cognito::UserPoolClient
@@ -378,17 +392,63 @@ resources:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
           # Uncomment to enable CloudWatch on the GraphQL Lambda Function
-          # -
-          #   PolicyName: "${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy"
+          # - PolicyName: '${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy'
           #   PolicyDocument:
-          #     Version: "2012-10-17"
+          #     Version: '2012-10-17'
           #     Statement:
-          #       -
-          #         Effect: "Allow"
+          #       - Effect: 'Allow'
           #         Action:
-          #           - "logs:CreateLogGroup"
-          #           - "logs:CreateLogStream"
-          #           - "logs:PutLogEvents"
+          #           - 'logs:CreateLogGroup'
+          #           - 'logs:CreateLogStream'
+          #           - 'logs:PutLogEvents'
           #         Resource:
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql"
-          #           - "arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*"
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql'
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*'
+
+    LambdaforCognito:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: ${self:custom.appSync.serviceRole}-Cognito
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: 'sts:AssumeRole'
+              Principal:
+                Service: lambda.amazonaws.com
+        Policies:
+          - PolicyName: ${self:custom.appSync.serviceRole}-Cognito-Policy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'lambda:invokeFunction'
+                  Resource:
+                    - 'arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:online-memory-server-${self:provider.stage}-preSignUp'
+                    - 'arn:aws:lambda:${self:provider.region}:${self:custom.accountId}:function:online-memory-server-${self:provider.stage}-preSignUp:*'
+
+          - PolicyName: '${self:custom.appSync.serviceRole}-Cognito-Dynamo-Policy'
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: 'Allow'
+                  Action:
+                    - 'dynamodb:Query'
+                  Resource:
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
+                    - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
+
+          # Uncomment to enable CloudWatch on the Cognito Lambda Function
+          # - PolicyName: '${self:custom.appSync.serviceRole}-Cognito-CloudWatch-Policy'
+          #   PolicyDocument:
+          #     Version: '2012-10-17'
+          #     Statement:
+          #       - Effect: 'Allow'
+          #         Action:
+          #           - 'logs:CreateLogGroup'
+          #           - 'logs:CreateLogStream'
+          #           - 'logs:PutLogEvents'
+          #         Resource:
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-preSignUp'
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-preSignUp:*'

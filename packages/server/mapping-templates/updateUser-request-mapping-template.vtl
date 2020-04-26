@@ -1,14 +1,28 @@
 #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
 
 #if($util.isNullOrEmpty($identityValue))
-    $util.unauthorized()
+  $util.unauthorized()
 #end
 
+#set( $displayName = $util.dynamodb.toDynamoDBJson($context.arguments.input.displayName) )
+#set( $avatar = $util.dynamodb.toDynamoDBJson($context.arguments.input.avatar) )
+
 {
-    "version": "2018-05-29",
-    "operation": "Invoke",
-    "payload": {
-        "field": "updateUser",
-        "input": $utils.toJson($context.args.input)
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "id" : $util.dynamodb.toDynamoDBJson($identityValue),
+        "__typename": $util.dynamodb.toDynamoDBJson("User")
+    },
+    "update" : {
+        "expression" : "SET #displayName = :displayName, #avatar = :avatar",
+        "expressionNames" : {
+            "#displayName": "displayName",
+            "#avatar": "avatar",
+        },
+        "expressionValues" : {
+            ":displayName": $displayName,
+            ":avatar": $avatar,
+        }
     }
 }

@@ -59,10 +59,10 @@ export const useAppState = () => {
   );
 
   const updateUser = useCallback(
-    async (username: string, avatar: string) => {
+    async (displayName: string, avatar: string) => {
       const res = await updateUserMutation({
         variables: {
-          updateUserInput: { username, avatar },
+          updateUserInput: { displayName, avatar },
         },
       });
 
@@ -107,10 +107,10 @@ export const useAppState = () => {
     }
   }, []);
 
-  const register = useCallback(async (username: string, password: string) => {
+  const register = useCallback(async (email: string, name: string, password: string) => {
     let res;
     try {
-      res = await awsRegister(username, password);
+      res = await awsRegister(email, name, password);
 
       if (res.error) {
         return { error: res.error.message || res.error };
