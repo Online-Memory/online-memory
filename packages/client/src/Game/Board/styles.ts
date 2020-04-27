@@ -11,8 +11,6 @@ export const useStyles = makeStyles(theme => ({
     position: 'relative',
   },
   boardContainer: {
-    position: 'relative',
     padding: theme.spacing(1),
-    zIndex: 10,
   },
 }));
