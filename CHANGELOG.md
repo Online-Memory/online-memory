@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.23.1](https://github.com/Online-Memory/online-memory/tree/v0.23.1) (2020-04-27)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.23.0...v0.23.1)
+
 ## [v0.23.0](https://github.com/Online-Memory/online-memory/tree/v0.23.0) (2020-04-27)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.22.0...v0.23.0)
