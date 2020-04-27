@@ -25,4 +25,10 @@ export const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
   },
+  listWrapper: {
+    padding: theme.spacing(1),
+  },
+  listItemMatches: {
+    textAlign: 'right',
+  },
 }));

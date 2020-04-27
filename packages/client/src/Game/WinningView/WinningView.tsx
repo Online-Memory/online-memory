@@ -9,6 +9,7 @@ import {
   CardContent,
   List,
   ListItem,
+  Divider,
   ListItemIcon,
   ListItemText,
   Button,
@@ -114,19 +115,22 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
 
               <Grid item container xs={10} md={6} justify="center">
                 <div className={classes.scoreboardList}>
-                  <List component="nav">
-                    {winningPlayersOrdered.map(player => {
+                  <List component="nav" className={classes.listWrapper}>
+                    {winningPlayersOrdered.map((player, index) => {
                       const user = gameData.users.find(user => user.id === player.userId)?.item;
                       return (
                         user && (
-                          <ListItem key={`player_score-${player.id}`}>
+                          <ListItem
+                            divider={index + 1 === winningPlayersOrdered.length ? false : true}
+                            key={`player_score-${player.id}`}
+                          >
                             <ListItemIcon>
                               <div className={classes.avatarWrapper}>
                                 <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
                               </div>
                             </ListItemIcon>
                             <ListItemText primary={user.displayName} secondary={`Longest streak: ${player.streak}`} />
-                            <ListItemText>{`${player.pairs || 0} ${
+                            <ListItemText classes={{ root: classes.listItemMatches }}>{`${player.pairs || 0} ${
                               player.pairs === 1 ? 'match' : 'matches'
                             } found`}</ListItemText>
                           </ListItem>
