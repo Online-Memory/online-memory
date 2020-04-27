@@ -158,7 +158,7 @@ export const Dashboard: React.FC = () => {
                             />
                             <ListItemSecondaryAction>
                               <Button size="small" variant="outlined" color="primary" onClick={handleGoToGame(game.id)}>
-                                Go
+                                View
                               </Button>
                             </ListItemSecondaryAction>
                           </ListItem>

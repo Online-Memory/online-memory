@@ -49,8 +49,20 @@ export const WinningView: React.FC<Props> = memo(({ gameData }) => {
   };
 
   const handlePlayAgain = useCallback(() => {
-    playAgain(gameData);
-  }, [gameData, playAgain]);
+    const { users, name, ...gameDataRest } = gameData;
+
+    let updatedName = `${name} #2`;
+    let version = 1;
+    const isAReplay = name.match(/#(\d+)$/);
+    if (isAReplay && isAReplay[1]) {
+      version = Number(isAReplay[1]) + 1;
+      updatedName = name.replace(/#\d+$/, `#${version}`);
+    }
+
+    const filteredUsers = users.filter(currUser => currUser.id !== user.id);
+
+    playAgain({ ...gameDataRest, name: updatedName, users: filteredUsers });
+  }, [gameData, playAgain, user.id]);
 
   return (
     <div className={`WinningGame ${classes.container}`}>

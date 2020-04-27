@@ -17,6 +17,7 @@ export const Game: React.FC = memo(() => {
 
   const { data, loading: dataLoading, error: dataError } = useQuery<{ getGame: GameData }>(GET_GAME, {
     variables: { gameId: id || '' },
+    fetchPolicy: 'no-cache',
     onError: err => {
       console.warn(err);
     },
