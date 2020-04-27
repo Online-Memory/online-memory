@@ -25,4 +25,7 @@ export const useStyles = makeStyles(theme => ({
     top: 0,
     left: 0,
   },
+  fieldComponent: {
+    marginTop: theme.spacing(1),
+  },
 }));

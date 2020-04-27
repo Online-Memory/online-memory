@@ -107,26 +107,6 @@ export const Game: React.FC = memo(() => {
   const error = dataError || subError;
   const loading = _loading || dataLoading || claimPlayerLoading || checkoutTileLoading || playTurnLoading || subLoading;
 
-  if (error) {
-    return (
-      <div className={`Game ${classes.gameContainer}`}>
-        <Container maxWidth="lg">
-          <Card>
-            <CardContent>
-              <Grid container justify="center" className={classes.loading}>
-                <Grid item>
-                  <Typography>
-                    Ops! Something went wrong. Try to refresh this page or make sure this game really exists
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Container>
-      </div>
-    );
-  }
-
   if (dataLoading || !user || !user.id) {
     return (
       <div className={`Game ${classes.gameContainer}`}>
@@ -153,7 +133,27 @@ export const Game: React.FC = memo(() => {
             <CardContent>
               <Grid container justify="center" className={classes.loading}>
                 <Grid item>
-                  <Typography>Invalid game. Please make sure this game id exists</Typography>
+                  <Typography>Invalid game. Please make sure this {id} game exists</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Container>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={`Game ${classes.gameContainer}`}>
+        <Container maxWidth="lg">
+          <Card>
+            <CardContent>
+              <Grid container justify="center" className={classes.loading}>
+                <Grid item>
+                  <Typography>
+                    Ops! Something went wrong. Try to refresh this page or make sure this game really exists
+                  </Typography>
                 </Grid>
               </Grid>
             </CardContent>

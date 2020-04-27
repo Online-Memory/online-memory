@@ -1,7 +1,6 @@
 import React, { memo, useMemo, useCallback, useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import {
-  Container,
   Grid,
   Snackbar,
   Button,
@@ -14,7 +13,6 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { ZoomControl, useZoom } from '../../ZoomControl';
 import { UserData } from '../../AppState';
 import { START_GAME } from '../../graphql';
 import { useStyles } from './styles';
@@ -47,7 +45,6 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     startedAt,
   } = gameData;
   const classes = useStyles();
-  const { tileSize, zoomIn, zoomOut } = useZoom(60);
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
 
@@ -179,65 +176,60 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
         </DialogActions>
       </Dialog>
 
-      <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
+      <Grid container>
+        <Dashboard
+          name={name}
+          gameCreationTime={status === 'started' ? getGameCreationTime() : undefined}
+          turnTimer={status === 'started' ? getTurnTimer() : undefined}
+          moves={status === 'started' ? moves : undefined}
+          players={players}
+          users={users}
+          playerTurn={playerTurn}
+        />
 
-      <Container maxWidth="lg">
-        <Grid container>
-          <Dashboard
-            name={name}
-            gameCreationTime={status === 'started' ? getGameCreationTime() : undefined}
-            turnTimer={status === 'started' ? getTurnTimer() : undefined}
-            moves={status === 'started' ? moves : undefined}
-            players={players}
-            users={users}
-            playerTurn={playerTurn}
-          />
+        {status === 'new' && owner === user.id ? (
+          <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
+        ) : null}
 
-          {status === 'new' && owner === user.id ? (
-            <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
-          ) : null}
+        {status === 'new' && owner !== user.id ? (
+          <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
+            <Typography component="h4" variant="h6" align="center">
+              Waiting for the host to start the game
+            </Typography>
+            <Grid item>
+              <CircularProgress size={60} />
+            </Grid>
+          </Grid>
+        ) : null}
 
-          {status === 'new' && owner !== user.id ? (
-            <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
-              <Typography component="h4" variant="h6" align="center">
-                Waiting for the host to start the game
+        {status === 'idle' ? (
+          <Grid direction="column" justify="center" xs={12} md={9} item container>
+            <Grid item>
+              <Typography component="h4" variant="h6" align="center" gutterBottom>
+                Waiting for all the players to be ready
               </Typography>
-              <Grid item>
-                <CircularProgress size={60} />
-              </Grid>
             </Grid>
-          ) : null}
-
-          {status === 'idle' ? (
-            <Grid direction="column" justify="center" xs={12} md={9} item container>
-              <Grid item>
-                <Typography component="h4" variant="h6" align="center" gutterBottom>
-                  Waiting for all the players to be ready
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography align="center" paragraph>
-                  Be prepared! This game is about to start
-                </Typography>
-              </Grid>
+            <Grid item>
+              <Typography align="center" paragraph>
+                Be prepared! This game is about to start
+              </Typography>
             </Grid>
-          ) : null}
+          </Grid>
+        ) : null}
 
-          {playerTurn && status !== 'idle' && status !== 'new' ? (
-            <Board
-              board={board}
-              template={template}
-              tiles={tiles}
-              tileSize={tileSize}
-              loading={loading || startGameLoading}
-              disabled={loading || startGameLoading || playerTurn.userId !== user.id}
-              startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
-              onCheckoutTile={handleCheckOutTile}
-              onBoardClick={handleBoardClick}
-            />
-          ) : null}
-        </Grid>
-      </Container>
+        {playerTurn && status !== 'idle' && status !== 'new' ? (
+          <Board
+            board={board}
+            template={template}
+            tiles={tiles}
+            loading={loading || startGameLoading}
+            disabled={loading || startGameLoading || playerTurn.userId !== user.id}
+            startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
+            onCheckoutTile={handleCheckOutTile}
+            onBoardClick={handleBoardClick}
+          />
+        ) : null}
+      </Grid>
     </div>
   );
 });

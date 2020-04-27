@@ -6,6 +6,8 @@ export const useStyles = makeStyles(theme => ({
   },
   scoreboardTitle: {
     marginBottom: theme.spacing(6),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   scoreboardList: {
     marginTop: theme.spacing(1),

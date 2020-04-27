@@ -111,13 +111,13 @@ export const Component: React.FC<Props> = memo(
 
     return (
       <div className={`GameSetup ${classes.container}`}>
-        <Container maxWidth="lg">
+        <Container maxWidth={false}>
           <Card>
             <CardHeader title="New Game" subheader="Define your game" />
 
             <CardContent>
               <Container maxWidth="sm">
-                <Grid container direction="column" spacing={1}>
+                <Grid container direction="column" spacing={4}>
                   <Grid item>
                     <Typography gutterBottom>Enter a name for your game</Typography>
                     <TextField
@@ -177,6 +177,7 @@ export const Component: React.FC<Props> = memo(
                     <Typography gutterBottom>Invite other users to this game</Typography>
                     <Autocomplete
                       multiple
+                      className={classes.fieldComponent}
                       getOptionLabel={(option: any) => option?.username || ''}
                       options={searchUsers}
                       loading={searchUserLoading}

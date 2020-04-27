@@ -54,7 +54,7 @@ export const Dashboard: React.FC<Props> = memo(
         ) : null}
 
         <Typography component="h6" variant="h6">
-          {moves ? 'Scoreboard' : 'Players joined'}
+          {moves ? 'Scoreboard' : 'Players'}
         </Typography>
 
         <div className={classes.scoreboardList}>
