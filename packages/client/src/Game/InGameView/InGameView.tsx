@@ -140,7 +140,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     playerTurn && users.find(user => playerTurn.status !== 'idle' && user.id === playerTurn.userId)?.item;
 
   return (
-    <div className={`Game ${classes.gameContainer}`}>
+    <div className="Game">
       <Snackbar open={open} className={classes.turnAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert severity="info" color="info" elevation={8} variant="standard">
           It's your turn! Make your move
@@ -218,16 +218,25 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
         ) : null}
 
         {playerTurn && status !== 'idle' && status !== 'new' ? (
-          <Board
-            board={board}
-            template={template}
-            tiles={tiles}
-            loading={loading || startGameLoading}
-            disabled={loading || startGameLoading || playerTurn.userId !== user.id}
-            startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
-            onCheckoutTile={handleCheckOutTile}
-            onBoardClick={handleBoardClick}
-          />
+          <Grid
+            onClick={handleBoardClick}
+            className={`Board ${classes.boardContainer}`}
+            justify="center"
+            xs={12}
+            md={9}
+            item
+            container
+          >
+            <Board
+              board={board}
+              template={template}
+              tiles={tiles}
+              loading={loading || startGameLoading}
+              disabled={loading || startGameLoading || playerTurn.userId !== user.id}
+              startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
+              onCheckoutTile={handleCheckOutTile}
+            />
+          </Grid>
         ) : null}
       </Grid>
     </div>

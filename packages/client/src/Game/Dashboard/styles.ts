@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(theme => ({
   container: {
-    padding: theme.spacing(2, 1),
-    background: theme.palette.type === 'dark' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)',
+    padding: theme.spacing(4, 2),
+    background: theme.palette.type === 'dark' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.25)',
   },
   scoreboardTitle: {
     marginBottom: theme.spacing(6),

@@ -30,7 +30,7 @@ export const Dashboard: React.FC<Props> = memo(
       playerTurn && players.find(player => player.userId === playerTurn.currentPlaying);
 
     return (
-      <Grid className={classes.container} item xs={12} md={3}>
+      <Grid className={`GameDashboard ${classes.container}`} item xs={12} md={3}>
         <Typography className={classes.scoreboardTitle} align="center" component="h2" variant="h4" gutterBottom>
           {name}
         </Typography>

@@ -16,11 +16,10 @@ interface Props {
     gridY: number;
   };
   onCheckoutTile: (tileId: number) => void;
-  onBoardClick: () => void;
 }
 
 export const Board: React.FC<Props> = memo(
-  ({ board, template, tiles, loading, disabled, startTurn, onCheckoutTile, onBoardClick }) => {
+  ({ board, template, tiles, loading, disabled, startTurn, onCheckoutTile }) => {
     const classes = useStyles();
     const { tileSize, zoomIn, zoomOut } = useZoom(60);
     const gridX = new Array(board.gridX).fill('');
@@ -33,38 +32,28 @@ export const Board: React.FC<Props> = memo(
     }, []);
 
     return (
-      <Grid
-        onClick={onBoardClick}
-        className={`Board ${classes.container}`}
-        justify="center"
-        xs={12}
-        md={9}
-        item
-        container
-      >
-        <div className={classes.boardWrapper}>
-          <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
-          <Grid direction="column" className={classes.boardContainer} item container>
-            {gridY.map((_, indexY) => (
-              <Grid key={`col-${indexY}`} container item>
-                {gridX.map((_, indexX) => (
-                  <Grid item key={`col-${indexY}-row-${indexX}`} className="tileItem">
-                    <TileComponent
-                      template={template}
-                      tile={getTile(tiles, indexX, indexY, board.gridX)}
-                      tileSize={tileSize}
-                      disabled={disabled}
-                      startTurn={startTurn}
-                      loading={loading}
-                      onCheckout={onCheckoutTile}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ))}
-          </Grid>
-        </div>
-      </Grid>
+      <div className={classes.boardWrapper}>
+        <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
+        <Grid direction="column" className={classes.boardContainer} item container>
+          {gridY.map((_, indexY) => (
+            <Grid key={`col-${indexY}`} container item>
+              {gridX.map((_, indexX) => (
+                <Grid item key={`col-${indexY}-row-${indexX}`} className="tileItem">
+                  <TileComponent
+                    template={template}
+                    tile={getTile(tiles, indexX, indexY, board.gridX)}
+                    tileSize={tileSize}
+                    disabled={disabled}
+                    startTurn={startTurn}
+                    loading={loading}
+                    onCheckout={onCheckoutTile}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     );
   }
 );

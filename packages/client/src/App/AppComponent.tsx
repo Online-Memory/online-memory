@@ -145,9 +145,9 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
           )}
         </Toolbar>
       </AppBar>
-      <main className={classes.main}>
+      <Grid container component="main" direction="column" className={classes.main}>
         <Router />
-      </main>
+      </Grid>
       <footer className={classes.footer}>
         <Container maxWidth="sm">
           <Grid container direction="column" alignItems="center">
