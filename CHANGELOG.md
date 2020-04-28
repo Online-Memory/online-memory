@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.0...v0.25.1)
+
 ## [v0.25.0](https://github.com/Online-Memory/online-memory/tree/v0.25.0) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.24.0...v0.25.0)
@@ -248,7 +252,6 @@
 **Implemented enhancements:**
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
-- Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
@@ -270,6 +273,7 @@
 
 **Implemented enhancements:**
 
+- Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
 - Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
 
