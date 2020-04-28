@@ -10,4 +10,15 @@ export const useStyles = makeStyles(theme => ({
   boardContainer: {
     padding: theme.spacing(1),
   },
+  tileItem: {
+    position: 'relative',
+  },
+  tileBackground: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translateX(calc(-50% + 1px)) translateY(-50%)',
+    background: theme.palette.type === 'dark' ? '#444' : '#CCC',
+    borderRadius: '9px',
+  },
 }));

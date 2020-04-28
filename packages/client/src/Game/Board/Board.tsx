@@ -1,4 +1,5 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
+import { anime } from 'react-anime';
 import { Grid } from '@material-ui/core';
 import { TileComponent } from '../Tile';
 import { ZoomControl, useZoom } from '../ZoomControl';
@@ -9,6 +10,8 @@ interface Props {
   loading: boolean;
   disabled: boolean;
   startTurn: boolean;
+  isStarted: boolean;
+  isEnded: boolean;
   tiles: Tile[];
   template: string;
   board: {
@@ -19,7 +22,7 @@ interface Props {
 }
 
 export const Board: React.FC<Props> = memo(
-  ({ board, template, tiles, loading, disabled, startTurn, onCheckoutTile }) => {
+  ({ board, template, tiles, loading, disabled, startTurn, onCheckoutTile, isStarted, isEnded }) => {
     const classes = useStyles();
     const { tileSize, zoomIn, zoomOut } = useZoom(60);
     const gridX = new Array(board.gridX).fill('');
@@ -31,25 +34,63 @@ export const Board: React.FC<Props> = memo(
       return tiles[id];
     }, []);
 
+    useEffect(() => {
+      if (isEnded) {
+        anime({
+          targets: '.tileItem',
+          translateX: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
+          translateY: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'y' }),
+          rotateZ: anime.stagger([0, 90], { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
+          delay: anime.stagger(250, { grid: [board.gridX, board.gridY], from: 'center' }),
+          easing: 'easeOutBack',
+        });
+        return;
+      }
+
+      if (isStarted) {
+        return;
+      }
+
+      anime({
+        targets: '.tileItem',
+        scale: [
+          { value: 0.5, easing: 'easeOutSine', duration: 1000 },
+          { value: 1, easing: 'easeOutElastic(1, .4)', duration: 750 },
+        ],
+        delay: anime.stagger(150, { grid: [board.gridX, board.gridY], from: 'center', start: 250 }),
+      });
+    }, [board.gridX, board.gridY, isEnded, isStarted]);
+
     return (
       <div className={classes.boardWrapper}>
         <ZoomControl onZoomIn={zoomIn} onZoomOut={zoomOut} />
         <Grid direction="column" className={classes.boardContainer} item container>
           {gridY.map((_, indexY) => (
             <Grid key={`col-${indexY}`} container item>
-              {gridX.map((_, indexX) => (
-                <Grid item key={`col-${indexY}-row-${indexX}`} className="tileItem">
-                  <TileComponent
-                    template={template}
-                    tile={getTile(tiles, indexX, indexY, board.gridX)}
-                    tileSize={tileSize}
-                    disabled={disabled}
-                    startTurn={startTurn}
-                    loading={loading}
-                    onCheckout={onCheckoutTile}
-                  />
-                </Grid>
-              ))}
+              {gridX.map((_, indexX) => {
+                return (
+                  <Grid item key={`col-${indexY}-row-${indexX}`} className={`${classes.tileItem}`}>
+                    <div
+                      className={classes.tileBackground}
+                      style={{
+                        width: `${tileSize}px`,
+                        height: `${tileSize}px`,
+                      }}
+                    />
+                    <TileComponent
+                      className="tileItem"
+                      template={template}
+                      tile={getTile(tiles, indexX, indexY, board.gridX)}
+                      tileSize={tileSize}
+                      disabled={disabled}
+                      startTurn={startTurn}
+                      loading={loading}
+                      onCheckout={onCheckoutTile}
+                      isEnded={isEnded}
+                    />
+                  </Grid>
+                );
+              })}
             </Grid>
           ))}
         </Grid>

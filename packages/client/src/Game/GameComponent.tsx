@@ -27,7 +27,7 @@ export const GameComponent: React.FC<Props> = memo(
     useEffect(() => {
       if (gameStatus !== gameData.status) {
         if (gameData.status === 'ended') {
-          setTimeout(() => setGameStatus('ended'), 2000);
+          setTimeout(() => setGameStatus('ended'), 3500);
         } else {
           setGameStatus(gameData.status);
         }

@@ -33,6 +33,7 @@ export const useStyles = makeStyles(theme => ({
   },
   dashboardContent: {
     transition: 'opacity .25s ease-in-out',
+    opacity: 0,
   },
   dashboardContentHidden: {
     opacity: 0,

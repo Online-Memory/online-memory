@@ -8,6 +8,7 @@ interface Props {
   tileSize: number;
   disabled: boolean;
   loading: boolean;
+  isEnded?: boolean;
   startTurn?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -15,8 +16,8 @@ interface Props {
 }
 
 export const TileComponent: React.FC<Props> = memo(
-  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn }) => {
-    const classes = useStyles({ template });
+  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn, isEnded = false }) => {
+    const classes = useStyles({ template, tileStatus: tile.status });
 
     const handleCheckOutTile = useCallback(
       (tileId: number) => () => {
@@ -39,17 +40,20 @@ export const TileComponent: React.FC<Props> = memo(
         className={`tileWrapper ${classes.tileWrapper} ${className} ${disabled ? classes.tileDisabled : ''} ${
           loading ? classes.tileLoading : ''
         }`}
-        style={{ width: `${tileSize}px`, height: `${tileSize}px`, ...style }}
+        style={style}
       >
-        <div className={classes.tileBox}>
-          <div
-            className={`tile ${classes.tile} ${tile.ref} ${tile.status} ${
-              disabled ? classes.tileDisabled : classes.tileEnabled
-            } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${loading ? classes.tileLoading : ''}`}
-            style={{ backgroundPosition: `-${x}px -${y}px`, backgroundSize: `${tileSize * 8}px` }}
-            onClick={handleCheckOutTile(tile.id)}
-          />
-        </div>
+        <div
+          className={`tile ${classes.tile} ${tile.ref} ${isEnded ? 'show' : tile.status} ${
+            disabled ? classes.tileDisabled : classes.tileEnabled
+          } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${loading ? classes.tileLoading : ''}`}
+          style={{
+            backgroundPosition: `-${x}px -${y}px`,
+            backgroundSize: `${tileSize * 8}px`,
+            width: `${tileSize}px`,
+            height: `${tileSize}px`,
+          }}
+          onClick={handleCheckOutTile(tile.id)}
+        />
       </div>
     );
   }

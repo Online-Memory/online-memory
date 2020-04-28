@@ -43,7 +43,7 @@ export const Dashboard: React.FC<Props> = memo(
       if (!minimize) {
         timeout.current = setTimeout(() => setShowFullContent(false), 500);
       } else {
-        timeout.current = setTimeout(() => setShowFullContent(true), 500);
+        timeout.current = setTimeout(() => setShowFullContent(true), 300);
       }
     }, [minimize]);
 
@@ -138,25 +138,7 @@ export const Dashboard: React.FC<Props> = memo(
               </List>
             </div>
           </div>
-        ) : (
-          <>
-            {players.map(player => {
-              const user = users.find(user => user.id === player.userId)?.item;
-
-              if (!user) {
-                return null;
-              }
-
-              return (
-                <div key={`player-score-${player.id}`}>
-                  <div className={classes.avatarWrapper}>
-                    <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
-                  </div>
-                </div>
-              );
-            })}
-          </>
-        )}
+        ) : null}
       </div>
     );
   }

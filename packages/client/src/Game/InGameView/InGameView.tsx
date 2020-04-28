@@ -226,6 +226,8 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
             disabled={loading || startGameLoading || playerTurn.userId !== user.id}
             startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
             onCheckoutTile={handleCheckOutTile}
+            isStarted={gameData.status === 'started' && gameData.moves > 0}
+            isEnded={gameData.status === 'ended'}
           />
         </div>
       ) : null}
