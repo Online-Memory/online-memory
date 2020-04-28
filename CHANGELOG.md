@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.25.0](https://github.com/Online-Memory/online-memory/tree/v0.25.0) (2020-04-28)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.24.0...v0.25.0)
+
+**Implemented enhancements:**
+
+- Game status animations [\#69](https://github.com/Online-Memory/online-memory/issues/69)
+
 ## [v0.24.0](https://github.com/Online-Memory/online-memory/tree/v0.24.0) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.23.1...v0.24.0)
@@ -130,6 +138,10 @@
 
 - Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 
+**Merged pull requests:**
+
+- Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.15.0...v0.16.0)
@@ -141,7 +153,6 @@
 **Merged pull requests:**
 
 - refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/Online-Memory/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
-- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.15.0](https://github.com/Online-Memory/online-memory/tree/v0.15.0) (2020-04-12)
 
@@ -166,6 +177,7 @@
 **Merged pull requests:**
 
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
+- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
@@ -238,10 +250,6 @@
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
-
-**Merged pull requests:**
-
-- Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.7.1](https://github.com/Online-Memory/online-memory/tree/v0.7.1) (2020-04-07)
 
