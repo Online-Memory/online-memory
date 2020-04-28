@@ -41,7 +41,7 @@ export const Board: React.FC<Props> = memo(
           translateX: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
           translateY: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'y' }),
           rotateZ: anime.stagger([0, 90], { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
-          delay: anime.stagger(250, { grid: [board.gridX, board.gridY], from: 'center' }),
+          delay: anime.stagger(250, { grid: [board.gridX, board.gridY], from: 'center', start: 2000 }),
           easing: 'easeOutBack',
         });
         return;
