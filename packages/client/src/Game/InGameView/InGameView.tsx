@@ -140,7 +140,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     playerTurn && users.find(user => playerTurn.status !== 'idle' && user.id === playerTurn.userId)?.item;
 
   return (
-    <div className="Game">
+    <div className={`Game ${classes.gameContainer}`}>
       <Snackbar open={open} className={classes.turnAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert severity="info" color="info" elevation={8} variant="standard">
           It's your turn! Make your move
@@ -176,69 +176,59 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
         </DialogActions>
       </Dialog>
 
-      <Grid container>
-        <Dashboard
-          name={name}
-          gameCreationTime={status === 'started' ? getGameCreationTime() : undefined}
-          turnTimer={status === 'started' ? getTurnTimer() : undefined}
-          moves={status === 'started' ? moves : undefined}
-          players={players}
-          users={users}
-          playerTurn={playerTurn}
-        />
+      <Dashboard
+        name={name}
+        gameCreationTime={status === 'started' ? getGameCreationTime() : undefined}
+        turnTimer={status === 'started' ? getTurnTimer() : undefined}
+        moves={status === 'started' ? moves : undefined}
+        players={players}
+        users={users}
+        playerTurn={playerTurn}
+      />
 
-        {status === 'new' && owner === user.id ? (
-          <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
-        ) : null}
+      {status === 'new' && owner === user.id ? (
+        <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
+      ) : null}
 
-        {status === 'new' && owner !== user.id ? (
-          <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
-            <Typography component="h4" variant="h6" align="center">
-              Waiting for the host to start the game
+      {status === 'new' && owner !== user.id ? (
+        <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
+          <Typography component="h4" variant="h6" align="center">
+            Waiting for the host to start the game
+          </Typography>
+          <Grid item>
+            <CircularProgress size={60} />
+          </Grid>
+        </Grid>
+      ) : null}
+
+      {status === 'idle' ? (
+        <Grid direction="column" justify="center" xs={12} md={9} item container>
+          <Grid item>
+            <Typography component="h4" variant="h6" align="center" gutterBottom>
+              Waiting for all the players to be ready
             </Typography>
-            <Grid item>
-              <CircularProgress size={60} />
-            </Grid>
           </Grid>
-        ) : null}
+          <Grid item>
+            <Typography align="center" paragraph>
+              Be prepared! This game is about to start
+            </Typography>
+          </Grid>
+        </Grid>
+      ) : null}
 
-        {status === 'idle' ? (
-          <Grid direction="column" justify="center" xs={12} md={9} item container>
-            <Grid item>
-              <Typography component="h4" variant="h6" align="center" gutterBottom>
-                Waiting for all the players to be ready
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography align="center" paragraph>
-                Be prepared! This game is about to start
-              </Typography>
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {playerTurn && status !== 'idle' && status !== 'new' ? (
-          <Grid
-            onClick={handleBoardClick}
-            className={`Board ${classes.boardContainer}`}
-            justify="center"
-            xs={12}
-            md={9}
-            item
-            container
-          >
-            <Board
-              board={board}
-              template={template}
-              tiles={tiles}
-              loading={loading || startGameLoading}
-              disabled={loading || startGameLoading || playerTurn.userId !== user.id}
-              startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
-              onCheckoutTile={handleCheckOutTile}
-            />
-          </Grid>
-        ) : null}
-      </Grid>
+      {playerTurn && status !== 'idle' && status !== 'new' ? (
+        <div onClick={handleBoardClick} className={`GameBoard ${classes.boardContainer}`}>
+          <Board
+            board={board}
+            template={template}
+            tiles={tiles}
+            loading={loading || startGameLoading}
+            disabled={loading || startGameLoading || playerTurn.userId !== user.id}
+            startTurn={playerTurn.userId === user.id && playerTurn.status === 'idle'}
+            onCheckoutTile={handleCheckOutTile}
+          />
+        </div>
+      ) : null}
     </div>
   );
 });
