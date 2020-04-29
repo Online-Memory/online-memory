@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
 import { CREATE_GAME, GET_TEMPLATES, INVITE_USER, GET_USERS } from '../graphql';
 import { Template } from './types';
@@ -11,7 +11,7 @@ import { useAppState } from '../AppState';
 export const GameSetup = memo(() => {
   const classes = useStyles();
   const { playAgainData, clearPlayAgainData, user } = useAppState();
-  const [variables, setVariables] = useState({ name: '' });
+  const [searchUsersData, setSearchUsersData] = useState([]);
   const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
     GET_TEMPLATES,
     {
@@ -20,12 +20,10 @@ export const GameSetup = memo(() => {
       },
     }
   );
-  const { data: getUsersData, loading: getUsersLoading, refetch: refetchUsersData } = useQuery(GET_USERS, {
+  const [getUsers, { data: getUsersData, loading: getUsersLoading }] = useLazyQuery(GET_USERS, {
     onError: err => {
       console.warn(err);
     },
-    variables,
-    skip: !variables?.name,
   });
 
   const [createGame, { loading: createGameLoading, error: createGameError, data: createGameData }] = useMutation(
@@ -43,15 +41,22 @@ export const GameSetup = memo(() => {
     },
   });
 
+  useEffect(() => {
+    if (getUsersData?.getUsers) {
+      setSearchUsersData(getUsersData.getUsers);
+    }
+  }, [getUsersData]);
+
   const handleSearchUser = useCallback(
     (name: string) => {
-      if (!name) {
+      if (!name || name.length < 2) {
+        setSearchUsersData([]);
         return;
       }
-      setVariables({ name: name || '' });
-      refetchUsersData({ name });
+
+      getUsers({ variables: { name } });
     },
-    [refetchUsersData]
+    [getUsers]
   );
 
   const handleSubmit = useCallback(
@@ -129,7 +134,7 @@ export const GameSetup = memo(() => {
       playAgainData={playAgainData}
       onSubmit={handleSubmit}
       onSearchUser={handleSearchUser}
-      searchUserData={getUsersData?.getUsers}
+      searchUserData={searchUsersData}
       searchUserLoading={getUsersLoading}
     />
   );

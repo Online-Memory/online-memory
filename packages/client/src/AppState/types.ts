@@ -54,11 +54,16 @@ export enum Types {
   'CLEAR_INVITE',
   'PLAY_AGAIN',
   'CLEAR_PLAY_AGAIN_DATA',
+  'UPDATE_WORLD',
 }
 
 export interface AppAction {
   type: Types;
   payload?: any;
+}
+
+export interface World {
+  onlineUsers: number;
 }
 
 export interface AppState {
@@ -67,4 +72,5 @@ export interface AppState {
   updateAvailable: boolean;
   user: User;
   playAgain?: GameData;
+  world: World;
 }

@@ -184,6 +184,7 @@ export const useAppState = () => {
     showUserInvite,
     isAuthenticated: state.user.isAuthenticated,
     user: state.user.user,
+    world: state.world,
     authLoading: state.user.loading,
     updateUser,
     updateUserLoading,

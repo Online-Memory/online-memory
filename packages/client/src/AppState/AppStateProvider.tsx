@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/react-hooks';
 import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import { GET_USER } from '../graphql';
+import { GET_USER, GET_WORLD } from '../graphql';
 import { currentAuthenticatedUser } from './AWS';
-import { AppState, AppAction, UserData, Types } from './types';
+import { AppState, AppAction, UserData, Types, World } from './types';
 import { reducer } from './reducer';
 import * as serviceWorker from '../serviceWorker';
 
@@ -19,6 +19,9 @@ const initialState: AppState = {
     show: false,
     from: undefined,
     gameId: undefined,
+  },
+  world: {
+    onlineUsers: 1,
   },
   updateAvailable: false,
   user: {
@@ -43,6 +46,14 @@ export const AppStateContext = createContext<AppContextType>({});
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
+
+  useQuery<{ world: World }>(GET_WORLD, {
+    pollInterval: 5000,
+    notifyOnNetworkStatusChange: true,
+    onCompleted: data => {
+      dispatch({ type: Types.UPDATE_WORLD, payload: data });
+    },
+  });
 
   useEffect(() => {
     serviceWorker.register({

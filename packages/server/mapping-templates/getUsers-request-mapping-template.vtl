@@ -1,4 +1,5 @@
 #set( $username = $util.dynamodb.toDynamoDBJson($ctx.args.name) )
+#set( $userId = $util.dynamodb.toDynamoDBJson($util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____"))) )
 
 {
     "version" : "2017-02-28",
@@ -16,12 +17,14 @@
         }
     },
     "filter" : {
-        "expression": "contains (#username, :username) ",
+        "expression": "contains (#username, :username) and #userId <> :userId",
         "expressionNames" : {
-            "#username" : "searchableUsername"
+            "#username" : "searchableUsername",
+            "#userId" : "id"
         },
         "expressionValues" : {
-            ":username" : $username
+            ":username" : $username,
+            ":userId" : $userId
         }
     }
 }

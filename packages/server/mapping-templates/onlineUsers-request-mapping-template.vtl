@@ -1,0 +1,26 @@
+#set( $minNow = $util.time.nowEpochSeconds() - 120 )
+#set( $dataType = $util.dynamodb.toDynamoDBJson("UserTTL") )
+
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "index" : "TypenameGSI",
+    "query" : {
+        "expression": "#type = :typeValue",
+        "expressionNames" : {
+            "#type" : "__typename"
+        },
+        "expressionValues" : {
+            ":typeValue" : $dataType
+        }
+    },
+    "filter" : {
+        "expression": "#updatedAt >= :minTime",
+        "expressionNames" : {
+            "#updatedAt" : "updatedAt",
+        },
+        "expressionValues" : {
+            ":minTime" : { "N": $minNow },
+        }
+    }
+}

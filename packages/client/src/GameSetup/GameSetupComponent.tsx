@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useMemo, useEffect } from 'react';
+import React, { memo, useState, useCallback, useMemo } from 'react';
 import {
   Container,
   Grid,
@@ -46,17 +46,8 @@ export const Component: React.FC<Props> = memo(
     const [inviteUsers, setInviteUsers] = useState(playAgainUsers);
     const [defaultUsers] = useState(inviteUsers);
     const [gameName, setGameName] = useState(playAgainData?.name || '');
-    const [searchUsers, setSearchUsers] = useState<any>([]);
     const [gameTemplate, setGameTemplate] = useState(playAgainData?.template || templates[0].id);
     const [gameTiles, setGameTiles] = useState(playAgainData?.tiles?.length || templates[0].tiles);
-
-    useEffect(() => {
-      if (searchUserData?.length) {
-        setSearchUsers(searchUserData);
-      } else if (searchUsers?.length) {
-        setSearchUsers([]);
-      }
-    }, [searchUserData, searchUsers, searchUsers.length]);
 
     const handleSubmit = useCallback(() => {
       onSubmit({
@@ -96,11 +87,7 @@ export const Component: React.FC<Props> = memo(
 
     const handleSearchUser = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.value.length > 2) {
-          onSearchUser(event.target.value);
-        } else {
-          setSearchUsers([]);
-        }
+        onSearchUser(event.target.value);
       },
       [onSearchUser]
     );
@@ -179,7 +166,7 @@ export const Component: React.FC<Props> = memo(
                       multiple
                       className={classes.fieldComponent}
                       getOptionLabel={(option: any) => option?.username || ''}
-                      options={searchUsers}
+                      options={searchUserData}
                       loading={searchUserLoading}
                       onChange={handleChangeUsers}
                       defaultValue={[...defaultUsers]}

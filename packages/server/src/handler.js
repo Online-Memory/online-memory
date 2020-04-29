@@ -1,6 +1,7 @@
 const { findItem } = require('./helpers/db-operations');
 const { doesItemExist } = require('./helpers/does-item-exists');
 const { gameTemplates } = require('./helpers/game-templates');
+const { getWorld } = require('./eventHandlers/get-world');
 const { whoAmI } = require('./eventHandlers/who-am-i');
 const { createGame } = require('./eventHandlers/create-game');
 const { startGame } = require('./eventHandlers/start-game');
@@ -26,6 +27,25 @@ exports.graphqlHandler = async (event, context, callback) => {
       }
 
       callback(null, userData);
+      break;
+    }
+
+    case 'getWorld': {
+      const { userId } = event;
+
+      if (!userId) {
+        callback(null, {});
+        return null;
+      }
+
+      try {
+        await getWorld(userId);
+      } catch (err) {
+        console.log(err);
+        return null;
+      }
+
+      callback(null, {});
       break;
     }
 

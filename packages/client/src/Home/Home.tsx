@@ -8,7 +8,7 @@ import logo from '../assets/img/logo.png';
 export const Home: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { user } = useAppState();
+  const { user, world } = useAppState();
   const inputRef = useRef<HTMLTextAreaElement>();
   const timeoutRef = useRef<NodeJS.Timeout>();
   const [joinGame, setJoinGame] = useState(false);
@@ -46,9 +46,14 @@ export const Home: React.FC = () => {
               OnLine Memory
             </Typography>
             {user.username && (
-              <Typography component="h4" variant="h5" align="center" gutterBottom>
-                Welcome back, {user.username}!
-              </Typography>
+              <>
+                <Typography component="h4" variant="h5" align="center" gutterBottom>
+                  Welcome back, {user.username}!
+                </Typography>
+                <Typography component="h4" variant="h5" align="center" gutterBottom>
+                  {world.onlineUsers === 2 ? 'There is' : 'There are'} {world.onlineUsers - 1} other users online
+                </Typography>
+              </>
             )}
             <div className={classes.heroButtons}>
               <Grid container spacing={4} justify="center">
