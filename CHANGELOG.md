@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
+
+**Merged pull requests:**
+
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.0...v0.25.1)
@@ -127,6 +135,7 @@
 **Implemented enhancements:**
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
+- Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
 - Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
@@ -191,7 +200,6 @@
 **Implemented enhancements:**
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
-- Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
@@ -241,6 +249,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.8.0...v0.9.0)
 
+**Implemented enhancements:**
+
+- Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
+
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.7.1...v0.8.0)
@@ -248,7 +260,6 @@
 **Implemented enhancements:**
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
-- Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
