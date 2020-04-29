@@ -89,17 +89,23 @@ const updateUsername = async (userId, username) => {
   return docClient.update(params).promise();
 };
 
-const updateTTL = async (userId, ttl) => {
+const updateTTL = async (userId, ttl, now) => {
   const params = {
     TableName: TABLE_NAME,
     Key: {
       id: userId,
       __typename: 'UserTTL',
     },
-    UpdateExpression: 'set #ttl = :ttl',
-    ExpressionAttributeNames: { '#ttl': 'user_ttl' },
+    UpdateExpression: 'set #ttl = :ttl, #time = :time, #now = :now',
+    ExpressionAttributeNames: {
+      '#ttl': 'user_ttl',
+      '#time': 'createdAt',
+      '#now': 'updatedAt',
+    },
     ExpressionAttributeValues: {
       ':ttl': ttl,
+      ':now': now,
+      ':time': new Date().toISOString(),
     },
   };
 

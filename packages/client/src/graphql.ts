@@ -11,6 +11,14 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_WORLD = gql`
+  query GetWorld {
+    getWorld {
+      onlineUsers
+    }
+  }
+`;
+
 export const GET_USER_GAMES = gql`
   query GetUserGames {
     getUserGames {

@@ -97,6 +97,12 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
         playAgain: undefined,
       };
 
+    case Types.UPDATE_WORLD:
+      return {
+        ...state,
+        world: action.payload?.getWorld,
+      };
+
     default:
       return state;
   }

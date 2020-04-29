@@ -108,12 +108,17 @@ type UserGames {
 	activeGames: [Game]!
 }
 
+type World {
+	onlineUsers: Int!
+}
+
 type Query {
 	whoAmI: User
 	getUserGames: UserGames
 	templates: [Templates]
 	getGame(gameId: String!): Game
 	getUsers(name: String!): [User]
+	getWorld: World
 }
 
 type Mutation {

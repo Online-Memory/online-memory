@@ -81,6 +81,16 @@ custom:
         response: 'whoAmI-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         type: Query
+        field: getWorld
+        request: 'getWorld-request-mapping-template.vtl'
+        response: 'getWorld-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: World
+        field: onlineUsers
+        request: 'onlineUsers-request-mapping-template.vtl'
+        response: 'onlineUsers-response-mapping-template.vtl'
+      - dataSource: graphqlLambda
+        type: Query
         field: templates
         request: 'templates-request-mapping-template.vtl'
         response: 'templates-response-mapping-template.vtl'
