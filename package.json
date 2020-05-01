@@ -11,6 +11,7 @@
     "test": "yarn workspace server test",
     "start": "yarn workspace client start",
     "build": "yarn workspace client build",
+    "format": "yarn workspace client eslint --ignore-pattern *.d.ts --ext ts,tsx src --fix",
     "server:dev:deploy": "yarn workspace server dev:deploy",
     "server:prod:deploy": "yarn workspace server prod:deploy",
     "server:dev:remove": "yarn workspace server dev:remove",
