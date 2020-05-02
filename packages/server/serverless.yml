@@ -265,7 +265,7 @@ resources:
         Schema:
           - Name: email
             Required: true
-            Mutable: false # TODO: replace with true
+            Mutable: true
             AttributeDataType: String
           - Name: name
             Required: true
