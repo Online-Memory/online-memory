@@ -187,11 +187,29 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
       />
 
       {status === 'new' && owner === user.id ? (
-        <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
+        <Grid
+          className={`GameBoard ${classes.boardContainer}`}
+          justify="center"
+          alignItems="center"
+          direction="column"
+          spacing={10}
+          item
+          container
+        >
+          <GameHost gameId={gameData.id} handleStartGame={handleStartGame} disabled={startGameLoading} />
+        </Grid>
       ) : null}
 
       {status === 'new' && owner !== user.id ? (
-        <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={10} item container>
+        <Grid
+          className={`GameBoard ${classes.boardContainer}`}
+          justify="center"
+          alignItems="center"
+          direction="column"
+          spacing={10}
+          item
+          container
+        >
           <Typography component="h4" variant="h6" align="center">
             Waiting for the host to start the game
           </Typography>
@@ -202,7 +220,15 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
       ) : null}
 
       {status === 'idle' ? (
-        <Grid direction="column" justify="center" xs={12} md={9} item container>
+        <Grid
+          className={`GameBoard ${classes.boardContainer}`}
+          justify="center"
+          alignItems="center"
+          direction="column"
+          spacing={4}
+          item
+          container
+        >
           <Grid item>
             <Typography component="h4" variant="h6" align="center" gutterBottom>
               Waiting for all the players to be ready

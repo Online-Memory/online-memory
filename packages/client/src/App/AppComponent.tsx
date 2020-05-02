@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSubscription } from '@apollo/react-hooks';
 import { USER_INVITE } from '../graphql';
@@ -30,7 +30,7 @@ interface Props {
   toggleDarkTheme: () => void;
 }
 
-export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) => {
+export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme }) => {
   const history = useHistory();
   const classes = useStyles();
   const { isAuthenticated, user, logOut, showUserInvite } = useAppState();
@@ -39,8 +39,9 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
 
   const { data: subData } = useSubscription(USER_INVITE, {
     variables: {
-      userId: user.id,
+      userId: user?.id,
     },
+    shouldResubscribe: true,
   });
 
   useEffect(() => {
@@ -64,6 +65,11 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
   const handleProfile = useCallback(() => {
     handleClose();
     history.push('/profile');
+  }, [handleClose, history]);
+
+  const handleSettings = useCallback(() => {
+    handleClose();
+    history.push('/settings');
   }, [handleClose, history]);
 
   const handleDashboard = useCallback(() => {
@@ -133,6 +139,12 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
                 <MenuItem className="profile" onClick={handleProfile}>
                   User Profile
                 </MenuItem>
+
+                <MenuItem divider className={classes.divider} disabled />
+
+                <MenuItem className="settings" onClick={handleSettings}>
+                  Settings
+                </MenuItem>
                 <MenuItem className="logOut" onClick={handleLogout}>
                   Log Out
                 </MenuItem>
@@ -178,4 +190,4 @@ export const AppComponent: React.FC<Props> = ({ darkTheme, toggleDarkTheme }) =>
       </footer>
     </Grid>
   );
-};
+});

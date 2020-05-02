@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, memo } from 'react';
 import { Link as LinkUI, useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, Button, TextField } from '@material-ui/core';
 import { useAppState } from '../AppState';
 import { useStyles } from './styles';
 import logo from '../assets/img/logo.png';
 
-export const Home: React.FC = () => {
+export const Home: React.FC = memo(() => {
   const classes = useStyles();
   const history = useHistory();
   const { user, world } = useAppState();
@@ -45,7 +45,7 @@ export const Home: React.FC = () => {
             <Typography component="h1" variant="h2" align="center" color="textPrimary">
               OnLine Memory
             </Typography>
-            {user.username && (
+            {user?.username && world?.onlineUsers && (
               <>
                 <Typography component="h4" variant="h5" align="center" gutterBottom>
                   Welcome back, {user.username}!
@@ -117,4 +117,4 @@ export const Home: React.FC = () => {
       </Container>
     </div>
   );
-};
+});

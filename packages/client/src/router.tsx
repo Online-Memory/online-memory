@@ -8,6 +8,7 @@ import { GameSetup } from './GameSetup';
 import { Dashboard } from './Dashboard';
 import { About } from './About';
 import { Profile } from './Profile';
+import { Settings } from './Settings';
 import { LogIn } from './Auth/Login';
 import { Register } from './Auth/Register';
 import { VerifyEmail } from './Auth/VerifyEmail';
@@ -22,9 +23,9 @@ const useStyles = makeStyles(theme => ({
 
 export const Router: React.FC = () => {
   const classes = useStyles();
-  const { isAuthenticated, authLoading } = useAppState();
+  const { isAuthenticated, userLoading } = useAppState();
 
-  if (authLoading) {
+  if (userLoading) {
     return (
       <Grid container justify="center" className={classes.loading}>
         <CircularProgress size={60} />
@@ -48,6 +49,9 @@ export const Router: React.FC = () => {
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
         <Profile />
+      </PrivateRoute>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/settings">
+        <Settings />
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/dashboard">
         <Dashboard />

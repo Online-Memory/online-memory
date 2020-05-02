@@ -40,4 +40,7 @@ export const useStyles = makeStyles(theme => ({
       filter: 'drop-shadow(1px -1px 0 rgba(0,0,0,0.3))',
     },
   },
+  divider: {
+    margin: theme.spacing(0, 0, 1),
+  },
 }));

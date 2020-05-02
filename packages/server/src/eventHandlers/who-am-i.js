@@ -1,6 +1,6 @@
 const { getUser, createUser, updateUsername } = require('../helpers/db-operations');
 
-const whoAmI = async (userId, username) => {
+const whoAmI = async (userId, username, email, emailVerified) => {
   let userData;
   try {
     userData = await getUser(userId);
@@ -20,7 +20,11 @@ const whoAmI = async (userId, username) => {
     return null;
   }
 
-  return userData.Item;
+  return {
+    ...userData.Item,
+    email,
+    emailVerified,
+  };
 };
 
 module.exports = {

@@ -265,7 +265,7 @@ resources:
         Schema:
           - Name: email
             Required: true
-            Mutable: false
+            Mutable: false # TODO: replace with true
             AttributeDataType: String
           - Name: name
             Required: true
@@ -312,7 +312,7 @@ resources:
               ReadCapacityUnits: 2
               WriteCapacityUnits: 2
         TimeToLiveSpecification:
-          AttributeName: user_ttl
+          AttributeName: expiresAt
           Enabled: true
         ProvisionedThroughput:
           ReadCapacityUnits: 2

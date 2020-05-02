@@ -38,10 +38,26 @@ export const Board: React.FC<Props> = memo(
       if (isEnded) {
         anime({
           targets: '.tileItem',
-          translateX: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
-          translateY: anime.stagger(10, { grid: [board.gridX, board.gridY], from: 'center', axis: 'y' }),
-          rotateZ: anime.stagger([0, 90], { grid: [board.gridX, board.gridY], from: 'center', axis: 'x' }),
-          delay: anime.stagger(250, { grid: [board.gridX, board.gridY], from: 'center', start: 2000 }),
+          translateX: anime.stagger(10, {
+            grid: [board.gridX, board.gridY],
+            from: 'center',
+            axis: 'x',
+          }),
+          translateY: anime.stagger(10, {
+            grid: [board.gridX, board.gridY],
+            from: 'center',
+            axis: 'y',
+          }),
+          rotateZ: anime.stagger([0, 90], {
+            grid: [board.gridX, board.gridY],
+            from: 'center',
+            axis: 'x',
+          }),
+          delay: anime.stagger(250, {
+            grid: [board.gridX, board.gridY],
+            from: 'center',
+            start: 2000,
+          }),
           easing: 'easeOutBack',
         });
         return;
@@ -57,7 +73,11 @@ export const Board: React.FC<Props> = memo(
           { value: 0.5, easing: 'easeOutSine', duration: 1000 },
           { value: 1, easing: 'easeOutElastic(1, .4)', duration: 750 },
         ],
-        delay: anime.stagger(150, { grid: [board.gridX, board.gridY], from: 'center', start: 250 }),
+        delay: anime.stagger(150, {
+          grid: [board.gridX, board.gridY],
+          from: 'center',
+          start: 250,
+        }),
       });
     }, [board.gridX, board.gridY, isEnded, isStarted]);
 

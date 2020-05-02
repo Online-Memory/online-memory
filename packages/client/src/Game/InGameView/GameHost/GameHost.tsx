@@ -42,7 +42,7 @@ Game ID: ${gameId}`;
   }, []);
 
   return (
-    <Grid justify="center" alignItems="center" direction="column" xs={12} md={9} spacing={6} item container>
+    <Grid justify="center" alignItems="center" direction="column" spacing={6} item container>
       <Dialog
         open={open}
         aria-labelledby="alert-game-host-start-game"

@@ -18,6 +18,8 @@ export interface UserInvite {
 export interface UserData {
   id: string;
   username: string;
+  email: string;
+  emailVerified: boolean;
   displayName: string;
   avatar: string;
 }
@@ -55,6 +57,9 @@ export enum Types {
   'PLAY_AGAIN',
   'CLEAR_PLAY_AGAIN_DATA',
   'UPDATE_WORLD',
+  'LOADING',
+  'USER_INTERACTION',
+  'SET_USER_STATE',
 }
 
 export interface AppAction {
@@ -66,11 +71,20 @@ export interface World {
   onlineUsers: number;
 }
 
+export enum UserStatus {
+  'AVAILABLE',
+  'BUSY',
+  'OFFLINE',
+}
+
 export interface AppState {
+  lastInteraction: number;
+  userStatus: UserStatus;
   notifications: MessageState;
   userInvite: UserInvite;
   updateAvailable: boolean;
   user: User;
+  loading: boolean;
   playAgain?: GameData;
   world: World;
 }

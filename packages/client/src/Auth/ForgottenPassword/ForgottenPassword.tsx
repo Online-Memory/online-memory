@@ -11,7 +11,7 @@ const ForgottenPasswordComponent: React.FC = () => {
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
-  const { passwordReset, authLoading } = useAppState();
+  const { passwordReset, loading } = useAppState();
   const [error, setErrorState] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -102,9 +102,9 @@ const ForgottenPasswordComponent: React.FC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={authLoading || !isFormValid}
+            disabled={loading || !isFormValid}
           >
-            {authLoading && <CircularProgress size={24} className={classes.loader} />}
+            {loading && <CircularProgress size={24} className={classes.loader} />}
             Verify Code
           </Button>
           <Grid container>

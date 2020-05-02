@@ -10,6 +10,7 @@ import {
   awsResendCode,
   awsForgottenPassword,
   awsResetPassword,
+  // awsUpdateUsername,
 } from './AWS';
 import { UPDATE_USER, GET_USER } from '../graphql';
 import { useMutation } from '@apollo/react-hooks';
@@ -34,7 +35,7 @@ export const useAppState = () => {
     async (message: string, severity: MessageSeverity, title?: string) => {
       dispatch({ type: Types.CLEAR_NOTIFICATION });
       dispatch({ type: Types.CLOSE_NOTIFICATION });
-      await new Promise(res => setTimeout(res, 250));
+      await new Promise(res => setTimeout(res, 300));
       dispatch({
         type: Types.CREATE_MESSAGE,
         payload: {
@@ -60,6 +61,7 @@ export const useAppState = () => {
 
   const updateUser = useCallback(
     async (displayName: string, avatar: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
       const res = await updateUserMutation({
         variables: {
           updateUserInput: { displayName, avatar },
@@ -69,11 +71,47 @@ export const useAppState = () => {
       if (res.data.updateUser) {
         dispatch({ type: Types.UPDATE_USER, payload: res.data.updateUser });
       }
+      dispatch({ type: Types.LOADING, payload: false });
     },
     [dispatch, updateUserMutation]
   );
 
+  // const updateUsername = useCallback(
+  //   async (username: string) => {
+  //     dispatch({ type: Types.LOADING, payload: true });
+  //     try {
+  //       await awsUpdateUsername(username);
+  //     } catch (err) {
+  //       dispatch({
+  //         type: Types.CREATE_MESSAGE,
+  //         payload: {
+  //           message: err?.message || 'Something went wrong. Cannot update user information right now',
+  //           severity: 'error',
+  //           title: 'Error',
+  //           show: true,
+  //         },
+  //       });
+  //       dispatch({ type: Types.LOADING, payload: false });
+  //       return false;
+  //     }
+
+  //     dispatch({
+  //       type: Types.CREATE_MESSAGE,
+  //       payload: {
+  //         message: 'User information correctly updated',
+  //         severity: 'success',
+  //         title: 'Success',
+  //         show: true,
+  //       },
+  //     });
+  //     dispatch({ type: Types.LOADING, payload: false });
+  //     return true;
+  //   },
+  //   [dispatch]
+  // );
+
   const logOut = useCallback(async () => {
+    dispatch({ type: Types.LOADING, payload: true });
     try {
       const res = await awsSignOut();
 
@@ -85,87 +123,129 @@ export const useAppState = () => {
     }
 
     window.location.reload();
-  }, []);
+  }, [dispatch]);
 
-  const logIn = useCallback(async (username: string, password: string) => {
-    try {
-      const res = await awsLogin(username, password);
+  const logIn = useCallback(
+    async (username: string, password: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      try {
+        const res = await awsLogin(username, password);
 
-      if (res.error) {
-        return { error: res.error.message || res.error };
+        if (res.error) {
+          dispatch({ type: Types.LOADING, payload: false });
+          return { error: res.error.message || res.error };
+        }
+
+        if (res && res.confirmEmail) {
+          dispatch({ type: Types.LOADING, payload: false });
+          return { confirmEmail: true };
+        }
+
+        if (res.username) {
+          window.location.href = '/';
+        }
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message || err };
+      }
+    },
+    [dispatch]
+  );
+
+  const register = useCallback(
+    async (email: string, name: string, password: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+
+      let res;
+      try {
+        res = await awsRegister(email, name, password);
+
+        if (res.error) {
+          dispatch({ type: Types.LOADING, payload: false });
+          return { error: res.error.message || res.error };
+        }
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message || err };
       }
 
-      if (res && res.confirmEmail) {
-        return { confirmEmail: true };
+      dispatch({ type: Types.LOADING, payload: false });
+      return res;
+    },
+    [dispatch]
+  );
+
+  const verifyEmail = useCallback(
+    async (username: string, code: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+
+      let res;
+      try {
+        res = await awsVerifyEmail(username, code);
+
+        if (res.error) {
+          dispatch({ type: Types.LOADING, payload: false });
+          return { error: res.error.message || res.error };
+        }
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message || err };
       }
 
-      if (res.username) {
-        window.location.href = '/';
+      dispatch({ type: Types.LOADING, payload: false });
+      return res;
+    },
+    [dispatch]
+  );
+
+  const resendCode = useCallback(
+    async (username: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+
+      try {
+        await awsResendCode(username);
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message };
       }
-    } catch (err) {
-      return { error: err.message || err };
-    }
-  }, []);
 
-  const register = useCallback(async (email: string, name: string, password: string) => {
-    let res;
-    try {
-      res = await awsRegister(email, name, password);
+      dispatch({ type: Types.LOADING, payload: false });
+      return { status: true };
+    },
+    [dispatch]
+  );
 
-      if (res.error) {
-        return { error: res.error.message || res.error };
+  const forgottenPassword = useCallback(
+    async (username: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      try {
+        await awsForgottenPassword(username);
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message };
       }
-    } catch (err) {
-      return { error: err.message || err };
-    }
 
-    return res;
-  }, []);
+      dispatch({ type: Types.LOADING, payload: false });
+      return { status: true };
+    },
+    [dispatch]
+  );
 
-  const verifyEmail = useCallback(async (username: string, code: string) => {
-    let res;
-    try {
-      res = await awsVerifyEmail(username, code);
-
-      if (res.error) {
-        return { error: res.error.message || res.error };
+  const passwordReset = useCallback(
+    async (username: string, code: string, password: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      try {
+        await awsResetPassword(username, code, password);
+      } catch (err) {
+        dispatch({ type: Types.LOADING, payload: false });
+        return { error: err.message };
       }
-    } catch (err) {
-      return { error: err.message || err };
-    }
 
-    return res;
-  }, []);
-
-  const resendCode = useCallback(async (username: string) => {
-    try {
-      await awsResendCode(username);
-    } catch (err) {
-      return { error: err.message };
-    }
-
-    return { status: true };
-  }, []);
-
-  const forgottenPassword = useCallback(async (username: string) => {
-    try {
-      await awsForgottenPassword(username);
-    } catch (err) {
-      return { error: err.message };
-    }
-
-    return { status: true };
-  }, []);
-
-  const passwordReset = useCallback(async (username: string, code: string, password: string) => {
-    try {
-      await awsResetPassword(username, code, password);
-    } catch (err) {
-      return { error: err.message };
-    }
-
-    return { status: true };
-  }, []);
+      dispatch({ type: Types.LOADING, payload: false });
+      return { status: true };
+    },
+    [dispatch]
+  );
 
   const playAgain = useCallback(
     (gameData: GameData) => {
@@ -185,9 +265,11 @@ export const useAppState = () => {
     isAuthenticated: state.user.isAuthenticated,
     user: state.user.user,
     world: state.world,
-    authLoading: state.user.loading,
+    userLoading: state.user.loading,
     updateUser,
     updateUserLoading,
+    // updateUsername,
+    loading: state.loading,
     logIn,
     register,
     verifyEmail,

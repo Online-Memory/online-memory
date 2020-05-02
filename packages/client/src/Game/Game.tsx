@@ -15,7 +15,9 @@ export const Game: React.FC = memo(() => {
   const [skip, setSkip] = useState<boolean>(true);
   const [_loading, _setLoading] = useState<boolean>(false);
 
-  const { data, loading: dataLoading, error: dataError } = useQuery<{ getGame: GameData }>(GET_GAME, {
+  const { data, loading: dataLoading, error: dataError } = useQuery<{
+    getGame: GameData;
+  }>(GET_GAME, {
     variables: { gameId: id || '' },
     fetchPolicy: 'no-cache',
     onError: err => {
@@ -23,7 +25,7 @@ export const Game: React.FC = memo(() => {
     },
   });
 
-  const [claimPlayer, { loading: claimPlayerLoading }] = useMutation(CLAIM_PLAYER, {
+  const [claimPlayer, { data: claimPlayerData, loading: claimPlayerLoading }] = useMutation(CLAIM_PLAYER, {
     onError: err => {
       console.warn(err);
     },
@@ -165,7 +167,7 @@ export const Game: React.FC = memo(() => {
 
   return (
     <GameComponent
-      gameData={(subData && subData.gameUpdated) || data.getGame}
+      gameData={(subData && subData.gameUpdated) || claimPlayerData?.claimPlayer || data?.getGame}
       user={user}
       onClaimPlayer={handleClaimPlayer}
       onPlayTurn={handlePlayTurn}

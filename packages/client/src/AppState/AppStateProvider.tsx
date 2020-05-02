@@ -1,15 +1,17 @@
-import React, { useReducer, createContext, useCallback, useEffect } from 'react';
+import React, { useReducer, createContext, useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { GET_USER, GET_WORLD } from '../graphql';
 import { currentAuthenticatedUser } from './AWS';
-import { AppState, AppAction, UserData, Types, World } from './types';
+import { AppState, AppAction, UserData, Types, World, UserStatus } from './types';
 import { reducer } from './reducer';
 import * as serviceWorker from '../serviceWorker';
 
 const initialState: AppState = {
+  lastInteraction: Date.now(),
+  userStatus: UserStatus.AVAILABLE,
   notifications: {
     message: undefined,
     severity: undefined,
@@ -24,6 +26,7 @@ const initialState: AppState = {
     onlineUsers: 1,
   },
   updateAvailable: false,
+  loading: false,
   user: {
     isAuthenticated: false,
     loading: true,
@@ -31,6 +34,8 @@ const initialState: AppState = {
       id: '',
       avatar: '',
       username: '',
+      email: '',
+      emailVerified: false,
       displayName: '',
     },
   },
@@ -45,13 +50,18 @@ export const AppStateContext = createContext<AppContextType>({});
 
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { loading: userDataLoading, data: whoAmIData } = useQuery<{ whoAmI: UserData }>(GET_USER);
+  const [refetchUser, setRefetchUser] = useState(true);
+  const { loading: userDataLoading, data: whoAmIData, refetch: refetchWhoAmI } = useQuery<{
+    whoAmI: UserData;
+  }>(GET_USER);
 
-  useQuery<{ world: World }>(GET_WORLD, {
-    pollInterval: 5000,
+  const { startPolling, stopPolling } = useQuery<{ world: World }>(GET_WORLD, {
     notifyOnNetworkStatusChange: true,
-    onCompleted: data => {
-      dispatch({ type: Types.UPDATE_WORLD, payload: data });
+    onCompleted: worldData => {
+      dispatch({ type: Types.UPDATE_WORLD, payload: worldData });
+    },
+    onError: () => {
+      setRefetchUser(true);
     },
   });
 
@@ -76,35 +86,50 @@ export const AppStateProvider: React.FC = ({ children }) => {
       try {
         const user = await currentAuthenticatedUser();
         if (user) {
+          if (!whoAmIData || !whoAmIData.whoAmI.id) {
+            refetchWhoAmI();
+          }
+
           if (!state.user.isAuthenticated) {
             dispatch({
               type: Types.AUTHENTICATE_USER,
-              payload: { isAuthenticated: true, loading: false, user: whoAmIData && whoAmIData.whoAmI },
+              payload: {
+                isAuthenticated: true,
+                loading: false,
+                user: whoAmIData && whoAmIData.whoAmI,
+              },
             });
+            startPolling(7000);
           }
         } else {
           dispatch({
             type: Types.AUTHENTICATE_USER,
-            payload: { isAuthenticated: false, loading: false, user: initialState.user.user },
+            payload: {
+              isAuthenticated: false,
+              loading: false,
+              user: initialState.user.user,
+            },
           });
+          stopPolling();
         }
       } catch (err) {
         dispatch({
           type: Types.AUTHENTICATE_USER,
-          payload: { isAuthenticated: false, loading: false, user: initialState.user.user },
+          payload: {
+            isAuthenticated: false,
+            loading: false,
+            user: initialState.user.user,
+          },
         });
+        stopPolling();
       }
     };
 
-    if (!userDataLoading) {
+    if (!userDataLoading && refetchUser === true) {
+      setRefetchUser(false);
       getUser();
-    } else {
-      dispatch({
-        type: Types.AUTHENTICATE_USER,
-        payload: { isAuthenticated: false, loading: true, user: initialState.user.user },
-      });
     }
-  }, [state.user.isAuthenticated, userDataLoading, whoAmIData]);
+  }, [refetchUser, refetchWhoAmI, startPolling, state.user.isAuthenticated, stopPolling, userDataLoading, whoAmIData]);
 
   const ignoreInvite = useCallback(() => {
     dispatch({ type: Types.CLEAR_INVITE });
@@ -113,20 +138,17 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const acceptInvite = useCallback(() => {
     dispatch({ type: Types.ACCEPT_INVITE });
     window.location.href = `/game/${state.userInvite.gameId}`;
-  }, [state.userInvite]);
+  }, [state.userInvite.gameId]);
 
   const clearNotification = useCallback(() => {
     dispatch({ type: Types.CLEAR_NOTIFICATION });
-  }, [dispatch]);
+  }, []);
 
-  const closeNotification = useCallback(
-    (_event: any, reason: string) => {
-      if (reason === 'timeout') {
-        dispatch({ type: Types.CLOSE_NOTIFICATION });
-      }
-    },
-    [dispatch]
-  );
+  const closeNotification = useCallback((_event: any, reason: string) => {
+    if (reason === 'timeout') {
+      dispatch({ type: Types.CLOSE_NOTIFICATION });
+    }
+  }, []);
 
   const updateApp = useCallback(() => {
     window.location.reload();

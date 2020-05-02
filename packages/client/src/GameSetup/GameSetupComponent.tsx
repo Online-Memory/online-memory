@@ -42,7 +42,11 @@ const GAME_TILES = [100, 72, 48, 36];
 export const Component: React.FC<Props> = memo(
   ({ templates, playAgainData, onSubmit, onSearchUser, searchUserData, searchUserLoading }) => {
     const classes = useStyles();
-    const playAgainUsers = playAgainData?.users?.map(user => ({ username: user?.item?.username, id: user?.id })) || [];
+    const playAgainUsers =
+      playAgainData?.users?.map(user => ({
+        username: user?.item?.username,
+        id: user?.id,
+      })) || [];
     const [inviteUsers, setInviteUsers] = useState(playAgainUsers);
     const [defaultUsers] = useState(inviteUsers);
     const [gameName, setGameName] = useState(playAgainData?.name || '');
@@ -132,7 +136,12 @@ export const Component: React.FC<Props> = memo(
                     {sampleTiles.map((tile, index) => (
                       <TileComponent
                         key={`tile_${tile.id}`}
-                        tile={{ id: tile.id, status: tile.status, ref: tile.ref, owner: '' }}
+                        tile={{
+                          id: tile.id,
+                          status: tile.status,
+                          ref: tile.ref,
+                          owner: '',
+                        }}
                         template={gameTemplate}
                         tileSize={100}
                         disabled={true}

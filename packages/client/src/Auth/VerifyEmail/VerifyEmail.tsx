@@ -11,7 +11,7 @@ const VerifyEmailComponent: React.FC = () => {
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
-  const { verifyEmail, resendCode, authLoading } = useAppState();
+  const { verifyEmail, resendCode, loading } = useAppState();
   const [error, setErrorState] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -110,9 +110,9 @@ const VerifyEmailComponent: React.FC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={authLoading || !isFormValid}
+            disabled={loading || !isFormValid}
           >
-            {authLoading && <CircularProgress size={24} className={classes.loader} />}
+            {loading && <CircularProgress size={24} className={classes.loader} />}
             Verify Code
           </Button>
           <Grid container>

@@ -1,10 +1,9 @@
 #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
 #set( $username = $util.defaultIfNull($ctx.identity.claims.get("name"), "___xamznone____") )
+#set( $email = $util.defaultIfNull($ctx.identity.claims.get("email"), "___xamznone____") )
+#set( $email_verified = $util.defaultIfNull($ctx.identity.claims.get("email_verified"), "___xamznone____") )
 
 #if($util.isNullOrEmpty($identityValue))
-    $util.unauthorized()
-#end
-#if($util.isNullOrEmpty($username))
     $util.unauthorized()
 #end
 
@@ -15,5 +14,7 @@
         "field": "whoAmI",
         "userId": $utils.toJson($identityValue),
         "username": $utils.toJson($username),
+        "email": $utils.toJson($email),
+        "emailVerified": $utils.toJson($email_verified),
     }
 }

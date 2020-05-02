@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
-    minWidth: '340px',
+    minWidth: '300px',
     maxWidth: '400px',
     padding: theme.spacing(4, 2),
     background: theme.palette.type === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.4)',
@@ -13,11 +13,11 @@ export const useStyles = makeStyles(theme => ({
     maxWidth: 0,
     minWidth: 0,
     padding: 0,
-    transitionDelay: '.2s',
+    transitionDelay: '.4s',
   },
   toggleDashboardButton: {
     position: 'absolute',
-    bottom: theme.spacing(1),
+    top: theme.spacing(1),
     right: theme.spacing(1),
     transition: 'transform .3s ease-in-out',
   },
@@ -40,7 +40,6 @@ export const useStyles = makeStyles(theme => ({
   },
   dashboardContentVisible: {
     opacity: 1,
-    transitionDelay: '.3s',
   },
   scoreboardTitle: {
     marginBottom: theme.spacing(6),

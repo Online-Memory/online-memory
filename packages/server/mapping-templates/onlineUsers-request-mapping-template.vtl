@@ -1,4 +1,4 @@
-#set( $minNow = $util.time.nowEpochSeconds() - 120 )
+#set( $now = $util.time.nowEpochSeconds() )
 #set( $dataType = $util.dynamodb.toDynamoDBJson("UserTTL") )
 
 {
@@ -15,12 +15,12 @@
         }
     },
     "filter" : {
-        "expression": "#updatedAt >= :minTime",
+        "expression": "#expiresAt >= :now",
         "expressionNames" : {
-            "#updatedAt" : "updatedAt",
+            "#expiresAt" : "expiresAt",
         },
         "expressionValues" : {
-            ":minTime" : { "N": $minNow },
+            ":now" : { "N": $now },
         }
     }
 }

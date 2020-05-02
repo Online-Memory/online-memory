@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(theme => ({
   zoom: {
-    zIndex: 99,
+    zIndex: 999,
     position: 'fixed',
     padding: '12px',
     right: '-33px',

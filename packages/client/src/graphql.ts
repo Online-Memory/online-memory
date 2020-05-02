@@ -5,6 +5,8 @@ export const GET_USER = gql`
     whoAmI {
       id
       username
+      email
+      emailVerified
       displayName
       avatar
     }
@@ -114,7 +116,6 @@ export const CLAIM_PLAYER = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs
@@ -164,7 +165,6 @@ export const START_GAME = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs
@@ -214,7 +214,6 @@ export const PLAY_TURN = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs
@@ -264,7 +263,6 @@ export const CHECKOUT_TILE = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs
@@ -314,7 +312,6 @@ export const GET_GAME = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs
@@ -364,7 +361,6 @@ export const GAME_UPDATED = gql`
       players {
         id
         status
-        name
         userId
         moves
         pairs

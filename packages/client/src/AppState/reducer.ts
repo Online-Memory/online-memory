@@ -1,5 +1,11 @@
 import { AppState, AppAction, Types } from './types';
 
+const userIsAlive = () => {
+  return {
+    lastInteraction: Date.now(),
+  };
+};
+
 export const reducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
     case Types.CREATE_MESSAGE:
@@ -55,6 +61,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.ACCEPT_INVITE:
       return {
         ...state,
+        ...userIsAlive(),
         userInvite: {
           show: false,
           from: undefined,
@@ -65,6 +72,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.CLEAR_INVITE:
       return {
         ...state,
+        ...userIsAlive(),
         userInvite: {
           show: false,
           from: undefined,
@@ -75,6 +83,7 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.UPDATE_USER:
       return {
         ...state,
+        ...userIsAlive(),
         user: {
           ...state.user,
           user: {
@@ -88,12 +97,14 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.PLAY_AGAIN:
       return {
         ...state,
+        ...userIsAlive(),
         playAgain: action.payload,
       };
 
     case Types.CLEAR_PLAY_AGAIN_DATA:
       return {
         ...state,
+        ...userIsAlive,
         playAgain: undefined,
       };
 
@@ -101,6 +112,25 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
       return {
         ...state,
         world: action.payload?.getWorld,
+      };
+
+    case Types.LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+
+    case Types.USER_INTERACTION:
+      return {
+        ...state,
+        ...userIsAlive(),
+      };
+
+    case Types.SET_USER_STATE:
+      return {
+        ...state,
+        ...userIsAlive(),
+        userStatus: action.payload,
       };
 
     default:

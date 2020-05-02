@@ -16,11 +16,11 @@ exports.graphqlHandler = async (event, context, callback) => {
 
   switch (field) {
     case 'whoAmI': {
-      const { userId, username } = event;
+      const { userId, username, email, emailVerified } = event;
 
       let userData;
       try {
-        userData = await whoAmI(userId, username);
+        userData = await whoAmI(userId, username, email, emailVerified);
       } catch (err) {
         console.log(err);
         return null;
@@ -318,6 +318,23 @@ exports.graphqlHandler = async (event, context, callback) => {
       const from = userDataItem.username;
 
       callback(null, { userId, gameId, from });
+      break;
+    }
+
+    case 'updateUsername': {
+      const { username } = input;
+
+      let updateUsernameData;
+      try {
+        updateUsernameData = await updateUsername(owner, username);
+        console.log('playTurnData', updateUsernameData);
+      } catch (err) {
+        console.log(err);
+        callback(null, { error: 'Something went wrong while trying to update the user information' });
+        return null;
+      }
+
+      callback(null, {});
       break;
     }
 

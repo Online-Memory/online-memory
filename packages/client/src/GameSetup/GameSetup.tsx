@@ -73,7 +73,12 @@ export const GameSetup = memo(() => {
         const usersToInvite = users.filter((currUser: any) => currUser.id !== user.id);
         if (usersToInvite.length) {
           for (const userToInvite of usersToInvite) {
-            await inviteUser({ variables: { userId: userToInvite.id, gameId: gameData?.data?.createGame?.id } });
+            await inviteUser({
+              variables: {
+                userId: userToInvite.id,
+                gameId: gameData?.data?.createGame?.id,
+              },
+            });
           }
         }
       }

@@ -11,7 +11,7 @@ const RegisterComponent: React.FC = () => {
   const history = useHistory();
   const classes = useStyles();
   const { formData, setFormField, resetForm } = useForm(initialData);
-  const { register, authLoading } = useAppState();
+  const { register, loading } = useAppState();
   const [error, setErrorState] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -114,9 +114,9 @@ const RegisterComponent: React.FC = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={authLoading || !isFormValid}
+            disabled={loading || !isFormValid}
           >
-            {authLoading && <CircularProgress size={24} className={classes.loader} />}
+            {loading && <CircularProgress size={24} className={classes.loader} />}
             Register
           </Button>
           <Grid container>
