@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.26.1](https://github.com/Online-Memory/online-memory/tree/v0.26.1) (2020-05-02)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.0...v0.26.1)
+
+**Implemented enhancements:**
+
+- Show online users [\#70](https://github.com/Online-Memory/online-memory/issues/70)
+
 ## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
@@ -135,7 +143,6 @@
 **Implemented enhancements:**
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
-- Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
 - Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
@@ -185,7 +192,6 @@
 **Implemented enhancements:**
 
 - User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
-- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Merged pull requests:**
 
@@ -200,6 +206,7 @@
 **Implemented enhancements:**
 
 - Image optimisation and cache [\#40](https://github.com/Online-Memory/online-memory/issues/40)
+- Custom template sizes [\#39](https://github.com/Online-Memory/online-memory/issues/39)
 
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
@@ -240,6 +247,10 @@
 ## [v0.9.1](https://github.com/Online-Memory/online-memory/tree/v0.9.1) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
+
+**Implemented enhancements:**
+
+- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Fixed bugs:**
 
