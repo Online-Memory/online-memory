@@ -192,6 +192,7 @@
 **Implemented enhancements:**
 
 - User Dashboard [\#42](https://github.com/Online-Memory/online-memory/issues/42)
+- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Merged pull requests:**
 
@@ -247,10 +248,6 @@
 ## [v0.9.1](https://github.com/Online-Memory/online-memory/tree/v0.9.1) (2020-04-08)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.9.0...v0.9.1)
-
-**Implemented enhancements:**
-
-- Increase maximum zoom level [\#35](https://github.com/Online-Memory/online-memory/issues/35)
 
 **Fixed bugs:**
 
