@@ -15,7 +15,6 @@ import {
   Tooltip,
   Menu,
   MenuItem,
-  Drawer,
 } from '@material-ui/core';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
