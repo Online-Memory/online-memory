@@ -43,4 +43,22 @@ export const useStyles = makeStyles(theme => ({
   divider: {
     margin: theme.spacing(0, 0, 1),
   },
+  navbar: {
+    background:
+      theme.palette.type === 'dark'
+        ? 'linear-gradient(90deg, rgba(129,251,136,1) 0%, rgba(40,199,111,1) 100%)'
+        : 'linear-gradient(90deg, rgba(156,39,176,1) 0%, rgba(175,73,255,1) 100%)',
+    height: 100,
+  },
+  titleStyle: {
+    fontFamily: 'Bungee',
+    fontSize: 40,
+    color: theme.palette.type === 'dark' ? '#AF49FF' : '#81FB88',
+  },
+  wmcIcon: {
+    height: 80,
+    width: 80,
+    padding: 0,
+    marginTop: 10,
+  },
 }));
