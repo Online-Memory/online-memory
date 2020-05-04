@@ -1,8 +1,6 @@
 import { useCallback, useState } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/lightBlue';
 import grey from '@material-ui/core/colors/grey';
-import purple from '@material-ui/core/colors/purple';
 
 const KEY = 'darkTheme';
 
@@ -45,12 +43,16 @@ export const useTheme = (initialValue = true) => {
     palette: {
       type: darkTheme ? 'dark' : 'light',
       primary: {
-        main: darkTheme ? blue[600] : purple[500],
+        main: darkTheme ? '#28C76F' : '#9C27B0',
       },
       secondary: grey,
       background: {
         default: darkTheme ? grey[900] : grey[200],
       },
+    },
+    typography: {
+      fontFamily: 'Rajdhani, sans-serif',
+      fontSize: 16,
     },
   });
 

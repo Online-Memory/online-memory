@@ -23,4 +23,14 @@ export const useStyles = makeStyles(theme => ({
   linkButton: {
     textDecoration: 'none',
   },
+  underTitle: {
+    textTransform: 'uppercase',
+  },
+  punchLine: {
+    fontWeight: 500,
+  },
+  buttonHome: {
+    padding: '20px 50px',
+    fontSize: 24,
+  },
 }));

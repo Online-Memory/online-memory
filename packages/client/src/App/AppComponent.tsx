@@ -15,10 +15,12 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  Drawer,
 } from '@material-ui/core';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
 import catButt from '../assets/img/catButt.png';
+import wmcIcon from '../assets/img/WMC_icon.png';
 import gitHub from './github.svg';
 import { useAppState } from '../AppState';
 import { Router } from '../router';
@@ -84,77 +86,79 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme 
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
-      <AppBar position="relative">
+      <AppBar position="relative" classes={{ root: classes.navbar }}>
         <Toolbar>
-          <Typography variant="h6" color="inherit" className={classes.title} noWrap>
-            <Link href="/" color="inherit">
-              OnLine Memory
+          <Grid container alignItems="center">
+            <img src={wmcIcon} alt="World Memory Challenge Icon" className={classes.wmcIcon} />
+            <Typography variant="h6" color="inherit" className={classes.title} noWrap>
+              <Link href="/" color="inherit" className={classes.titleStyle}>
+                World Memory Challenge
+              </Link>
+            </Typography>
+            <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>
+              <Tooltip title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
+                {darkTheme ? <Sun /> : <Moon />}
+              </Tooltip>
+            </IconButton>
+            <Link href="/about" underline="none" color="inherit">
+              <Button color="inherit">About</Button>
             </Link>
-          </Typography>
+            {isAuthenticated && user ? (
+              <>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  size="small"
+                  className="userMenu"
+                  onClick={handleMenu}
+                >
+                  <div className={classes.avatarWrapper}>
+                    <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
+                  </div>
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem className="profile" onClick={handleHomepage}>
+                    Home
+                  </MenuItem>
+                  <MenuItem className="dashboard" onClick={handleDashboard}>
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem className="profile" onClick={handleProfile}>
+                    User Profile
+                  </MenuItem>
 
-          <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>
-            <Tooltip title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
-              {darkTheme ? <Sun /> : <Moon />}
-            </Tooltip>
-          </IconButton>
-          <Link href="/about" underline="none" color="inherit">
-            <Button color="inherit">About</Button>
-          </Link>
-          {isAuthenticated && user ? (
-            <>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                size="small"
-                className="userMenu"
-                onClick={handleMenu}
-              >
-                <div className={classes.avatarWrapper}>
-                  <Avatar size="40px" hash={user.avatar} className={classes.avatarIcon} />
-                </div>
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem className="profile" onClick={handleHomepage}>
-                  Home
-                </MenuItem>
-                <MenuItem className="dashboard" onClick={handleDashboard}>
-                  Dashboard
-                </MenuItem>
-                <MenuItem className="profile" onClick={handleProfile}>
-                  User Profile
-                </MenuItem>
+                  <MenuItem divider className={classes.divider} disabled />
 
-                <MenuItem divider className={classes.divider} disabled />
-
-                <MenuItem className="settings" onClick={handleSettings}>
-                  Settings
-                </MenuItem>
-                <MenuItem className="logOut" onClick={handleLogout}>
-                  Log Out
-                </MenuItem>
-              </Menu>
-            </>
-          ) : (
-            <Link href="/login" underline="none" color="inherit">
-              <Button color="inherit">Login</Button>
-            </Link>
-          )}
+                  <MenuItem className="settings" onClick={handleSettings}>
+                    Settings
+                  </MenuItem>
+                  <MenuItem className="logOut" onClick={handleLogout}>
+                    Log Out
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <Link href="/login" underline="none" color="inherit">
+                <Button color="inherit">Login</Button>
+              </Link>
+            )}
+          </Grid>
         </Toolbar>
       </AppBar>
       <Grid container component="main" direction="column" className={classes.main}>
