@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
+
+**Merged pull requests:**
+
+- New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
+- La geenas [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.26.1](https://github.com/Online-Memory/online-memory/tree/v0.26.1) (2020-05-02)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.0...v0.26.1)
