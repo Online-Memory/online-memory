@@ -45,7 +45,13 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.AUTHENTICATE_USER:
       return {
         ...state,
-        user: action.payload,
+        ...userIsAlive(),
+        loading: false,
+        refetchUser: false,
+        user: {
+          ...action.payload,
+          loading: false,
+        },
       };
 
     case Types.USER_INVITE:
@@ -131,6 +137,14 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         ...userIsAlive(),
         userStatus: action.payload,
+      };
+
+    case Types.REFETCH_USER:
+      return {
+        ...state,
+        ...userIsAlive(),
+        refetchUser: true,
+        loading: true,
       };
 
     default:

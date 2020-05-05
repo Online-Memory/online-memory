@@ -43,6 +43,7 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme 
       userId: user?.id,
     },
     shouldResubscribe: true,
+    skip: !user?.id,
   });
 
   useEffect(() => {

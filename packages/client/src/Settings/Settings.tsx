@@ -16,6 +16,7 @@ import {
   DialogContentText,
   DialogActions,
   Divider,
+  CircularProgress,
 } from '@material-ui/core';
 import { useAppState } from '../AppState';
 import { useStyles } from './styles';
@@ -23,24 +24,19 @@ import { useStyles } from './styles';
 export const Settings: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  // const { updateUsername, loading, user } = useAppState();
-  const { loading, user } = useAppState();
-  // const [username, setUsername] = useState(user?.username);
-  const [username] = useState(user?.username);
+  const { updateUsername, loading, user, showMessage } = useAppState();
+  const [username, setUsername] = useState(user?.username);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleChangeUsername = useCallback((input: any) => {
-    // setUsername(input.target.value);
+    setUsername(input.target.value);
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    // const res = await updateUsername(username);
-    // if (!res) {
-    //   return;
-    // }
-
+    await updateUsername(username);
+    showMessage('User information correctly updated', 'success', 'Success');
     history.goBack();
-  }, [history]);
+  }, [history, showMessage, updateUsername, username]);
 
   const handleCancel = useCallback(async () => {
     history.goBack();
@@ -91,11 +87,11 @@ export const Settings: React.FC = () => {
                   <TextField
                     type="text"
                     variant="outlined"
+                    helperText="Username must be between 5 and 12 characters"
                     inputProps={{ maxLength: 16 }}
                     value={username}
                     onChange={handleChangeUsername}
                     fullWidth
-                    disabled
                   />
                 </Grid>
                 <Grid item>
@@ -105,8 +101,8 @@ export const Settings: React.FC = () => {
                     variant="outlined"
                     inputProps={{ maxLength: 30 }}
                     value={user?.email}
-                    fullWidth
                     disabled
+                    fullWidth
                   />
                 </Grid>
 
@@ -127,9 +123,10 @@ export const Settings: React.FC = () => {
                       className={classes.deleteButton}
                       color="primary"
                       variant="contained"
-                      disabled
                       onClick={handleDeleteAccountButton}
+                      disabled
                     >
+                      {loading && <CircularProgress size={24} className={classes.loader} />}
                       Delete your account
                     </Button>
                   </Grid>
@@ -143,6 +140,7 @@ export const Settings: React.FC = () => {
               Cancel
             </Button>
             <Button color="primary" onClick={handleSubmit} disabled={loading}>
+              {loading && <CircularProgress size={24} className={classes.loader} />}
               Update Profile
             </Button>
           </CardActions>

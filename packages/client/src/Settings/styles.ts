@@ -7,6 +7,9 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     justifyContent: 'flex-end',
   },
+  loader: {
+    marginRight: theme.spacing(1),
+  },
   deleteButton: {
     color: theme.palette.getContrastText(theme.palette.error.main),
     background: theme.palette.error.main,
