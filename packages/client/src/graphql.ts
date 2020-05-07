@@ -49,10 +49,13 @@ export const DELETE_GAME = gql`
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput!) {
-    updateUser(input: $updateUserInput) {
-      displayName
-      avatar
-    }
+    updateUser(input: $updateUserInput)
+  }
+`;
+
+export const UPDATE_USERNAME = gql`
+  mutation UpdateUsername($updateUsernameInput: UpdateUsernameInput!) {
+    updateUsername(input: $updateUsernameInput)
   }
 `;
 

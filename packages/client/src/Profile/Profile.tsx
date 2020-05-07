@@ -10,6 +10,7 @@ import {
   TextField,
   CardActions,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
 import { Avatar } from 'react-avataaars';
 import { useAppState } from '../AppState';
@@ -28,7 +29,7 @@ const randomUuid = () => {
 export const Profile: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { updateUser, updateUserLoading, user } = useAppState();
+  const { updateUser, loading, user, showMessage } = useAppState();
   const [displayName, setDisplayName] = useState(user?.displayName || '');
   const [avatar, setAvatar] = useState(user?.avatar || '');
 
@@ -36,14 +37,15 @@ export const Profile: React.FC = () => {
     setDisplayName(input.target.value);
   }, []);
 
-  const handleChangeAvatar = useCallback((input: any) => {
+  const handleChangeAvatar = useCallback(() => {
     setAvatar(randomUuid());
   }, []);
 
   const handleSubmit = useCallback(async () => {
     await updateUser(displayName, avatar);
+    showMessage('User information correctly updated', 'success', 'Success');
     history.goBack();
-  }, [avatar, displayName, history, updateUser]);
+  }, [avatar, displayName, history, showMessage, updateUser]);
 
   const handleCancel = useCallback(async () => {
     history.goBack();
@@ -92,7 +94,8 @@ export const Profile: React.FC = () => {
             <Button color="default" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button color="primary" onClick={handleSubmit} disabled={updateUserLoading}>
+            <Button color="primary" onClick={handleSubmit} disabled={loading}>
+              {loading && <CircularProgress size={24} className={classes.loader} />}
               Save changes
             </Button>
           </CardActions>

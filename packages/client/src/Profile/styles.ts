@@ -7,6 +7,9 @@ export const useStyles = makeStyles(theme => ({
   cardActions: {
     justifyContent: 'flex-end',
   },
+  loader: {
+    marginRight: theme.spacing(1),
+  },
   avatar: {
     background: theme.palette.background.default,
     border: '1px solid hsla(0, 0%, 15%, 0.5)',

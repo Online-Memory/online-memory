@@ -10,9 +10,8 @@ import {
   awsResendCode,
   awsForgottenPassword,
   awsResetPassword,
-  // awsUpdateUsername,
 } from './AWS';
-import { UPDATE_USER, GET_USER } from '../graphql';
+import { UPDATE_USER, UPDATE_USERNAME } from '../graphql';
 import { useMutation } from '@apollo/react-hooks';
 import { GameData } from '../Game/types';
 
@@ -24,11 +23,16 @@ export const useAppState = () => {
     throw new Error('must be used within a Provider');
   }
 
-  const [updateUserMutation, { loading: updateUserLoading }] = useMutation(UPDATE_USER, {
+  const [updateUserMutation] = useMutation(UPDATE_USER, {
     onError: err => {
       console.warn(err);
     },
-    refetchQueries: [{ query: GET_USER }],
+  });
+
+  const [updateUsernameMutation] = useMutation(UPDATE_USERNAME, {
+    onError: err => {
+      console.warn(err);
+    },
   });
 
   const showMessage = useCallback(
@@ -62,53 +66,51 @@ export const useAppState = () => {
   const updateUser = useCallback(
     async (displayName: string, avatar: string) => {
       dispatch({ type: Types.LOADING, payload: true });
-      const res = await updateUserMutation({
+      await updateUserMutation({
         variables: {
           updateUserInput: { displayName, avatar },
         },
       });
-
-      if (res.data.updateUser) {
-        dispatch({ type: Types.UPDATE_USER, payload: res.data.updateUser });
-      }
-      dispatch({ type: Types.LOADING, payload: false });
+      dispatch({ type: Types.REFETCH_USER });
     },
     [dispatch, updateUserMutation]
   );
 
-  // const updateUsername = useCallback(
-  //   async (username: string) => {
-  //     dispatch({ type: Types.LOADING, payload: true });
-  //     try {
-  //       await awsUpdateUsername(username);
-  //     } catch (err) {
-  //       dispatch({
-  //         type: Types.CREATE_MESSAGE,
-  //         payload: {
-  //           message: err?.message || 'Something went wrong. Cannot update user information right now',
-  //           severity: 'error',
-  //           title: 'Error',
-  //           show: true,
-  //         },
-  //       });
-  //       dispatch({ type: Types.LOADING, payload: false });
-  //       return false;
-  //     }
-
-  //     dispatch({
-  //       type: Types.CREATE_MESSAGE,
-  //       payload: {
-  //         message: 'User information correctly updated',
-  //         severity: 'success',
-  //         title: 'Success',
-  //         show: true,
-  //       },
-  //     });
-  //     dispatch({ type: Types.LOADING, payload: false });
-  //     return true;
-  //   },
-  //   [dispatch]
-  // );
+  const updateUsername = useCallback(
+    async (username: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      try {
+        await updateUsernameMutation({
+          variables: {
+            updateUsernameInput: { username },
+          },
+        });
+      } catch (err) {
+        dispatch({
+          type: Types.CREATE_MESSAGE,
+          payload: {
+            message: err?.message || 'Something went wrong. Cannot update user information right now',
+            severity: 'error',
+            title: 'Error',
+            show: true,
+          },
+        });
+        dispatch({ type: Types.LOADING, payload: false });
+        return null;
+      }
+      dispatch({
+        type: Types.CREATE_MESSAGE,
+        payload: {
+          message: 'User information correctly updated',
+          severity: 'success',
+          title: 'Success',
+          show: true,
+        },
+      });
+      dispatch({ type: Types.REFETCH_USER });
+    },
+    [dispatch, updateUsernameMutation]
+  );
 
   const logOut = useCallback(async () => {
     dispatch({ type: Types.LOADING, payload: true });
@@ -267,8 +269,7 @@ export const useAppState = () => {
     world: state.world,
     userLoading: state.user.loading,
     updateUser,
-    updateUserLoading,
-    // updateUsername,
+    updateUsername,
     loading: state.loading,
     logIn,
     register,

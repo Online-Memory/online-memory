@@ -9,6 +9,7 @@ const { claimPlayer } = require('./eventHandlers/claim-player');
 const { playTurn } = require('./eventHandlers/play-turn');
 const { checkoutTile } = require('./eventHandlers/checkout-tile');
 const { deleteGame } = require('./eventHandlers/delete-game');
+const { updateUsername } = require('./eventHandlers/update-username');
 
 exports.graphqlHandler = async (event, context, callback) => {
   const { field, owner, input } = event;
@@ -16,11 +17,9 @@ exports.graphqlHandler = async (event, context, callback) => {
 
   switch (field) {
     case 'whoAmI': {
-      const { userId, username, email, emailVerified } = event;
-
       let userData;
       try {
-        userData = await whoAmI(userId, username, email, emailVerified);
+        userData = await whoAmI(owner);
       } catch (err) {
         console.log(err);
         return null;
@@ -327,14 +326,14 @@ exports.graphqlHandler = async (event, context, callback) => {
       let updateUsernameData;
       try {
         updateUsernameData = await updateUsername(owner, username);
-        console.log('playTurnData', updateUsernameData);
+        console.log('updateUsernameData', updateUsernameData);
       } catch (err) {
         console.log(err);
-        callback(null, { error: 'Something went wrong while trying to update the user information' });
+        callback('Something went wrong while trying to update the user information');
         return null;
       }
 
-      callback(null, {});
+      callback(null, updateUsernameData);
       break;
     }
 

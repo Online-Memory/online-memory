@@ -3,6 +3,10 @@ input UpdateUserInput {
 	avatar: String!
 }
 
+input UpdateUsernameInput {
+	username: String!
+}
+
 input CreateGameInput {
 	name: String!
 	template: String!
@@ -140,7 +144,8 @@ type Query {
 }
 
 type Mutation {
-	updateUser(input: UpdateUserInput!): WhoAmI
+	updateUser(input: UpdateUserInput!): String
+	updateUsername(input: UpdateUsernameInput!): String
 	startGame(input: StartGameInput!): Game
 	createGame(input: CreateGameInput!): Game
 	claimPlayer(input: ClaimPlayerInput!): Game

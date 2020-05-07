@@ -79,10 +79,14 @@ const updateUsername = async (userId, username) => {
       id: userId,
       __typename: 'User',
     },
-    UpdateExpression: 'set #username = :username',
-    ExpressionAttributeNames: { '#username': 'username' },
+    UpdateExpression: 'set #username = :username, #searchableUsername = :searchableUsername',
+    ExpressionAttributeNames: {
+      '#username': 'username',
+      '#searchableUsername': 'searchableUsername',
+    },
     ExpressionAttributeValues: {
       ':username': username,
+      ':searchableUsername': `${username}`.toLocaleLowerCase(),
     },
   };
 

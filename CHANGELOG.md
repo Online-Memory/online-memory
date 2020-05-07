@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.28.0](https://github.com/Online-Memory/online-memory/tree/v0.28.0) (2020-05-05)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.27.0...v0.28.0)
+
+**Implemented enhancements:**
+
+- User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
+
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)

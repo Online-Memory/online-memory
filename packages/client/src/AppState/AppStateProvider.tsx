@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useCallback, useEffect, useState } from 'react';
+import React, { useReducer, createContext, useCallback, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
@@ -10,6 +10,7 @@ import { reducer } from './reducer';
 import * as serviceWorker from '../serviceWorker';
 
 const initialState: AppState = {
+  refetchUser: false,
   lastInteraction: Date.now(),
   userStatus: UserStatus.AVAILABLE,
   notifications: {
@@ -50,18 +51,18 @@ export const AppStateContext = createContext<AppContextType>({});
 
 export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [refetchUser, setRefetchUser] = useState(true);
   const { loading: userDataLoading, data: whoAmIData, refetch: refetchWhoAmI } = useQuery<{
     whoAmI: UserData;
   }>(GET_USER);
 
   const { startPolling, stopPolling } = useQuery<{ world: World }>(GET_WORLD, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
     onCompleted: worldData => {
       dispatch({ type: Types.UPDATE_WORLD, payload: worldData });
     },
     onError: () => {
-      setRefetchUser(true);
+      dispatch({ type: Types.REFETCH_USER });
     },
   });
 
@@ -85,28 +86,27 @@ export const AppStateProvider: React.FC = ({ children }) => {
     const getUser = async () => {
       try {
         const user = await currentAuthenticatedUser();
+
         if (user) {
-          if (!whoAmIData || !whoAmIData.whoAmI.id) {
-            refetchWhoAmI();
+          if (!whoAmIData?.whoAmI?.id) {
+            dispatch({ type: Types.REFETCH_USER });
           }
 
           if (!state.user.isAuthenticated) {
-            dispatch({
-              type: Types.AUTHENTICATE_USER,
-              payload: {
-                isAuthenticated: true,
-                loading: false,
-                user: whoAmIData && whoAmIData.whoAmI,
-              },
-            });
             startPolling(7000);
           }
+          dispatch({
+            type: Types.AUTHENTICATE_USER,
+            payload: {
+              isAuthenticated: true,
+              user: whoAmIData && whoAmIData.whoAmI,
+            },
+          });
         } else {
           dispatch({
             type: Types.AUTHENTICATE_USER,
             payload: {
               isAuthenticated: false,
-              loading: false,
               user: initialState.user.user,
             },
           });
@@ -117,7 +117,6 @@ export const AppStateProvider: React.FC = ({ children }) => {
           type: Types.AUTHENTICATE_USER,
           payload: {
             isAuthenticated: false,
-            loading: false,
             user: initialState.user.user,
           },
         });
@@ -125,11 +124,28 @@ export const AppStateProvider: React.FC = ({ children }) => {
       }
     };
 
-    if (!userDataLoading && refetchUser === true) {
-      setRefetchUser(false);
+    if (!userDataLoading) {
       getUser();
     }
-  }, [refetchUser, refetchWhoAmI, startPolling, state.user.isAuthenticated, stopPolling, userDataLoading, whoAmIData]);
+
+    if (state.refetchUser) {
+      refetchWhoAmI()
+        .then(() => {
+          getUser();
+        })
+        .catch(_err => {
+          getUser();
+        });
+    }
+  }, [
+    refetchWhoAmI,
+    startPolling,
+    state.refetchUser,
+    state.user.isAuthenticated,
+    stopPolling,
+    userDataLoading,
+    whoAmIData,
+  ]);
 
   const ignoreInvite = useCallback(() => {
     dispatch({ type: Types.CLEAR_INVITE });

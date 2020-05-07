@@ -1,6 +1,26 @@
+const AWS = require('aws-sdk');
 const { getUser, createUser, updateUsername } = require('../helpers/db-operations');
 
-const whoAmI = async (userId, username, email, emailVerified) => {
+const REGION = process.env.REGION || 'us-east-1';
+const USER_POOL_ID = process.env.USER_POOL_ID || '';
+
+AWS.config.update({ region: REGION });
+
+const whoAmI = async userId => {
+  const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+
+  const getUserParams = {
+    UserPoolId: USER_POOL_ID,
+    Username: userId,
+  };
+
+  const cognitoUserData = await cognitoidentityserviceprovider.adminGetUser(getUserParams).promise();
+
+  const { UserAttributes } = cognitoUserData;
+  const username = UserAttributes.find(attribute => attribute.Name === 'name').Value;
+  const email = UserAttributes.find(attribute => attribute.Name === 'email').Value;
+  const emailVerified = UserAttributes.find(attribute => attribute.Name === 'email_verified').Value;
+
   let userData;
   try {
     userData = await getUser(userId);
