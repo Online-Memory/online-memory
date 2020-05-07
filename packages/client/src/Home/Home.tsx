@@ -3,7 +3,7 @@ import { Link as LinkUI, useHistory } from 'react-router-dom';
 import { Container, Typography, Grid, Button, TextField } from '@material-ui/core';
 import { useAppState } from '../AppState';
 import { useStyles } from './styles';
-
+import spinningWorld from '../assets/img/world_spinning.gif';
 export const Home: React.FC = memo(() => {
   const classes = useStyles();
   const history = useHistory();
@@ -43,7 +43,7 @@ export const Home: React.FC = memo(() => {
           <Grid container direction="column">
             {user?.username && world?.onlineUsers && (
               <>
-                <Typography component="h2" variant="h3" align="center" gutterBottom>
+                <Typography component="h2" variant="h4" align="center" gutterBottom>
                   Welcome back, {user.username}!
                 </Typography>
                 <Typography className={classes.underTitle} component="h4" variant="h5" align="center" gutterBottom>
@@ -51,6 +51,11 @@ export const Home: React.FC = memo(() => {
                 </Typography>
               </>
             )}
+          </Grid>
+          <Grid container direction="column" alignItems="center">
+            <Grid item>
+              <img src={spinningWorld} alt="WMC logo spinning" />
+            </Grid>
           </Grid>
           <Grid item>
             <Typography
@@ -67,7 +72,7 @@ export const Home: React.FC = memo(() => {
             <Typography
               className={classes.underTitle}
               component="h4"
-              variant="h4"
+              variant="h6"
               align="center"
               color="textSecondary"
               gutterBottom

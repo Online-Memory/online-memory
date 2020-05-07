@@ -15,6 +15,8 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  WithWidth,
+  isWidthDown,
 } from '@material-ui/core';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
@@ -26,12 +28,12 @@ import { Router } from '../router';
 import { version } from '../version';
 import { useStyles } from './styles';
 
-interface Props {
+interface Props extends WithWidth {
   darkTheme: boolean;
   toggleDarkTheme: () => void;
 }
 
-export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme }) => {
+export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme, width }) => {
   const history = useHistory();
   const classes = useStyles();
   const { isAuthenticated, user, logOut, showUserInvite } = useAppState();
@@ -87,14 +89,22 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
       <AppBar position="relative" classes={{ root: classes.navbar }}>
-        <Toolbar>
+        <Toolbar className={classes.navInnerContainer}>
           <Grid container alignItems="center">
             <img src={wmcIcon} alt="World Memory Challenge Icon" className={classes.wmcIcon} />
-            <Typography variant="h6" color="inherit" className={classes.title} noWrap>
-              <Link href="/" color="inherit" className={classes.titleStyle}>
-                World Memory Challenge
-              </Link>
-            </Typography>
+            {isWidthDown('md', width) ? (
+              <Typography variant="h6" color="inherit" className={classes.title} noWrap>
+                <Link href="/" color="inherit" className={classes.titleStyle}>
+                  WMC
+                </Link>
+              </Typography>
+            ) : (
+              <Typography variant="h6" color="inherit" className={classes.title} noWrap>
+                <Link href="/" color="inherit" className={classes.titleStyle}>
+                  World Memory Challenge
+                </Link>
+              </Typography>
+            )}
             <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>
               <Tooltip title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
                 {darkTheme ? <Sun /> : <Moon />}

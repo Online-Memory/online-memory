@@ -30,7 +30,7 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 500,
   },
   buttonHome: {
-    padding: '20px 50px',
+    padding: '10px 25px',
     fontSize: 24,
   },
 }));
