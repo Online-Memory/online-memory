@@ -96,7 +96,7 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
               <Typography variant="h6" color="inherit" className={classes.title} noWrap>
                 <Link href="/" color="inherit" className={classes.titleStyle}>
                   WMC
-                </Link>{' '}
+                </Link>
               </Typography>
             ) : (
               <Typography variant="h6" color="inherit" className={classes.title} noWrap>
