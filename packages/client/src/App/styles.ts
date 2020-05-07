@@ -48,17 +48,29 @@ export const useStyles = makeStyles(theme => ({
       theme.palette.type === 'dark'
         ? 'linear-gradient(90deg, rgba(129,251,136,1) 0%, rgba(40,199,111,1) 100%)'
         : 'linear-gradient(90deg, rgba(156,39,176,1) 0%, rgba(175,73,255,1) 100%)',
-    height: 100,
   },
   titleStyle: {
     fontFamily: 'Bungee',
     fontSize: 40,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+    },
     color: theme.palette.type === 'dark' ? '#AF49FF' : '#81FB88',
+    marginLeft: 20,
   },
   wmcIcon: {
     height: 80,
     width: 80,
     padding: 0,
-    marginTop: 10,
+    [theme.breakpoints.down('md')]: {
+      width: 40,
+      height: 40,
+    },
+  },
+  navInnerContainer: {
+    height: 100,
+    [theme.breakpoints.down('md')]: {
+      height: 60,
+    },
   },
 }));

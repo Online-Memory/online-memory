@@ -9,7 +9,7 @@ import Amplify from 'aws-amplify';
 import { AppStateProvider } from './AppState';
 import { client } from './apolloClient';
 import { useTheme } from './App/useTheme';
-import { AppComponent } from './App';
+import { App } from './App';
 import { AMPLIFY } from './config';
 import './index.css';
 
@@ -35,7 +35,7 @@ const RootComponent = () => {
         <BrowserRouter>
           <AppStateProvider>
             <CssBaseline />
-            <AppComponent darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
+            <App darkTheme={darkTheme} toggleDarkTheme={toggleDarkTheme} />
           </AppStateProvider>
         </BrowserRouter>
       </ThemeProvider>
