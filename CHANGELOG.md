@@ -15,7 +15,7 @@
 **Merged pull requests:**
 
 - New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
-- La geenas [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
+- style\(client\): Update template [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.26.1](https://github.com/Online-Memory/online-memory/tree/v0.26.1) (2020-05-02)
 
