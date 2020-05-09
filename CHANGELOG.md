@@ -178,6 +178,7 @@
 **Merged pull requests:**
 
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
+- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
 
@@ -214,7 +215,6 @@
 **Merged pull requests:**
 
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
-- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
