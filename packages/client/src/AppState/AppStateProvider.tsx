@@ -38,6 +38,7 @@ const initialState: AppState = {
       email: '',
       emailVerified: false,
       displayName: '',
+      friends: [],
     },
   },
 };

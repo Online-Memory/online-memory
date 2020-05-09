@@ -2,20 +2,32 @@
 #set( $userId = $util.dynamodb.toDynamoDBJson($identityValue) )
 #set( $dataType = $util.dynamodb.toDynamoDBJson("User") )
 
+#set ($userList = [])
+$util.qr($userList.add($context.args.userId))
+
 {
     "version" : "2017-02-28",
     "operation" : "UpdateItem",
+    "condition": {
+        "expression": "not contains(#friends, :friendId)",
+        "expressionNames": {
+            "#friends": "friends",
+        },
+        "expressionValues": {
+            ":friendId" : $util.dynamodb.toDynamoDBJson($context.args.userId)
+        }
+    },
     "key" : {
         "id": $userId,
         "__typename": $dataType
     },
-    "condition" : {
-      "expression" : "attribute_not_exists(friends.$context.args.userId)"
-   },
     "update" : {
-    	"expression" : "SET friends.$context.args.userId = :val",
+    	"expression" : "SET #friends = list_append(#friends, :vals)",
+        "expressionNames": {
+            "#friends" : "friends"
+        },
         "expressionValues": {
-            ":val" : $util.dynamodb.toDynamoDBJson("true")
+            ":vals" : $util.dynamodb.toDynamoDBJson($userList)
         }
     }
 }

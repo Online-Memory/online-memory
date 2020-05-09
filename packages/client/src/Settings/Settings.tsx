@@ -74,7 +74,7 @@ export const Settings: React.FC = () => {
 
       <Container maxWidth="lg">
         <Card>
-          <CardHeader title="User Profile" />
+          <CardHeader title="Account Settings" />
 
           <CardContent>
             <Container maxWidth="sm">

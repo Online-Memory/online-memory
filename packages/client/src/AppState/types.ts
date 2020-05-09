@@ -15,6 +15,13 @@ export interface UserInvite {
   gameId?: string;
 }
 
+export interface UserFriend {
+  id: string;
+  username: string;
+  displayName: string;
+  avatar: string;
+}
+
 export interface UserData {
   id: string;
   username: string;
@@ -22,6 +29,7 @@ export interface UserData {
   emailVerified: boolean;
   displayName: string;
   avatar: string;
+  friends: UserFriend[];
 }
 
 export interface UserGames {

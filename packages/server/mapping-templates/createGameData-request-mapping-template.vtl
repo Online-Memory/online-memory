@@ -20,7 +20,7 @@ $util.qr($values.put("updatedAt", $util.time.nowISO8601()))
 #set( $condition = {
     "expression": "attribute_not_exists(#id)",
     "expressionNames": {
-    "#id": "id"
+        "#id": "id"
     }
 } )
 

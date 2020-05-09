@@ -28,6 +28,7 @@
     "graphql-tag": "^2.10.3",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
+    "lodash.debounce": "^4.0.8",
     "mini-css-extract-plugin": "0.9.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
@@ -47,7 +48,9 @@
     "ts-pnp": "1.1.6",
     "url-loader": "2.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.6"
+  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "./release.sh && node scripts/build.js",

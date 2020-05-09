@@ -1,6 +1,10 @@
 #set( $friendsList = $context.source.friendsList )
 #set( $friendsListUpdated = [] )
 
+#if ( $friendsList == [] )
+	#return( [] )
+#end
+
 #foreach($item in ${friendsList})
     #set($map = {})
     $util.qr($map.put("id", $util.dynamodb.toString($item)))

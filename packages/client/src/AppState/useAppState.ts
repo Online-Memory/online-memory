@@ -11,7 +11,7 @@ import {
   awsForgottenPassword,
   awsResetPassword,
 } from './AWS';
-import { UPDATE_USER, UPDATE_USERNAME } from '../graphql';
+import { UPDATE_USER, UPDATE_USERNAME, ADD_FRIEND, REMOVE_FRIEND } from '../graphql';
 import { useMutation } from '@apollo/react-hooks';
 import { GameData } from '../Game/types';
 
@@ -30,6 +30,18 @@ export const useAppState = () => {
   });
 
   const [updateUsernameMutation] = useMutation(UPDATE_USERNAME, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const [addFriend] = useMutation(ADD_FRIEND, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
+
+  const [removeFriend] = useMutation(REMOVE_FRIEND, {
     onError: err => {
       console.warn(err);
     },
@@ -74,6 +86,24 @@ export const useAppState = () => {
       dispatch({ type: Types.REFETCH_USER });
     },
     [dispatch, updateUserMutation]
+  );
+
+  const handleAddFriend = useCallback(
+    async (userId: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      await addFriend({ variables: { userId } });
+      dispatch({ type: Types.REFETCH_USER });
+    },
+    [addFriend, dispatch]
+  );
+
+  const handleDeleteFriend = useCallback(
+    async (friendId: string) => {
+      dispatch({ type: Types.LOADING, payload: true });
+      await removeFriend({ variables: { friendId } });
+      dispatch({ type: Types.REFETCH_USER });
+    },
+    [dispatch, removeFriend]
   );
 
   const updateUsername = useCallback(
@@ -281,5 +311,8 @@ export const useAppState = () => {
     playAgain,
     clearPlayAgainData,
     playAgainData: state.playAgain,
+    userFriends: state.user.user.friends,
+    addFriend: handleAddFriend,
+    deleteFriend: handleDeleteFriend,
   };
 };

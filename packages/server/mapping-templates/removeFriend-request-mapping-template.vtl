@@ -10,6 +10,6 @@
         "__typename": $dataType
     },
     "update" : {
-    	"expression" : "REMOVE friends.$context.args.friendId"
+    	"expression" : "REMOVE friends[$context.args.friendId]"
     }
 }

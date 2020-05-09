@@ -9,6 +9,7 @@ import { Dashboard } from './Dashboard';
 import { About } from './About';
 import { Profile } from './Profile';
 import { Settings } from './Settings';
+import { Friends } from './Friends';
 import { LogIn } from './Auth/Login';
 import { Register } from './Auth/Register';
 import { VerifyEmail } from './Auth/VerifyEmail';
@@ -49,6 +50,9 @@ export const Router: React.FC = () => {
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/profile">
         <Profile />
+      </PrivateRoute>
+      <PrivateRoute isAuthenticated={isAuthenticated} path="/friends">
+        <Friends />
       </PrivateRoute>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/settings">
         <Settings />
