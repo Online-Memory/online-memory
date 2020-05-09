@@ -16,7 +16,7 @@
     "version" : "2018-05-29",
     "operation" : "BatchGetItem",
     "tables" : {
-        "OnlineMemory-dev" : {
+        "${TABLE_NAME}" : {
             "keys": $util.toJson($friendsListUpdated),
             "consistentRead": true
         }
