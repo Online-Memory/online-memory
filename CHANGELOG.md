@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.29.0](https://github.com/Online-Memory/online-memory/tree/v0.29.0) (2020-05-09)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.28.0...v0.29.0)
+
+**Implemented enhancements:**
+
+- Search user [\#25](https://github.com/Online-Memory/online-memory/issues/25)
+- Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
+- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
+
+**Merged pull requests:**
+
+- Responsiveness improvement [\#77](https://github.com/Online-Memory/online-memory/pull/77) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.28.0](https://github.com/Online-Memory/online-memory/tree/v0.28.0) (2020-05-05)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.27.0...v0.28.0)
@@ -178,7 +192,6 @@
 **Merged pull requests:**
 
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
-- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
 
