@@ -40,7 +40,10 @@ const whoAmI = async userId => {
     return null;
   }
 
-  const friendsList = userData.Item.friends || ['x'];
+  const friendsList = userData.Item.friends || [];
+  if (!friendsList.length) {
+    friendsList.push('x');
+  }
 
   return {
     ...userData.Item,
