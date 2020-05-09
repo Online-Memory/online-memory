@@ -1,0 +1,33 @@
+#set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+#set( $userId = $util.dynamodb.toDynamoDBJson($identityValue) )
+#set( $dataType = $util.dynamodb.toDynamoDBJson("User") )
+
+#set ($userList = [])
+$util.qr($userList.add($context.args.userId))
+
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "condition": {
+        "expression": "not contains(#friends, :friendId)",
+        "expressionNames": {
+            "#friends": "friends",
+        },
+        "expressionValues": {
+            ":friendId" : $util.dynamodb.toDynamoDBJson($context.args.userId)
+        }
+    },
+    "key" : {
+        "id": $userId,
+        "__typename": $dataType
+    },
+    "update" : {
+    	"expression" : "SET #friends = list_append(#friends, :vals)",
+        "expressionNames": {
+            "#friends" : "friends"
+        },
+        "expressionValues": {
+            ":vals" : $util.dynamodb.toDynamoDBJson($userList)
+        }
+    }
+}

@@ -123,6 +123,7 @@ type WhoAmI implements UserData {
 	updatedAt: String!
 	email: String!
 	emailVerified: Boolean!
+	friends: [User]!
 }
 
 type UserGames {
@@ -153,6 +154,8 @@ type Mutation {
 	playTurn(input: PlayTurnInput!): Game
 	deleteGame(gameId: String!): Game
 	inviteUser(userId: String!, gameId: String!): InviteToGame
+	addFriend(userId: String!): String
+	removeFriend(friendId: String!): String
 }
 
 type Subscription {
