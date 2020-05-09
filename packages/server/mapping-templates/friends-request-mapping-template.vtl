@@ -1,0 +1,20 @@
+#set( $friendsList = $context.source.friendsList )
+#set( $friendsListUpdated = [] )
+
+#foreach($item in ${friendsList})
+    #set($map = {})
+    $util.qr($map.put("id", $util.dynamodb.toString($item)))
+    $util.qr($map.put("__typename", $util.dynamodb.toString("User")))
+    $util.qr($friendsListUpdated.add($map))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchGetItem",
+    "tables" : {
+        "OnlineMemory-dev" : {
+            "keys": $util.toJson($friendsListUpdated),
+            "consistentRead": true
+        }
+    }
+}
