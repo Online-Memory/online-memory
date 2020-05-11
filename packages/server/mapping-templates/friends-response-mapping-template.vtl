@@ -1,0 +1,5 @@
+#if($ctx.error)
+    $utils.appendError($ctx.error.message, $ctx.error.message)
+#end
+
+$util.toJson($ctx.result.data["${TABLE_NAME}"])

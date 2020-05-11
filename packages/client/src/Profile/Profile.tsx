@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Avatar } from 'react-avataaars';
 import {
   Container,
   Card,
@@ -12,7 +13,6 @@ import {
   Button,
   CircularProgress,
 } from '@material-ui/core';
-import { Avatar } from 'react-avataaars';
 import { useAppState } from '../AppState';
 import { useStyles } from './styles';
 
@@ -55,7 +55,7 @@ export const Profile: React.FC = () => {
     <div className={`Profile ${classes.container}`}>
       <Container maxWidth="lg">
         <Card>
-          <CardHeader title="User Profile" />
+          <CardHeader title="Profile" />
 
           <CardContent>
             <Container maxWidth="sm">

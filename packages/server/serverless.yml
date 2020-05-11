@@ -74,6 +74,16 @@ custom:
         field: updateUser
         request: 'updateUser-request-mapping-template.vtl'
         response: 'updateUser-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Mutation
+        field: addFriend
+        request: 'addFriend-request-mapping-template.vtl'
+        response: 'addFriend-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: Mutation
+        field: removeFriend
+        request: 'removeFriend-request-mapping-template.vtl'
+        response: 'removeFriend-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         type: Mutation
         field: updateUsername
@@ -84,6 +94,11 @@ custom:
         field: whoAmI
         request: 'whoAmI-request-mapping-template.vtl'
         response: 'whoAmI-response-mapping-template.vtl'
+      - dataSource: OnlineMemory
+        type: WhoAmI
+        field: friends
+        request: 'friends-request-mapping-template.vtl'
+        response: 'friends-response-mapping-template.vtl'
       - dataSource: graphqlLambda
         type: Query
         field: getWorld
@@ -206,6 +221,9 @@ custom:
         name: 'UpdateGameData'
         request: 'updateGameData-request-mapping-template.vtl'
         response: 'updateGameData-response-mapping-template.vtl'
+
+    substitutions:
+      TABLE_NAME: ${self:custom.tableName}
 
     dataSources:
       - type: AMAZON_DYNAMODB
@@ -350,6 +368,7 @@ resources:
                     - 'dynamodb:UpdateItem'
                     - 'dynamodb:PutItem'
                     - 'dynamodb:DeleteItem'
+                    - 'dynamodb:BatchGetItem'
                   Resource:
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}'
                     - 'arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}:table/OnlineMemory-${self:provider.stage}/*'
@@ -412,18 +431,18 @@ resources:
                     - 'arn:aws:cognito-idp:${self:provider.region}:${self:custom.accountId}:userpool'
                     - 'arn:aws:cognito-idp:${self:provider.region}:${self:custom.accountId}:userpool/*'
           # Uncomment to enable CloudWatch on the GraphQL Lambda Function
-          - PolicyName: '${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy'
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: 'Allow'
-                  Action:
-                    - 'logs:CreateLogGroup'
-                    - 'logs:CreateLogStream'
-                    - 'logs:PutLogEvents'
-                  Resource:
-                    - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql'
-                    - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*'
+          # - PolicyName: '${self:custom.appSync.serviceRole}-GraphQL-CloudWatch-Policy'
+          #   PolicyDocument:
+          #     Version: '2012-10-17'
+          #     Statement:
+          #       - Effect: 'Allow'
+          #         Action:
+          #           - 'logs:CreateLogGroup'
+          #           - 'logs:CreateLogStream'
+          #           - 'logs:PutLogEvents'
+          #         Resource:
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql'
+          #           - 'arn:aws:logs:${self:provider.region}:${self:custom.accountId}:log-group:/aws/lambda/online-memory-server-${self:provider.stage}-graphql:*'
 
     LambdaforCognito:
       Type: 'AWS::IAM::Role'

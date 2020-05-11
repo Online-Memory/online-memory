@@ -66,6 +66,7 @@ const createUser = async (userId, username) => {
       searchableUsername: `${username}`.toLocaleLowerCase(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      friends: [],
     },
   };
 

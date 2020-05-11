@@ -52,6 +52,7 @@ export const useStyles = makeStyles(theme => ({
   },
   currentPlayer: {
     background: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
   },
   listItemCurrentPlayer: {
     textOverflow: 'ellipsis',

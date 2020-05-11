@@ -38,6 +38,7 @@ const initialState: AppState = {
       email: '',
       emailVerified: false,
       displayName: '',
+      friends: [],
     },
   },
 };
@@ -53,7 +54,11 @@ export const AppStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { loading: userDataLoading, data: whoAmIData, refetch: refetchWhoAmI } = useQuery<{
     whoAmI: UserData;
-  }>(GET_USER);
+  }>(GET_USER, {
+    onError: err => {
+      console.warn(err);
+    },
+  });
 
   const { startPolling, stopPolling } = useQuery<{ world: World }>(GET_WORLD, {
     notifyOnNetworkStatusChange: true,

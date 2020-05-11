@@ -66,25 +66,13 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
     setAnchorEl(null);
   }, []);
 
-  const handleProfile = useCallback(() => {
-    handleClose();
-    history.push('/profile');
-  }, [handleClose, history]);
-
-  const handleSettings = useCallback(() => {
-    handleClose();
-    history.push('/settings');
-  }, [handleClose, history]);
-
-  const handleDashboard = useCallback(() => {
-    handleClose();
-    history.push('/dashboard');
-  }, [handleClose, history]);
-
-  const handleHomepage = useCallback(() => {
-    handleClose();
-    history.push('/');
-  }, [handleClose, history]);
+  const goto = useCallback(
+    (target: string) => () => {
+      setAnchorEl(null);
+      history.push(target);
+    },
+    [history]
+  );
 
   return (
     <Grid className={`App ${classes.app}`} direction="column" container>
@@ -147,19 +135,22 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
                   open={open}
                   onClose={handleClose}
                 >
-                  <MenuItem className="profile" onClick={handleHomepage}>
+                  <MenuItem className="profile" onClick={goto('/')}>
                     Home
                   </MenuItem>
-                  <MenuItem className="dashboard" onClick={handleDashboard}>
+                  <MenuItem className="dashboard" onClick={goto('/dashboard')}>
                     Dashboard
                   </MenuItem>
-                  <MenuItem className="profile" onClick={handleProfile}>
-                    User Profile
+                  <MenuItem className="profile" onClick={goto('/profile')}>
+                    Profile
+                  </MenuItem>
+                  <MenuItem className="profile" onClick={goto('/friends')}>
+                    Friends
                   </MenuItem>
 
                   <MenuItem divider className={classes.divider} disabled />
 
-                  <MenuItem className="settings" onClick={handleSettings}>
+                  <MenuItem className="settings" onClick={goto('/settings')}>
                     Settings
                   </MenuItem>
                   <MenuItem className="logOut" onClick={handleLogout}>

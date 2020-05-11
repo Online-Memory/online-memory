@@ -40,10 +40,13 @@ const whoAmI = async userId => {
     return null;
   }
 
+  const friendsList = userData.Item.friends || [];
+
   return {
     ...userData.Item,
     email,
     emailVerified,
+    friendsList,
   };
 };
 

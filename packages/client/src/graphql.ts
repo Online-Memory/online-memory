@@ -9,7 +9,25 @@ export const GET_USER = gql`
       emailVerified
       displayName
       avatar
+      friends {
+        id
+        username
+        avatar
+        displayName
+      }
     }
+  }
+`;
+
+export const REMOVE_FRIEND = gql`
+  mutation RemoveFriend($friendId: String!) {
+    removeFriend(friendId: $friendId)
+  }
+`;
+
+export const ADD_FRIEND = gql`
+  mutation AddFriend($userId: String!) {
+    addFriend(userId: $userId)
   }
 `;
 
