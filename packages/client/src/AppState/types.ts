@@ -22,6 +22,16 @@ export interface UserFriend {
   avatar: string;
 }
 
+interface Stats {
+  gamesPlayed: number;
+  streak: number;
+  totalMoves: number;
+  totalPairs: number;
+  wins: number;
+  gamePairs: number;
+  gameStreak: number;
+}
+
 export interface UserData {
   id: string;
   username: string;
@@ -30,6 +40,8 @@ export interface UserData {
   displayName: string;
   avatar: string;
   friends: UserFriend[];
+  stats: Stats;
+  createdAt: number;
 }
 
 export interface UserGames {

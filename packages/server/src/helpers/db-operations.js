@@ -67,6 +67,7 @@ const createUser = async (userId, username) => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       friends: [],
+      stats: {},
     },
   };
 
@@ -88,6 +89,25 @@ const updateUsername = async (userId, username) => {
     ExpressionAttributeValues: {
       ':username': username,
       ':searchableUsername': `${username}`.toLocaleLowerCase(),
+    },
+  };
+
+  return docClient.update(params).promise();
+};
+
+const updateStats = async (userId, stats) => {
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      id: userId,
+      __typename: 'User',
+    },
+    UpdateExpression: 'set #stats = :stats',
+    ExpressionAttributeNames: {
+      '#stats': 'stats',
+    },
+    ExpressionAttributeValues: {
+      ':stats': stats,
     },
   };
 
@@ -124,4 +144,5 @@ module.exports = {
   updateTTL,
   updateUsername,
   findUsername,
+  updateStats,
 };

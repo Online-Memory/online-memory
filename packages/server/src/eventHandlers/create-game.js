@@ -55,6 +55,12 @@ const getBoardSizeFromTiles = (tiles = 100, gameTemplate) => {
     case 36:
       return { gridX: 6, gridY: 6 };
 
+    case 24:
+      return { gridX: 6, gridY: 4 };
+
+    case 16:
+      return { gridX: 4, gridY: 4 };
+
     default:
       return {
         gridX: gameTemplate.board[0],

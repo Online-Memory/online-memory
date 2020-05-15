@@ -114,6 +114,16 @@ type User implements UserData {
 	updatedAt: String!
 }
 
+type UserStats {
+	wins: Int
+	gamesPlayed: Int
+	totalPairs: Int
+	totalMoves: Int
+	streak: Int
+	gamePairs: Float
+	gameStreak: Float
+}
+
 type WhoAmI implements UserData {
 	id: String!
 	username: String!
@@ -124,6 +134,7 @@ type WhoAmI implements UserData {
 	email: String!
 	emailVerified: Boolean!
 	friends: [User]!
+	stats: UserStats
 }
 
 type UserGames {
