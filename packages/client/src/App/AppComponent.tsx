@@ -143,6 +143,9 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
                   <MenuItem className="profile" onClick={goto('/friends')}>
                     Friends
                   </MenuItem>
+                  <MenuItem className="profile" onClick={goto('/stats')}>
+                    Stats
+                  </MenuItem>
 
                   <MenuItem divider className={classes.divider} disabled />
 
