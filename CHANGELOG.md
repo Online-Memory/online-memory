@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.30.2](https://github.com/Online-Memory/online-memory/tree/v0.30.2) (2020-05-16)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.1...v0.30.2)
+
 ## [v0.30.1](https://github.com/Online-Memory/online-memory/tree/v0.30.1) (2020-05-16)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.0...v0.30.1)
@@ -42,10 +46,6 @@
 
 - User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
 
-**Fixed bugs:**
-
-- Cached game information [\#68](https://github.com/Online-Memory/online-memory/issues/68)
-
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
@@ -66,10 +66,6 @@
 ## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
-
-**Merged pull requests:**
-
-- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
@@ -101,6 +97,7 @@
 
 **Fixed bugs:**
 
+- Cached game information [\#68](https://github.com/Online-Memory/online-memory/issues/68)
 - Wrong alignment in winning game view [\#67](https://github.com/Online-Memory/online-memory/issues/67)
 - Games with wrong gameid should display meaningful error message [\#47](https://github.com/Online-Memory/online-memory/issues/47)
 
@@ -122,6 +119,7 @@
 
 **Merged pull requests:**
 
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 - Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.20.7](https://github.com/Online-Memory/online-memory/tree/v0.20.7) (2020-04-22)
