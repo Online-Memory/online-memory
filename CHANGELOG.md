@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.30.1](https://github.com/Online-Memory/online-memory/tree/v0.30.1) (2020-05-16)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.0...v0.30.1)
+
 ## [v0.30.0](https://github.com/Online-Memory/online-memory/tree/v0.30.0) (2020-05-15)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.29.1...v0.30.0)
@@ -37,6 +41,10 @@
 **Implemented enhancements:**
 
 - User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
+
+**Fixed bugs:**
+
+- Cached game information [\#68](https://github.com/Online-Memory/online-memory/issues/68)
 
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
@@ -93,7 +101,6 @@
 
 **Fixed bugs:**
 
-- Cached game information [\#68](https://github.com/Online-Memory/online-memory/issues/68)
 - Wrong alignment in winning game view [\#67](https://github.com/Online-Memory/online-memory/issues/67)
 - Games with wrong gameid should display meaningful error message [\#47](https://github.com/Online-Memory/online-memory/issues/47)
 
