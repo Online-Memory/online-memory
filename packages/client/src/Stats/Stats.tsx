@@ -56,15 +56,24 @@ export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
     );
   }
 
+  const { stats } = user;
+  const gamesPlayed = stats.gamesPlayed || 0;
+  const gamePairs = stats.gamePairs || 0;
+  const gameStreak = stats.gameStreak || 0;
+  const wins = stats.wins || 0;
+  const totalPairs = stats.totalPairs || 0;
+  const totalMoves = stats.totalMoves || 0;
+
   const goodPlayer = Math.floor(
-    (user.stats.gamesPlayed * 100) / Math.floor((Date.now() - +new Date(user.createdAt)) / 1000 / 60 / 60 / 24)
+    (gamesPlayed * 100) / Math.floor((Date.now() - +new Date(user.createdAt)) / 1000 / 60 / 60 / 24)
   );
-  const memoryMaster = Math.floor((user.stats.wins * 100) / user.stats.gamesPlayed);
+  const memoryMaster = gamesPlayed && Math.floor((wins * 100) / gamesPlayed);
+  const pairsFinder = totalMoves && Math.floor((totalPairs * 100) / (totalMoves / 2));
 
   const userStats = [
     {
       title: 'Pairs finder',
-      score: Math.floor((user.stats.totalPairs * 100) / (user.stats.totalMoves / 2)),
+      score: pairsFinder,
     },
     {
       title: 'Memory master',
@@ -76,11 +85,11 @@ export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
     },
     {
       title: 'Pairer',
-      score: user.stats.gamePairs,
+      score: gamePairs,
     },
     {
       title: 'Streaker',
-      score: user.stats.gameStreak,
+      score: gameStreak,
     },
   ];
 
@@ -94,10 +103,10 @@ export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
             <Container maxWidth="md">
               <Grid container direction="column" spacing={6}>
                 <Grid item>
-                  {user.stats.gamesPlayed ? (
+                  {gamesPlayed ? (
                     <Typography component="h4" variant="h6" align="center" gutterBottom>
-                      Well done {user.username}! You have played {user.stats.gamesPlayed}{' '}
-                      {user.stats.gamesPlayed === 1 ? 'game' : 'games'} so far. Keep playing.
+                      Well done {user.username}! You have played {gamesPlayed} {gamesPlayed === 1 ? 'game' : 'games'} so
+                      far. Keep playing.
                     </Typography>
                   ) : null}
                 </Grid>

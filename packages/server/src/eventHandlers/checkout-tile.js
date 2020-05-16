@@ -28,7 +28,7 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
 
 const getUserStats = async userId => {
   const user = await getUser(userId);
-  const { stats } = user.Item || {};
+  const { stats = {} } = user.Item;
 
   return {
     wins: stats.wins || 0,
