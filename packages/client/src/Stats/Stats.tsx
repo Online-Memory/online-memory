@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ResponsiveRadar } from '@nivo/radar';
 import {
@@ -39,14 +39,18 @@ const LabelWrapperComponent = (isSmall: boolean, userStats: any) => {
 export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { user, userLoading } = useAppState();
+  const { user, userLoading, loading, loadStats } = useAppState();
   const { darkTheme } = useTheme();
 
   const handleBack = useCallback(async () => {
     history.goBack();
   }, [history]);
 
-  if (userLoading) {
+  useEffect(() => {
+    loadStats();
+  }, [loadStats]);
+
+  if (userLoading || loading) {
     return (
       <div className={`Profile ${classes.container}`}>
         <Container maxWidth="lg">
@@ -85,11 +89,11 @@ export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
     },
     {
       title: 'Pairer',
-      score: gamePairs,
+      score: Math.floor(gamePairs),
     },
     {
       title: 'Streaker',
-      score: gameStreak,
+      score: Math.floor(gameStreak),
     },
   ];
 
