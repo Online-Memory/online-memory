@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, memo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link as LinkUI } from 'react-router-dom';
 import { useSubscription } from '@apollo/react-hooks';
 import { USER_INVITE } from '../graphql';
 import { Avatar } from 'react-avataaars';
@@ -180,14 +180,24 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
                 {' ' + new Date().getFullYear()}. Made with <img src={catButt} height={32} alt="cat butt" />
               </Typography>
             </Grid>
-            <Grid item>
-              <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
-                What's new in v{version}? Read the{' '}
+
+            <Grid item container>
+              <Typography variant="subtitle1" color="textSecondary" paragraph>
+                <LinkUI color="inherit" to="/cookie-declaration" className={classes.linkButton}>
+                  Cookie Declaration
+                </LinkUI>
+              </Typography>
+
+              <Typography className={classes.footerDivider} variant="subtitle1" color="textSecondary" paragraph>
+                |
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary" paragraph>
                 <Link color="inherit" href="https://github.com/Online-Memory/online-memory/blob/master/CHANGELOG.md">
                   CHANGELOG
                 </Link>
               </Typography>
             </Grid>
+
             <Grid item>
               <Link color="inherit" href="https://github.com/Online-Memory">
                 <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />

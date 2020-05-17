@@ -15,6 +15,7 @@ import { LogIn } from './Auth/Login';
 import { Register } from './Auth/Register';
 import { VerifyEmail } from './Auth/VerifyEmail';
 import { ForgottenPassword } from './Auth/ForgottenPassword';
+import { CookieDeclaration } from './Legal';
 import { useAppState } from './AppState';
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,9 @@ export const Router: React.FC = () => {
       </Route>
       <Route path="/about">
         <About />
+      </Route>
+      <Route path="/cookie-declaration">
+        <CookieDeclaration />
       </Route>
       <PrivateRoute isAuthenticated={isAuthenticated} path="/game/:id">
         <Game />
