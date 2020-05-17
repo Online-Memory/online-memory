@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.31.0](https://github.com/Online-Memory/online-memory/tree/v0.31.0) (2020-05-17)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.2...v0.31.0)
+
 ## [v0.30.2](https://github.com/Online-Memory/online-memory/tree/v0.30.2) (2020-05-16)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.1...v0.30.2)
@@ -67,6 +71,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
 
+**Merged pull requests:**
+
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.0...v0.25.1)
@@ -119,7 +127,6 @@
 
 **Merged pull requests:**
 
-- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 - Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.20.7](https://github.com/Online-Memory/online-memory/tree/v0.20.7) (2020-04-22)
@@ -176,10 +183,6 @@
 - Created new Nature template [\#59](https://github.com/Online-Memory/online-memory/issues/59)
 - Invite to play notifications [\#55](https://github.com/Online-Memory/online-memory/issues/55)
 
-**Merged pull requests:**
-
-- Update and New template [\#58](https://github.com/Online-Memory/online-memory/pull/58) ([Thetawaves](https://github.com/Thetawaves))
-
 ## [v0.18.1](https://github.com/Online-Memory/online-memory/tree/v0.18.1) (2020-04-19)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.18.0...v0.18.1)
@@ -205,10 +208,6 @@
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
-
-**Implemented enhancements:**
-
-- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 
 **Merged pull requests:**
 
@@ -236,6 +235,10 @@
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
+
+**Merged pull requests:**
+
+- Update and New template [\#58](https://github.com/Online-Memory/online-memory/pull/58) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -268,10 +271,6 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
-
-**Merged pull requests:**
-
-- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/Online-Memory/online-memory/tree/v0.11.2) (2020-04-10)
 
@@ -320,6 +319,7 @@
 **Implemented enhancements:**
 
 - New Food template [\#32](https://github.com/Online-Memory/online-memory/issues/32)
+- Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
 - Choose number of tiles [\#12](https://github.com/Online-Memory/online-memory/issues/12)
 - New template: our food [\#31](https://github.com/Online-Memory/online-memory/pull/31) ([Thetawaves](https://github.com/Thetawaves))
 
