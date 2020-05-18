@@ -1,5 +1,33 @@
 # Changelog
 
+## [v0.31.1](https://github.com/Online-Memory/online-memory/tree/v0.31.1) (2020-05-17)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.31.0...v0.31.1)
+
+## [v0.31.0](https://github.com/Online-Memory/online-memory/tree/v0.31.0) (2020-05-17)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.2...v0.31.0)
+
+## [v0.30.2](https://github.com/Online-Memory/online-memory/tree/v0.30.2) (2020-05-16)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.1...v0.30.2)
+
+## [v0.30.1](https://github.com/Online-Memory/online-memory/tree/v0.30.1) (2020-05-16)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.30.0...v0.30.1)
+
+## [v0.30.0](https://github.com/Online-Memory/online-memory/tree/v0.30.0) (2020-05-15)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.29.1...v0.30.0)
+
+**Implemented enhancements:**
+
+- User statistics [\#79](https://github.com/Online-Memory/online-memory/issues/79)
+
+**Merged pull requests:**
+
+- feat\(core\): Add game stats [\#80](https://github.com/Online-Memory/online-memory/pull/80) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.29.1](https://github.com/Online-Memory/online-memory/tree/v0.29.1) (2020-05-09)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.29.0...v0.29.1)

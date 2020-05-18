@@ -1,12 +1,13 @@
 {
   "name": "client",
-  "version": "0.29.1",
+  "version": "0.31.1",
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.51",
+    "@nivo/radar": "^0.61.1",
     "@svgr/webpack": "4.3.3",
     "animejs": "^3.2.0",
     "apollo-cache-inmemory": "^1.6.5",

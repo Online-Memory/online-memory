@@ -38,7 +38,17 @@ const initialState: AppState = {
       email: '',
       emailVerified: false,
       displayName: '',
+      createdAt: 0,
       friends: [],
+      stats: {
+        wins: 0,
+        gamesPlayed: 0,
+        totalPairs: 0,
+        totalMoves: 0,
+        streak: 0,
+        gamePairs: 0,
+        gameStreak: 0,
+      },
     },
   },
 };

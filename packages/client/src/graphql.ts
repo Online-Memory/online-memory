@@ -9,11 +9,21 @@ export const GET_USER = gql`
       emailVerified
       displayName
       avatar
+      createdAt
       friends {
         id
         username
         avatar
         displayName
+      }
+      stats {
+        wins
+        gamesPlayed
+        totalPairs
+        totalMoves
+        streak
+        gamePairs
+        gameStreak
       }
     }
   }

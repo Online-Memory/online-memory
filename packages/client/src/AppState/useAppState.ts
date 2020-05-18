@@ -291,6 +291,12 @@ export const useAppState = () => {
     dispatch({ type: Types.CLEAR_PLAY_AGAIN_DATA });
   }, [dispatch]);
 
+  const loadStats = useCallback(() => {
+    dispatch({ type: Types.LOADING, payload: true });
+    dispatch({ type: Types.REFETCH_USER });
+    dispatch({ type: Types.LOADING, payload: false });
+  }, [dispatch]);
+
   return {
     showMessage,
     showUserInvite,
@@ -314,5 +320,6 @@ export const useAppState = () => {
     userFriends: state.user.user.friends,
     addFriend: handleAddFriend,
     deleteFriend: handleDeleteFriend,
+    loadStats,
   };
 };

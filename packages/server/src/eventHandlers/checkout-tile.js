@@ -1,3 +1,5 @@
+const { getUser, updateStats } = require('../helpers/db-operations');
+
 const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
   if (playerTurn.turn > 1 && !isWin) {
     return {
@@ -22,6 +24,60 @@ const updatePlayerTurn = (playerTurn, isWin, nextPlayer, currTile) => {
     turn: playerTurn.turn + 1,
     tileRef: `${currTile.ref}`,
   };
+};
+
+const getUserStats = async userId => {
+  const user = await getUser(userId);
+  const { stats = {} } = user.Item;
+
+  return {
+    wins: stats.wins || 0,
+    streak: stats.streak || 0,
+    gamesPlayed: stats.gamesPlayed || 0,
+    totalMoves: stats.totalMoves || 0,
+    totalPairs: stats.totalPairs || 0,
+    gamePairs: stats.gamePairs || 0,
+    gameStreak: stats.gameStreak || 0,
+  };
+};
+
+const updateUsersStats = async (players, totTiles) => {
+  const victoryScore = players.sort((a, b) => b.pairs - a.pairs)[0].pairs;
+  const victoryPlayers = players.filter(player => player.pairs === victoryScore);
+  const victoryPlayersId = victoryPlayers.map(victoryPlayer => victoryPlayer.userId);
+  const longestStreak = players.sort((a, b) => b.streak - a.streak)[0].streak;
+
+  /* eslint-disable no-restricted-syntax, no-await-in-loop */
+  for (const player of players) {
+    const userStats = await getUserStats(player.userId);
+    const gamePlayerPairs = (player.pairs * 100) / (totTiles / 2);
+    const gameUserStreak = (player.streak * 100) / longestStreak;
+    const gameStreak = userStats.gamesPlayed ? (userStats.gameStreak + gameUserStreak) / 2 : gameUserStreak;
+    const gamePairs = userStats.gamesPlayed ? (userStats.gamePairs + gamePlayerPairs) / 2 : gamePlayerPairs;
+
+    if (players.length > 1) {
+      const statsUpdated = {
+        ...userStats,
+        wins: victoryPlayersId.indexOf(player.userId) > -1 ? userStats.wins + 1 : userStats.wins,
+        streak: userStats.streak >= player.streak ? userStats.streak : player.streak,
+        gamesPlayed: userStats.gamesPlayed + 1,
+        totalMoves: userStats.totalMoves + player.moves,
+        totalPairs: userStats.totalPairs + player.pairs,
+        gamePairs,
+        gameStreak,
+      };
+
+      await updateStats(player.userId, statsUpdated);
+    } else {
+      const statsUpdated = {
+        ...userStats,
+        gamesPlayed: userStats.gamesPlayed + 1,
+      };
+
+      await updateStats(player.userId, statsUpdated);
+    }
+  }
+  /* eslint-enable no-restricted-syntax, no-await-in-loop */
 };
 
 const checkoutTile = async (userId, players, playerTurn, tiles, currTile, tileId, moves) => {
@@ -86,6 +142,10 @@ const checkoutTile = async (userId, players, playerTurn, tiles, currTile, tileId
 
   const tilesAvailable = tilesUpdated.filter(tile => tile.status !== 'taken');
   const gameStatusUpdated = !tilesAvailable.length ? 'ended' : undefined;
+
+  if (gameStatusUpdated === 'ended') {
+    await updateUsersStats(playersUpdated, tilesUpdated.length);
+  }
 
   return {
     moves: moves + 1,

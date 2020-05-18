@@ -15,6 +15,13 @@ export const useStyles = makeStyles(theme => ({
   },
   linkButton: {
     textDecoration: 'none',
+    color: 'inherit',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+  footerDivider: {
+    margin: theme.spacing(0, 1),
   },
   gitHubLogo: {
     height: '42px',

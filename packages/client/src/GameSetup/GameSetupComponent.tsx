@@ -37,7 +37,7 @@ interface Props {
   onSubmit: any;
 }
 
-const GAME_TILES = [100, 72, 48, 36];
+const GAME_TILES = [100, 72, 48, 36, 24, 16];
 
 export const Component: React.FC<Props> = memo(
   ({ templates, playAgainData, onSubmit, onSearchUser, searchUserData, searchUserLoading }) => {

@@ -13,7 +13,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
-import { UserData } from '../../AppState';
+import { UserData, useAppState } from '../../AppState';
 import { START_GAME } from '../../graphql';
 import { useStyles } from './styles';
 import { GameData } from '../types';
@@ -45,6 +45,7 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     startedAt,
   } = gameData;
   const classes = useStyles();
+  const { showMessage } = useAppState();
   const [deltaGameCreation, setDeltaGameCreation] = useState(0);
   const [deltaGameUpdated, setDeltaGameUpdated] = useState(0);
 
@@ -136,6 +137,22 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
     [loading, onCheckOutTile, playerTurn, user.id]
   );
 
+  const handleCopyInvitation = useCallback(() => {
+    const invitation = `Come play memory with me!
+
+Join the Online Memory game at:
+https://master.d3czed5ma25sw0.amplifyapp.com/game/${gameData.id}
+
+Game ID: ${gameData.id}`;
+    (navigator as any).clipboard.writeText(invitation);
+    showMessage('Game invitation copied to the clipboard', 'success');
+  }, [gameData.id, showMessage]);
+
+  const handleCopyId = useCallback(() => {
+    (navigator as any).clipboard.writeText(gameData.id);
+    showMessage('Game Id copied to the clipboard', 'success');
+  }, [gameData.id, showMessage]);
+
   const userPlaying =
     playerTurn && users.find(user => playerTurn.status !== 'idle' && user.id === playerTurn.userId)?.item;
 
@@ -213,6 +230,21 @@ export const InGameView: React.FC<Props> = memo(({ user, gameData, loading, onPl
           <Typography component="h4" variant="h6" align="center">
             Waiting for the host to start the game
           </Typography>
+          <Grid item justify="center" alignItems="center" direction="column" container>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Invite other users to this game sharing this game id: <strong>{gameData.id}</strong>
+            </Typography>
+            <Grid item container justify="space-evenly">
+              <Button variant="outlined" color="default" onClick={handleCopyInvitation}>
+                Copy Invitation
+              </Button>
+
+              <Button variant="outlined" color="default" onClick={handleCopyId}>
+                Copy Game ID
+              </Button>
+            </Grid>
+          </Grid>
+
           <Grid item>
             <CircularProgress size={60} />
           </Grid>
