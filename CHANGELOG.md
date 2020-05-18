@@ -207,6 +207,7 @@
 
 - Optimize game starting flow [\#50](https://github.com/Online-Memory/online-memory/issues/50)
 - Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
+- Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
 **Merged pull requests:**
 
@@ -244,6 +245,7 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
+- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
@@ -321,7 +323,6 @@
 **Implemented enhancements:**
 
 - Short statistics in dashboard [\#22](https://github.com/Online-Memory/online-memory/issues/22)
-- Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
 ## [v0.8.0](https://github.com/Online-Memory/online-memory/tree/v0.8.0) (2020-04-08)
 
@@ -366,7 +367,6 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
-- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 **Merged pull requests:**
 
