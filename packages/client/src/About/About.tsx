@@ -17,7 +17,7 @@ export const About = () => {
                   This Game has been made possible thanks to...
                 </Typography>
               </Grid>
-              <Grid item xs={4} className={'${classes.cardColorB7} ${classes.cardCommonStyle}'}>
+              <Grid item xs={4} className={`${classes.cardColorB7} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderBlack}>
                   <Typography component="h4" variant="h6" align="center">
                     Who are we?
@@ -33,7 +33,7 @@ export const About = () => {
                   </Typography>
                 </div>
               </Grid>
-              <Grid item xs={4} className={(classes.cardColor222, classes.cardCommonStyle)}>
+              <Grid item xs={4} className={`${classes.cardColor222} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderWhite}>
                   <Typography component="h4" variant="h6" align="center">
                     <Link color="inherit" href="https://about.me/andreasonny83/">
@@ -55,7 +55,7 @@ export const About = () => {
                   </Typography>
                 </div>
               </Grid>
-              <Grid item xs={4} className={(classes.cardColorDDD, classes.cardCommonStyle)}>
+              <Grid item xs={4} className={`${classes.cardColorDDD} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderBlack}>
                   <Typography component="h4" variant="h6" align="center">
                     <Link color="inherit" href="https://github.com/kamolins/">
@@ -74,7 +74,7 @@ export const About = () => {
             </Grid>
 
             <Grid container item>
-              <Grid item xs={4} className={(classes.cardColorDDD, classes.cardCommonStyle)}>
+              <Grid item xs={4} className={`${classes.cardColorDDD} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderBlack}>
                   <Typography component="h4" variant="h6" align="center">
                     <Link color="inherit" href="https://github.com/Thetawaves">
@@ -98,7 +98,7 @@ export const About = () => {
                   </Typography>
                 </div>
               </Grid>
-              <Grid item xs={4} className={(classes.cardColor4B, classes.cardCommonStyle)}>
+              <Grid item xs={4} className={`${classes.cardColor4B} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderWhite}>
                   <Typography component="h4" variant="h6" align="center">
                     <Link color="inherit" href="https://www.linkedin.com/in/eleonora-baio-900352a1/">
@@ -115,7 +115,7 @@ export const About = () => {
                   </Typography>
                 </div>
               </Grid>
-              <Grid item xs={4} className={(classes.cardColorB7, classes.cardCommonStyle)}>
+              <Grid item xs={4} className={`${classes.cardColorB7} ${classes.cardCommonStyle}`}>
                 <div className={classes.cardInnerBorderBlack}>
                   <Typography component="h4" variant="h6" align="center">
                     <Link color="inherit" href="https://github.com/liquidnero/">
