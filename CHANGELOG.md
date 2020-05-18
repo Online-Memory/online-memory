@@ -46,13 +46,13 @@
 - Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
 - Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
+**Merged pull requests:**
+
+- Responsiveness improvement [\#77](https://github.com/Online-Memory/online-memory/pull/77) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.28.0](https://github.com/Online-Memory/online-memory/tree/v0.28.0) (2020-05-05)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.27.0...v0.28.0)
-
-**Implemented enhancements:**
-
-- User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
 
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
@@ -60,7 +60,6 @@
 
 **Merged pull requests:**
 
-- Responsiveness improvement [\#77](https://github.com/Online-Memory/online-memory/pull/77) ([Thetawaves](https://github.com/Thetawaves))
 - New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
 - style\(client\): Update template [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
 
@@ -75,10 +74,6 @@
 ## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
-
-**Merged pull requests:**
-
-- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
@@ -174,6 +169,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.19.0...v0.19.1)
 
+**Implemented enhancements:**
+
+- User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
+
 **Fixed bugs:**
 
 - Wrong players order in winning view [\#61](https://github.com/Online-Memory/online-memory/issues/61)
@@ -237,7 +236,6 @@
 **Merged pull requests:**
 
 - refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/Online-Memory/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
-- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.15.0](https://github.com/Online-Memory/online-memory/tree/v0.15.0) (2020-04-12)
 
@@ -247,7 +245,6 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
-- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
@@ -262,6 +259,7 @@
 **Merged pull requests:**
 
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
+- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
@@ -368,6 +366,7 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
+- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 **Merged pull requests:**
 
