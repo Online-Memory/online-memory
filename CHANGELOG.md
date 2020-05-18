@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.32.0](https://github.com/Online-Memory/online-memory/tree/v0.32.0) (2020-05-18)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.31.1...v0.32.0)
+
 ## [v0.31.1](https://github.com/Online-Memory/online-memory/tree/v0.31.1) (2020-05-17)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.31.0...v0.31.1)
@@ -42,10 +46,6 @@
 - Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
 - Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
-**Merged pull requests:**
-
-- Responsiveness improvement [\#77](https://github.com/Online-Memory/online-memory/pull/77) ([Thetawaves](https://github.com/Thetawaves))
-
 ## [v0.28.0](https://github.com/Online-Memory/online-memory/tree/v0.28.0) (2020-05-05)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.27.0...v0.28.0)
@@ -60,6 +60,7 @@
 
 **Merged pull requests:**
 
+- Responsiveness improvement [\#77](https://github.com/Online-Memory/online-memory/pull/77) ([Thetawaves](https://github.com/Thetawaves))
 - New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
 - style\(client\): Update template [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
 
@@ -236,6 +237,7 @@
 **Merged pull requests:**
 
 - refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/Online-Memory/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
+- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.15.0](https://github.com/Online-Memory/online-memory/tree/v0.15.0) (2020-04-12)
 
@@ -260,7 +262,6 @@
 **Merged pull requests:**
 
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
-- feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
