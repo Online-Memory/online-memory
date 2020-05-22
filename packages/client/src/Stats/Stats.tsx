@@ -17,7 +17,6 @@ import {
 } from '@material-ui/core';
 import { useAppState } from '../AppState';
 import { useStyles } from './styles';
-import { useTheme } from '../App/useTheme';
 
 const LabelComponent: React.FC<any> = ({ id, anchor, isSmall, userStats }) => {
   const classes = useStyles();
@@ -39,8 +38,7 @@ const LabelWrapperComponent = (isSmall: boolean, userStats: any) => {
 export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { user, userLoading, loading, loadStats } = useAppState();
-  const { darkTheme } = useTheme();
+  const { user, userLoading, loading, loadStats, isDarkMode } = useAppState();
 
   const handleBack = useCallback(async () => {
     history.goBack();
@@ -139,8 +137,8 @@ export const StatsComponent: React.FC<WithWidth> = ({ width }) => {
                       gridLabel={LabelWrapperComponent(isWidthDown('sm', width), userStats) as any}
                       gridLabelOffset={32}
                       enableDotLabel={false}
-                      colors={{ scheme: darkTheme ? 'accent' : 'purple_orange' }}
-                      fillOpacity={darkTheme ? 0.9 : 0.8}
+                      colors={{ scheme: isDarkMode ? 'accent' : 'purple_orange' }}
+                      fillOpacity={isDarkMode ? 0.95 : 0.7}
                       blendMode="normal"
                       isInteractive={true}
                       legends={[

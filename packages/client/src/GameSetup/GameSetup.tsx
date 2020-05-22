@@ -1,17 +1,16 @@
-import React, { memo, useCallback, useState, useEffect } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
-import { CREATE_GAME, GET_TEMPLATES, INVITE_USER, GET_USERS } from '../graphql';
+import { CREATE_GAME, GET_TEMPLATES, INVITE_USER } from '../graphql';
 import { Template } from './types';
 import { useStyles } from './styles';
 import { useAppState } from '../AppState';
 
 export const GameSetup = memo(() => {
   const classes = useStyles();
-  const { playAgainData, clearPlayAgainData, user } = useAppState();
-  const [searchUsersData, setSearchUsersData] = useState([]);
+  const { playAgainData, clearPlayAgainData, user, userFriends } = useAppState();
   const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
     GET_TEMPLATES,
     {
@@ -20,11 +19,6 @@ export const GameSetup = memo(() => {
       },
     }
   );
-  const [getUsers, { data: getUsersData, loading: getUsersLoading }] = useLazyQuery(GET_USERS, {
-    onError: err => {
-      console.warn(err);
-    },
-  });
 
   const [createGame, { loading: createGameLoading, error: createGameError, data: createGameData }] = useMutation(
     CREATE_GAME,
@@ -40,24 +34,6 @@ export const GameSetup = memo(() => {
       console.warn(err);
     },
   });
-
-  useEffect(() => {
-    if (getUsersData?.getUsers) {
-      setSearchUsersData(getUsersData.getUsers);
-    }
-  }, [getUsersData]);
-
-  const handleSearchUser = useCallback(
-    (name: string) => {
-      if (!name || name.length < 2) {
-        setSearchUsersData([]);
-        return;
-      }
-
-      getUsers({ variables: { name } });
-    },
-    [getUsers]
-  );
 
   const handleSubmit = useCallback(
     async data => {
@@ -138,9 +114,7 @@ export const GameSetup = memo(() => {
       templates={templatesData.templates}
       playAgainData={playAgainData}
       onSubmit={handleSubmit}
-      onSearchUser={handleSearchUser}
-      searchUserData={searchUsersData}
-      searchUserLoading={getUsersLoading}
+      userFriends={userFriends}
     />
   );
 });

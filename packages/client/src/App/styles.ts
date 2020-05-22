@@ -6,9 +6,6 @@ export const useStyles = makeStyles(theme => ({
     flexWrap: 'nowrap',
     backgroundImage: theme.palette.type === 'dark' ? `url('/Background_Dark.png')` : `url('/Background_Light.png')`,
   },
-  title: {
-    flexGrow: 1,
-  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
@@ -58,7 +55,7 @@ export const useStyles = makeStyles(theme => ({
   },
   titleStyle: {
     fontFamily: 'Bungee',
-    fontSize: 40,
+    fontSize: 36,
     [theme.breakpoints.down('md')]: {
       fontSize: 20,
     },
@@ -69,6 +66,7 @@ export const useStyles = makeStyles(theme => ({
     height: 80,
     width: 80,
     padding: 0,
+    verticalAlign: 'middle',
     [theme.breakpoints.down('md')]: {
       width: 40,
       height: 40,

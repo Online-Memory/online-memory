@@ -36,7 +36,7 @@ interface Props extends WithWidth {
 export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme, width }) => {
   const history = useHistory();
   const classes = useStyles();
-  const { isAuthenticated, user, logOut, showUserInvite } = useAppState();
+  const { isAuthenticated, user, logOut, showUserInvite, setDarkMode } = useAppState();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -47,6 +47,10 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
     shouldResubscribe: true,
     skip: !user?.id,
   });
+
+  useEffect(() => {
+    setDarkMode(darkTheme);
+  }, [darkTheme, setDarkMode]);
 
   useEffect(() => {
     if (subData?.invites?.gameId && subData?.invites?.from) {
@@ -79,20 +83,12 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
       <AppBar position="relative" classes={{ root: classes.navbar }}>
         <Toolbar className={classes.navInnerContainer}>
           <Grid container alignItems="center">
-            <img src={wmcIcon} alt="World Memory Challenge Icon" className={classes.wmcIcon} />
-            {isWidthDown('md', width) ? (
-              <Typography variant="h6" color="inherit" className={classes.title} noWrap>
-                <Link href="/" color="inherit" className={classes.titleStyle}>
-                  WMC
-                </Link>
-              </Typography>
-            ) : (
-              <Typography variant="h6" color="inherit" className={classes.title} noWrap>
-                <Link href="/" color="inherit" className={classes.titleStyle}>
-                  World Memory Challenge
-                </Link>
-              </Typography>
-            )}
+            <Grid item xs>
+              <Link href="/" color="inherit" className={classes.titleStyle}>
+                <img src={wmcIcon} alt="World Memory Challenge Icon" className={classes.wmcIcon} />
+                {isWidthDown('md', width) ? 'WMC' : 'World Memory Challenge'}
+              </Link>
+            </Grid>
             <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>
               <Tooltip title="Toggle light/dark theme" aria-label="Toggle light/dark theme">
                 {darkTheme ? <Sun /> : <Moon />}

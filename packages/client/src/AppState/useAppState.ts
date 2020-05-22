@@ -11,7 +11,7 @@ import {
   awsForgottenPassword,
   awsResetPassword,
 } from './AWS';
-import { UPDATE_USER, UPDATE_USERNAME, ADD_FRIEND, REMOVE_FRIEND } from '../graphql';
+import { UPDATE_USER, UPDATE_USERNAME, ADD_FRIEND, REMOVE_FRIEND, GET_USER } from '../graphql';
 import { useMutation } from '@apollo/react-hooks';
 import { GameData } from '../Game/types';
 
@@ -82,8 +82,24 @@ export const useAppState = () => {
         variables: {
           updateUserInput: { displayName, avatar },
         },
+        update: cache => {
+          const existingUserData: any = cache.readQuery({
+            query: GET_USER,
+          });
+
+          cache.writeQuery({
+            query: GET_USER,
+            data: {
+              whoAmI: {
+                ...existingUserData?.whoAmI,
+                displayName,
+                avatar,
+              },
+            },
+          });
+        },
       });
-      dispatch({ type: Types.REFETCH_USER });
+      dispatch({ type: Types.LOADING, payload: false });
     },
     [dispatch, updateUserMutation]
   );
@@ -297,7 +313,15 @@ export const useAppState = () => {
     dispatch({ type: Types.LOADING, payload: false });
   }, [dispatch]);
 
+  const setDarkMode = useCallback(
+    (isDarkMode: boolean) => {
+      dispatch({ type: Types.TOGGLE_DARK_MODE, payload: isDarkMode });
+    },
+    [dispatch]
+  );
+
   return {
+    isDarkMode: state.darkMode,
     showMessage,
     showUserInvite,
     isAuthenticated: state.user.isAuthenticated,
@@ -321,5 +345,6 @@ export const useAppState = () => {
     addFriend: handleAddFriend,
     deleteFriend: handleDeleteFriend,
     loadStats,
+    setDarkMode,
   };
 };
