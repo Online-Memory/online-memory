@@ -147,6 +147,12 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
         loading: true,
       };
 
+    case Types.TOGGLE_DARK_MODE:
+      return {
+        ...state,
+        darkMode: action.payload,
+      };
+
     default:
       return state;
   }

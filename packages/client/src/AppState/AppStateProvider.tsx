@@ -10,6 +10,7 @@ import { reducer } from './reducer';
 import * as serviceWorker from '../serviceWorker';
 
 const initialState: AppState = {
+  darkMode: false,
   refetchUser: false,
   lastInteraction: Date.now(),
   userStatus: UserStatus.AVAILABLE,

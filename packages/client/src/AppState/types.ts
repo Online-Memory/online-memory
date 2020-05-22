@@ -81,6 +81,7 @@ export enum Types {
   LOADING = 'LOADING',
   USER_INTERACTION = 'USER_INTERACTION',
   SET_USER_STATE = 'SET_USER_STATE',
+  TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE',
 }
 
 export interface AppAction {
@@ -99,6 +100,7 @@ export enum UserStatus {
 }
 
 export interface AppState {
+  darkMode: boolean;
   refetchUser: boolean;
   lastInteraction: number;
   userStatus: UserStatus;

@@ -14,7 +14,7 @@ export const Home: React.FC = memo(() => {
   const [joinGameId, setJoinGameId] = useState('');
 
   const handleJoinGameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setJoinGameId(event.target.value);
+    setJoinGameId(event.target.value.replace(' ', ''));
   }, []);
 
   const focusInput = useCallback(async () => {
@@ -81,49 +81,49 @@ export const Home: React.FC = memo(() => {
             </Typography>
           </Grid>
           <div className={classes.heroButtons}>
-            <Grid container direction="row" justify="space-around" alignItems="center">
-              <Grid item>
-                <LinkUI to="/new" className={classes.linkButton}>
-                  <Button className={classes.buttonHome} variant="contained" color="primary">
-                    Start new game
-                  </Button>
-                </LinkUI>
-              </Grid>
-              <Grid item>
-                <Button
-                  className={classes.buttonHome}
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleJoinGameToggle}
-                >
-                  Join a game
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid container spacing={4}>
-              <Grid item></Grid>
-            </Grid>
-            {joinGame && (
-              <Grid container spacing={1} justify="center" alignItems="center">
-                <Grid item xs>
-                  <TextField
-                    type="text"
-                    variant="outlined"
-                    inputRef={inputRef}
-                    inputProps={{ maxLength: 32 }}
-                    value={joinGameId}
-                    label="Game ID"
-                    onChange={handleJoinGameChange}
-                    fullWidth
-                  />
+            <Grid container direction="column" spacing={4}>
+              <Grid item container direction="row" justify="space-around" alignItems="center">
+                <Grid item>
+                  <LinkUI to="/new" className={classes.linkButton}>
+                    <Button className={classes.buttonHome} variant="contained" color="primary">
+                      Start new game
+                    </Button>
+                  </LinkUI>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary" onClick={handleJoinGame}>
-                    Join
+                  <Button
+                    className={classes.buttonHome}
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleJoinGameToggle}
+                  >
+                    Join a game
                   </Button>
                 </Grid>
               </Grid>
-            )}
+
+              {joinGame && (
+                <Grid item container spacing={1} justify="center" alignItems="center">
+                  <Grid item xs={12} sm={10} md={8}>
+                    <TextField
+                      type="text"
+                      variant="outlined"
+                      inputRef={inputRef}
+                      inputProps={{ maxLength: 32 }}
+                      value={joinGameId}
+                      label="Game ID"
+                      onChange={handleJoinGameChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Button variant="outlined" size="large" color="primary" onClick={handleJoinGame}>
+                      Join
+                    </Button>
+                  </Grid>
+                </Grid>
+              )}
+            </Grid>
           </div>
         </Grid>
       </Container>

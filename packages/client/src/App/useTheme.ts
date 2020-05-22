@@ -4,7 +4,7 @@ import grey from '@material-ui/core/colors/grey';
 
 const KEY = 'darkTheme';
 
-export const useTheme = (initialValue = true) => {
+export const useTheme = (initialValue = false) => {
   const [darkTheme, setDarkTheme] = useState<boolean>(() => {
     try {
       // Get from local storage by key

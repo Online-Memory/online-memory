@@ -22,7 +22,7 @@ export const useStyles = makeStyles(theme => ({
     transition: 'transform .3s ease-in-out',
   },
   toggleDashboardButtonMinimized: {
-    transform: 'translateX(60px)',
+    transform: 'translateX(65px)',
     background: theme.palette.background.paper,
   },
   toggleDashboardIcon: {
@@ -42,7 +42,8 @@ export const useStyles = makeStyles(theme => ({
     opacity: 1,
   },
   scoreboardTitle: {
-    marginBottom: theme.spacing(6),
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
