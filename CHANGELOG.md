@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.33.0](https://github.com/Online-Memory/online-memory/tree/v0.33.0) (2020-05-24)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.32.0...v0.33.0)
+
+**Implemented enhancements:**
+
+- feat\(client\): Add client side Browser notifications [\#83](https://github.com/Online-Memory/online-memory/pull/83) ([andreasonny83](https://github.com/andreasonny83))
+
+**Merged pull requests:**
+
+- style\(core\): Friends flow improved and minor UI fixes [\#82](https://github.com/Online-Memory/online-memory/pull/82) ([andreasonny83](https://github.com/andreasonny83))
+
 ## [v0.32.0](https://github.com/Online-Memory/online-memory/tree/v0.32.0) (2020-05-18)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.31.1...v0.32.0)
@@ -54,6 +66,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.27.0...v0.28.0)
 
+**Implemented enhancements:**
+
+- User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
+
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
@@ -74,6 +90,10 @@
 ## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
+
+**Merged pull requests:**
+
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
@@ -169,10 +189,6 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.19.0...v0.19.1)
 
-**Implemented enhancements:**
-
-- User Settings view [\#72](https://github.com/Online-Memory/online-memory/issues/72)
-
 **Fixed bugs:**
 
 - Wrong players order in winning view [\#61](https://github.com/Online-Memory/online-memory/issues/61)
@@ -245,6 +261,7 @@
 
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
+- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
@@ -366,7 +383,6 @@
 **Implemented enhancements:**
 
 - Add Changelog [\#8](https://github.com/Online-Memory/online-memory/issues/8)
-- Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 
 **Merged pull requests:**
 
