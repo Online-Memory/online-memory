@@ -57,6 +57,9 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
     case Types.USER_INVITE:
       return {
         ...state,
+        browserNotifications: {
+          show: true,
+        },
         userInvite: {
           show: true,
           from: action.payload.from,
@@ -151,6 +154,14 @@ export const reducer = (state: AppState, action: AppAction): AppState => {
       return {
         ...state,
         darkMode: action.payload,
+      };
+
+    case Types.BROWSER_NOTIFICATION_SHOWED:
+      return {
+        ...state,
+        browserNotifications: {
+          show: false,
+        },
       };
 
     default:
