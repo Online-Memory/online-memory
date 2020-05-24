@@ -1,5 +1,7 @@
-import React, { useReducer, createContext, useCallback, useEffect } from 'react';
+import React, { useReducer, createContext, useCallback, useEffect, memo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
+import { useBrowserNotifications } from 'use-browser-notifications';
 import { Snackbar, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
@@ -17,6 +19,9 @@ const initialState: AppState = {
   notifications: {
     message: undefined,
     severity: undefined,
+    show: false,
+  },
+  browserNotifications: {
     show: false,
   },
   userInvite: {
@@ -61,8 +66,16 @@ interface AppContextType {
 
 export const AppStateContext = createContext<AppContextType>({});
 
-export const AppStateProvider: React.FC = ({ children }) => {
+export const AppStateProvider: React.FC = memo(({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const history = useHistory();
+  const { show } = useBrowserNotifications({
+    title: 'WMC',
+    requireInteraction: true,
+    disableActiveWindow: false,
+    badge: 'https://raw.githubusercontent.com/Online-Memory/online-memory/master/assets/img/WMC_icon_192.png',
+    icon: 'https://raw.githubusercontent.com/Online-Memory/online-memory/master/assets/img/WMC_icon_192.png',
+  });
   const { loading: userDataLoading, data: whoAmIData, refetch: refetchWhoAmI } = useQuery<{
     whoAmI: UserData;
   }>(GET_USER, {
@@ -163,6 +176,20 @@ export const AppStateProvider: React.FC = ({ children }) => {
     whoAmIData,
   ]);
 
+  useEffect(() => {
+    if (state.browserNotifications.show) {
+      show({
+        tag: `${state.userInvite.from}-${state.userInvite.gameId}`,
+        body: `User ${state.userInvite.from} is inviting you to play a game`,
+        onClick: () => {
+          dispatch({ type: Types.BROWSER_NOTIFICATION_SHOWED });
+          dispatch({ type: Types.ACCEPT_INVITE });
+          window.open(`/game/${state.userInvite.gameId}`);
+        },
+      });
+    }
+  }, [history, show, state.browserNotifications.show, state.userInvite.from, state.userInvite.gameId]);
+
   const ignoreInvite = useCallback(() => {
     dispatch({ type: Types.CLEAR_INVITE });
   }, []);
@@ -256,4 +283,4 @@ export const AppStateProvider: React.FC = ({ children }) => {
       {children}
     </AppStateContext.Provider>
   );
-};
+});

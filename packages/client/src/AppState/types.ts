@@ -9,6 +9,10 @@ export interface MessageState {
   show: boolean;
 }
 
+export interface BrowserNotifications {
+  show: boolean;
+}
+
 export interface UserInvite {
   show: boolean;
   from?: string;
@@ -82,6 +86,7 @@ export enum Types {
   USER_INTERACTION = 'USER_INTERACTION',
   SET_USER_STATE = 'SET_USER_STATE',
   TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE',
+  BROWSER_NOTIFICATION_SHOWED = 'BROWSER_NOTIFICATION_SHOWED',
 }
 
 export interface AppAction {
@@ -104,6 +109,7 @@ export interface AppState {
   refetchUser: boolean;
   lastInteraction: number;
   userStatus: UserStatus;
+  browserNotifications: BrowserNotifications;
   notifications: MessageState;
   userInvite: UserInvite;
   updateAvailable: boolean;

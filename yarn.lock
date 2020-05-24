@@ -14758,6 +14758,11 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-browser-notifications@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/use-browser-notifications/-/use-browser-notifications-0.3.0.tgz#576343dd0a83ad5f852f41ab975a947e8ec18de9"
+  integrity sha512-g4rMsI6rUInkZKlmy2lQ15YJ57d4wKirllWr1MPE1N3Bfx3JpgunyxCFMMrKDCvbyDpoB2larzV14SDZLGBhVQ==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
