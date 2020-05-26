@@ -1,10 +1,13 @@
 import React, { memo, useCallback, useEffect } from 'react';
 import { anime } from 'react-anime';
+import useSound from 'use-sound';
 import { Grid } from '@material-ui/core';
 import { TileComponent } from '../Tile';
 import { ZoomControl, useZoom } from '../ZoomControl';
 import { useStyles } from './styles';
 import { Tile } from '../types';
+import flipCard from '../../assets/sfx/click_001.mp3';
+import takeCard from '../../assets/sfx/ping_001.mp3';
 
 interface Props {
   loading: boolean;
@@ -27,6 +30,19 @@ export const Board: React.FC<Props> = memo(
     const { tileSize, zoomIn, zoomOut } = useZoom(60);
     const gridX = new Array(board.gridX).fill('');
     const gridY = new Array(board.gridY).fill('');
+    const [flip] = useSound(flipCard);
+    const [take] = useSound(takeCard);
+
+    const handlePlay = useCallback(
+      (sound: string) => {
+        if (sound === 'flip') {
+          flip();
+        } else if (sound === 'take') {
+          take();
+        }
+      },
+      [flip, take]
+    );
 
     const getTile = useCallback((tiles: Tile[], posX: number, posY: number, boardX: number) => {
       const id = boardX * posY + posX;
@@ -106,6 +122,7 @@ export const Board: React.FC<Props> = memo(
                       startTurn={startTurn}
                       loading={loading}
                       onCheckout={onCheckoutTile}
+                      play={handlePlay}
                       isEnded={isEnded}
                     />
                   </Grid>

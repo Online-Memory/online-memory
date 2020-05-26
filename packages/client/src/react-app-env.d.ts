@@ -39,6 +39,11 @@ declare module '*.webp' {
   export default src;
 }
 
+declare module '*.mp3' {
+  const content: string;
+  export default content;
+}
+
 declare module '*.svg' {
   import * as React from 'react';
 

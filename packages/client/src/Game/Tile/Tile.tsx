@@ -1,9 +1,6 @@
 import React, { memo, useCallback, CSSProperties, useEffect, useState } from 'react';
 import { Tile } from '../types';
 import { useStyles } from './styles';
-import useSound from 'use-sound';
-import flipCard from '../../assets/sfx/click_001.mp3';
-import takeCard from '../../assets/sfx/ping_001.mp3';
 
 interface Props {
   tile: Tile;
@@ -16,14 +13,13 @@ interface Props {
   className?: string;
   style?: CSSProperties;
   onCheckout?: (tileId: number) => void;
+  play?: (sound: string) => void;
 }
 
 export const TileComponent: React.FC<Props> = memo(
-  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn, isEnded = false }) => {
+  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn, play, isEnded = false }) => {
     const classes = useStyles({ template, tileStatus: tile.status });
     const [playSound, setPlaySound] = useState(false);
-    const [flip] = useSound(flipCard);
-    const [take] = useSound(takeCard);
 
     const handleCheckOutTile = useCallback(
       (tileId: number) => () => {
@@ -41,14 +37,14 @@ export const TileComponent: React.FC<Props> = memo(
 
     useEffect(() => {
       if (tile.status === 'show' && playSound) {
-        flip();
+        play && play('flip');
         setPlaySound(false);
       }
       if (tile.status === 'taken' && playSound) {
-        take();
+        play && play('take');
         setPlaySound(false);
       }
-    }, [flip, playSound, take, tile.status]);
+    }, [play, playSound, tile.status]);
 
     const x = tile.status === 'hidden' ? 0 : (Number(tile.ref) % 8) * tileSize;
     const y = tile.status === 'hidden' ? 0 : Math.floor(Number(tile.ref) / 8) * tileSize;
