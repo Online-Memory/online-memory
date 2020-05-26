@@ -9186,7 +9186,7 @@ jmespath@0.15.0:
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
-js-cookie@^2.1.4:
+js-cookie@^2.1.4, js-cookie@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
@@ -12426,6 +12426,13 @@ react-avataaars@^0.2.3:
   dependencies:
     "@dicebear/avatars" "^3.0.6"
     avataaars "^1.2.1"
+
+react-cookie-consent@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-cookie-consent/-/react-cookie-consent-5.0.1.tgz#35b9cfe51185faa2b493b991298e0f926a31a710"
+  integrity sha512-2aqrRomONFu8mij1TjRKQKfMNhSihRR/yig4/V/ZEY4E/zzEI6RJGINLbSd6VXSM3etXiZequiBCOfVmlDeZ7w==
+  dependencies:
+    js-cookie "^2.2.1"
 
 react-dev-utils@^10.2.1:
   version "10.2.1"

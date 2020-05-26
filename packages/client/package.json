@@ -37,6 +37,7 @@
     "react-anime": "^3.0.3",
     "react-app-polyfill": "^1.0.6",
     "react-avataaars": "^0.2.3",
+    "react-cookie-consent": "^5.0.1",
     "react-dev-utils": "^10.2.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

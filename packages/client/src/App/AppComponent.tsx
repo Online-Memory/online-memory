@@ -18,11 +18,11 @@ import {
   WithWidth,
   isWidthDown,
 } from '@material-ui/core';
+import CookieConsent from 'react-cookie-consent';
 import Sun from '@material-ui/icons/Brightness7';
 import Moon from '@material-ui/icons/Brightness4';
 import catButt from '../assets/img/catButt.png';
 import wmcIcon from '../assets/img/WMC_icon.png';
-import gitHub from './github.svg';
 import { useAppState } from '../AppState';
 import { Router } from '../router';
 import { version } from '../version';
@@ -178,30 +178,63 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
             </Grid>
 
             <Grid item container>
-              <Typography variant="subtitle1" color="textSecondary" paragraph>
-                <LinkUI color="inherit" to="/cookie-declaration" className={classes.linkButton}>
-                  Cookie Declaration
-                </LinkUI>
+              <Typography
+                component={LinkUI}
+                variant="subtitle1"
+                color="primary"
+                to="/about"
+                className={classes.footerLink}
+              >
+                About Us
               </Typography>
 
               <Typography className={classes.footerDivider} variant="subtitle1" color="textSecondary" paragraph>
                 |
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary" paragraph>
-                <Link color="inherit" href="https://github.com/Online-Memory/online-memory/blob/master/CHANGELOG.md">
-                  CHANGELOG
-                </Link>
+              <Typography
+                component={LinkUI}
+                variant="subtitle1"
+                color="primary"
+                to="/privacy-policy"
+                className={classes.footerLink}
+              >
+                Privacy Policy
               </Typography>
-            </Grid>
 
-            <Grid item>
-              <Link color="inherit" href="https://github.com/Online-Memory">
-                <img src={gitHub} className={classes.gitHubLogo} height={38} alt="GitHub-logo" />
-              </Link>
+              <Typography className={classes.footerDivider} variant="subtitle1" color="textSecondary" paragraph>
+                |
+              </Typography>
+              <Typography
+                component={Link}
+                variant="subtitle1"
+                color="primary"
+                href="https://github.com/Online-Memory/online-memory/blob/master/CHANGELOG.md"
+                className={classes.footerLink}
+              >
+                Changelog
+              </Typography>
+              <Typography className={classes.footerDivider} variant="subtitle1" color="textSecondary" paragraph>
+                |
+              </Typography>
+              <Typography
+                component={Link}
+                variant="subtitle1"
+                color="primary"
+                href="https://github.com/Online-Memory/online-memory"
+                className={classes.footerLink}
+              >
+                Source Code
+              </Typography>
             </Grid>
           </Grid>
         </Container>
       </footer>
+      <CookieConsent location="bottom" style={{ zIndex: 9999 }}>
+        This website uses cookies to enhance the user experience. Read more in the{' '}
+        <Link component={LinkUI} to="/privacy-policy">
+          Privacy Policy
+        </Link>
+      </CookieConsent>
     </Grid>
   );
 });

@@ -10,9 +10,8 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
-  linkButton: {
+  footerLink: {
     textDecoration: 'none',
-    color: 'inherit',
     '&:hover': {
       textDecoration: 'underline',
     },
