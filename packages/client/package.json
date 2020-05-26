@@ -49,7 +49,8 @@
     "terser-webpack-plugin": "2.3.5",
     "ts-pnp": "1.1.6",
     "url-loader": "2.3.0",
-    "use-browser-notifications": "^0.3.0"
+    "use-browser-notifications": "^0.3.0",
+    "use-sound": "^1.0.2"
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.6"
