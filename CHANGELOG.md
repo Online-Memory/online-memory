@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.34.0](https://github.com/Online-Memory/online-memory/tree/v0.34.0) (2020-05-26)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.33.0...v0.34.0)
+
+**Implemented enhancements:**
+
+- Legals and Cookie policy [\#26](https://github.com/Online-Memory/online-memory/issues/26)
+
 ## [v0.33.0](https://github.com/Online-Memory/online-memory/tree/v0.33.0) (2020-05-24)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.32.0...v0.33.0)
