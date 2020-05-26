@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.35.0](https://github.com/Online-Memory/online-memory/tree/v0.35.0) (2020-05-26)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.34.0...v0.35.0)
+
+**Implemented enhancements:**
+
+- Add sounds [\#74](https://github.com/Online-Memory/online-memory/issues/74)
+
 ## [v0.34.0](https://github.com/Online-Memory/online-memory/tree/v0.34.0) (2020-05-26)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.33.0...v0.34.0)
@@ -286,6 +294,7 @@
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
 - feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
+- Royalty Free Images [\#4](https://github.com/Online-Memory/online-memory/pull/4) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
 
@@ -396,7 +405,6 @@
 
 - New layout: Animals [\#6](https://github.com/Online-Memory/online-memory/pull/6) ([Thetawaves](https://github.com/Thetawaves))
 - User data refactoring [\#5](https://github.com/Online-Memory/online-memory/pull/5) ([andreasonny83](https://github.com/andreasonny83))
-- Royalty Free Images [\#4](https://github.com/Online-Memory/online-memory/pull/4) ([Thetawaves](https://github.com/Thetawaves))
 - Food Cards 2.0 [\#3](https://github.com/Online-Memory/online-memory/pull/3) ([Thetawaves](https://github.com/Thetawaves))
 - Food\_cards [\#1](https://github.com/Online-Memory/online-memory/pull/1) ([Thetawaves](https://github.com/Thetawaves))
 
