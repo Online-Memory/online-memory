@@ -14,24 +14,16 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-  customHeaders:
-    - pattern: '*.png'
-      headers:
-      - key: 'Cache-Control'
-        value: 'public,max-age=3600'
-    - pattern: '*.jpg'
-      headers:
-      - key: 'Cache-Control'
-        value: 'public,max-age=3600'
+ customHeaders:
     - pattern: '**/*.png'
       headers:
       - key: 'Cache-Control'
         value: 'public,max-age=3600'
-    - pattern: '**/*.mp3'
+    - pattern: '**/*.jpg'
       headers:
       - key: 'Cache-Control'
         value: 'public,max-age=3600'
-    - pattern: '**/*.jpg'
+    - pattern: '**/*.mp3'
       headers:
       - key: 'Cache-Control'
         value: 'public,max-age=3600'
