@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.35.3](https://github.com/Online-Memory/online-memory/tree/v0.35.3) (2020-05-27)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.35.2...v0.35.3)
+
 ## [v0.35.2](https://github.com/Online-Memory/online-memory/tree/v0.35.2) (2020-05-27)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.35.1...v0.35.2)
@@ -102,7 +106,6 @@
 
 - New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
 - style\(client\): Update template [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
-- Dynamic App Backgrounds and update documentation  [\#51](https://github.com/Online-Memory/online-memory/pull/51) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.26.1](https://github.com/Online-Memory/online-memory/tree/v0.26.1) (2020-05-02)
 
@@ -264,6 +267,7 @@
 
 **Merged pull requests:**
 
+- Dynamic App Backgrounds and update documentation  [\#51](https://github.com/Online-Memory/online-memory/pull/51) ([andreasonny83](https://github.com/andreasonny83))
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
