@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { anime } from 'react-anime';
 import useSound from 'use-sound';
 import { Grid } from '@material-ui/core';
@@ -8,6 +8,9 @@ import { useStyles } from './styles';
 import { Tile } from '../types';
 import flipCard from '../../assets/sfx/click_001.mp3';
 import takeCard from '../../assets/sfx/ping_001.mp3';
+import cardReset from '../../assets/sfx/card_flip_001.mp3';
+import start from '../../assets/sfx/start_game.mp3';
+import end from '../../assets/sfx/end_game.mp3';
 
 interface Props {
   loading: boolean;
@@ -30,19 +33,39 @@ export const Board: React.FC<Props> = memo(
     const { tileSize, zoomIn, zoomOut } = useZoom(60);
     const gridX = new Array(board.gridX).fill('');
     const gridY = new Array(board.gridY).fill('');
+    const [playSound, setPlaySound] = useState<string | null>(null);
     const [flip] = useSound(flipCard);
     const [take] = useSound(takeCard);
+    const [flipBack] = useSound(cardReset);
+    const [startGame] = useSound(start);
+    const [endGame] = useSound(end);
 
-    const handlePlay = useCallback(
-      (sound: string) => {
-        if (sound === 'flip') {
-          flip();
-        } else if (sound === 'take') {
-          take();
-        }
+    const playMedia = useCallback(
+      async (media: typeof flip | typeof take | typeof flipBack | typeof startGame | typeof endGame, delay = 0) => {
+        await new Promise(res => setTimeout(res, delay));
+        media();
       },
-      [flip, take]
+      [endGame, flip, flipBack, startGame, take]
     );
+
+    useEffect(() => {
+      if (playSound === 'show1' && tiles.filter(tile => tile.status === 'show').length === 1) {
+        flip();
+      }
+      if (playSound === 'show2' && tiles.filter(tile => tile.status === 'show').length === 2) {
+        flip();
+        setPlaySound(null);
+      }
+      if (playSound === 'show2' && !tiles.filter(tile => tile.status === 'show').length) {
+        take();
+        setPlaySound(null);
+      }
+      if (!isStarted && startTurn && !playSound) {
+        playMedia(startGame, 250);
+      } else if (playSound === 'reset' && !tiles.filter(tile => tile.status === 'show').length) {
+        flipBack();
+      }
+    }, [flip, flipBack, isStarted, playMedia, playSound, startGame, startTurn, take, tiles]);
 
     const getTile = useCallback((tiles: Tile[], posX: number, posY: number, boardX: number) => {
       const id = boardX * posY + posX;
@@ -50,8 +73,25 @@ export const Board: React.FC<Props> = memo(
       return tiles[id];
     }, []);
 
+    const handleCheckoutTile = useCallback(
+      (tile: Tile) => {
+        if (startTurn) {
+          setPlaySound('reset');
+        } else if (tile.status === 'hidden') {
+          if (playSound === 'show1') {
+            setPlaySound('show2');
+          } else {
+            setPlaySound('show1');
+          }
+        }
+        onCheckoutTile(tile.id);
+      },
+      [onCheckoutTile, playSound, startTurn]
+    );
+
     useEffect(() => {
       if (isEnded) {
+        playMedia(endGame, 2000);
         anime({
           targets: '.tileItem',
           translateX: anime.stagger(10, {
@@ -79,7 +119,7 @@ export const Board: React.FC<Props> = memo(
         return;
       }
 
-      if (isStarted) {
+      if (isStarted || !startTurn) {
         return;
       }
 
@@ -95,7 +135,7 @@ export const Board: React.FC<Props> = memo(
           start: 250,
         }),
       });
-    }, [board.gridX, board.gridY, isEnded, isStarted]);
+    }, [board.gridX, board.gridY, endGame, isEnded, isStarted, playMedia, startTurn]);
 
     return (
       <div className={classes.boardWrapper}>
@@ -103,33 +143,32 @@ export const Board: React.FC<Props> = memo(
         <Grid direction="column" className={classes.boardContainer} item container>
           {gridY.map((_, indexY) => (
             <Grid key={`col-${indexY}`} container item>
-              {gridX.map((_, indexX) => {
-                return (
-                  <Grid item key={`col-${indexY}-row-${indexX}`} className={`${classes.tileItem}`}>
-                    <div
-                      className={classes.tileBackground}
-                      style={{
-                        width: `${tileSize}px`,
-                        height: `${tileSize}px`,
-                      }}
-                    />
-                    <TileComponent
-                      className="tileItem"
-                      template={template}
-                      tile={getTile(tiles, indexX, indexY, board.gridX)}
-                      tileSize={tileSize}
-                      disabled={disabled}
-                      startTurn={startTurn}
-                      loading={loading}
-                      onCheckout={onCheckoutTile}
-                      play={handlePlay}
-                      isEnded={isEnded}
-                    />
-                  </Grid>
-                );
-              })}
+              {gridX.map((_, indexX) => (
+                <Grid item key={`col-${indexY}-row-${indexX}`} className={`${classes.tileItem}`}>
+                  <div
+                    className={classes.tileBackground}
+                    style={{
+                      width: `${tileSize}px`,
+                      height: `${tileSize}px`,
+                    }}
+                  />
+                  <TileComponent
+                    className="tileItem"
+                    template={template}
+                    tile={getTile(tiles, indexX, indexY, board.gridX)}
+                    tileSize={tileSize}
+                    disabled={disabled}
+                    startTurn={startTurn}
+                    firstMove={!isStarted && startTurn}
+                    loading={loading}
+                    onCheckout={handleCheckoutTile}
+                    isEnded={isEnded}
+                  />
+                </Grid>
+              ))}
             </Grid>
           ))}
+          {!isStarted && startTurn ? <div className={classes.clickToStart}>click to start</div> : null}
         </Grid>
       </div>
     );

@@ -26,4 +26,8 @@ export const useStyles = makeStyles(theme => ({
   tileLoading: {
     cursor: 'progress',
   },
+  firstMove: {
+    backgroundBlendMode: 'luminosity',
+    backgroundColor: 'gray!important',
+  },
 }));

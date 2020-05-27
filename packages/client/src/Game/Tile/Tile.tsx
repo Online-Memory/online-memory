@@ -1,4 +1,4 @@
-import React, { memo, useCallback, CSSProperties, useEffect, useState } from 'react';
+import React, { memo, useCallback, CSSProperties } from 'react';
 import { Tile } from '../types';
 import { useStyles } from './styles';
 
@@ -10,41 +10,37 @@ interface Props {
   loading: boolean;
   isEnded?: boolean;
   startTurn?: boolean;
+  firstMove?: boolean;
   className?: string;
   style?: CSSProperties;
-  onCheckout?: (tileId: number) => void;
-  play?: (sound: string) => void;
+  onCheckout?: (tile: Tile) => void;
 }
 
 export const TileComponent: React.FC<Props> = memo(
-  ({ className, style, template, tile, tileSize, disabled, loading, onCheckout, startTurn, play, isEnded = false }) => {
+  ({
+    className,
+    style,
+    template,
+    tile,
+    tileSize,
+    disabled,
+    loading,
+    onCheckout,
+    startTurn,
+    firstMove,
+    isEnded = false,
+  }) => {
     const classes = useStyles({ template, tileStatus: tile.status });
-    const [playSound, setPlaySound] = useState(false);
 
-    const handleCheckOutTile = useCallback(
-      (tileId: number) => () => {
-        if (loading || !onCheckout) {
-          return;
-        }
-
-        if (!disabled && tile.status === 'hidden') {
-          onCheckout(tileId);
-          setPlaySound(true);
-        }
-      },
-      [disabled, loading, onCheckout, tile.status]
-    );
-
-    useEffect(() => {
-      if (tile.status === 'show' && playSound) {
-        play && play('flip');
-        setPlaySound(false);
+    const handleCheckOutTile = useCallback(() => {
+      if (loading || !onCheckout) {
+        return;
       }
-      if (tile.status === 'taken' && playSound) {
-        play && play('take');
-        setPlaySound(false);
+
+      if (!disabled && tile.status === 'hidden') {
+        onCheckout(tile);
       }
-    }, [play, playSound, tile.status]);
+    }, [disabled, loading, onCheckout, tile]);
 
     const x = tile.status === 'hidden' ? 0 : (Number(tile.ref) % 8) * tileSize;
     const y = tile.status === 'hidden' ? 0 : Math.floor(Number(tile.ref) / 8) * tileSize;
@@ -59,14 +55,16 @@ export const TileComponent: React.FC<Props> = memo(
         <div
           className={`tile ${classes.tile} ${tile.ref} ${isEnded ? 'show' : tile.status} ${
             disabled ? classes.tileDisabled : classes.tileEnabled
-          } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${loading ? classes.tileLoading : ''}`}
+          } ${disabled ? 'disabled' : ''} ${startTurn ? 'startTurn' : ''} ${firstMove ? classes.firstMove : ''} ${
+            loading ? classes.tileLoading : ''
+          }`}
           style={{
             backgroundPosition: `-${x}px -${y}px`,
             backgroundSize: `${tileSize * 8}px`,
             width: `${tileSize}px`,
             height: `${tileSize}px`,
           }}
-          onClick={handleCheckOutTile(tile.id)}
+          onClick={handleCheckOutTile}
         />
       </div>
     );
