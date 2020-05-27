@@ -27,6 +27,10 @@ frontend:
       headers:
       - key: 'Cache-Control'
         value: 'public,max-age=3600'
+    - pattern: '**/*.mp3'
+      headers:
+      - key: 'Cache-Control'
+        value: 'public,max-age=3600'
     - pattern: '**/*.jpg'
       headers:
       - key: 'Cache-Control'
