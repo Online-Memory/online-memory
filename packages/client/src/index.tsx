@@ -22,6 +22,7 @@ import './assets/game_templates/005.png';
 import './assets/game_templates/006.png';
 import './assets/game_templates/007.png';
 import './assets/game_templates/008.png';
+import './assets/game_templates/009.png';
 
 dotenv.config();
 Amplify.configure(AMPLIFY);

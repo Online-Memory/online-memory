@@ -53,9 +53,11 @@
     "use-sound": "^1.0.2"
   },
   "devDependencies": {
-    "@types/lodash.debounce": "^4.0.6"
+    "@types/lodash.debounce": "^4.0.6",
+    "imagemin-cli": "^6.0.0"
   },
   "scripts": {
+    "prebuild": "imagemin src/assets/game_templates/*.png --out-dir=src/assets/game_templates",
     "start": "node scripts/start.js",
     "build": "./release.sh && node scripts/build.js",
     "test": "node scripts/test.js"
