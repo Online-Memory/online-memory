@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.38.0](https://github.com/Online-Memory/online-memory/tree/v0.38.0) (2020-06-06)
+
+[Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.37.0...v0.38.0)
+
 ## [v0.37.0](https://github.com/Online-Memory/online-memory/tree/v0.37.0) (2020-05-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.36.0...v0.37.0)
@@ -130,6 +134,10 @@
 ## [v0.26.0](https://github.com/Online-Memory/online-memory/tree/v0.26.0) (2020-04-29)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.25.1...v0.26.0)
+
+**Merged pull requests:**
+
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.25.1](https://github.com/Online-Memory/online-memory/tree/v0.25.1) (2020-04-28)
 
@@ -263,7 +271,6 @@
 
 **Merged pull requests:**
 
-- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 - Updated Tile's back Image [\#53](https://github.com/Online-Memory/online-memory/pull/53) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
@@ -332,6 +339,10 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
+
+**Merged pull requests:**
+
+- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/Online-Memory/online-memory/tree/v0.11.2) (2020-04-10)
 
@@ -419,7 +430,6 @@
 
 **Merged pull requests:**
 
-- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 - New layout: Animals [\#6](https://github.com/Online-Memory/online-memory/pull/6) ([Thetawaves](https://github.com/Thetawaves))
 - User data refactoring [\#5](https://github.com/Online-Memory/online-memory/pull/5) ([andreasonny83](https://github.com/andreasonny83))
 - Royalty Free Images [\#4](https://github.com/Online-Memory/online-memory/pull/4) ([Thetawaves](https://github.com/Thetawaves))
