@@ -30,7 +30,12 @@ export const useStyles = makeStyles(theme => ({
     fontWeight: 500,
   },
   buttonHome: {
-    padding: '10px 25px',
+    padding: '10px 24px',
     fontSize: 24,
+
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 21px',
+      fontSize: 18,
+    },
   },
 }));

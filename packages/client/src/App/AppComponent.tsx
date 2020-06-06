@@ -86,7 +86,7 @@ export const AppComponent: React.FC<Props> = memo(({ darkTheme, toggleDarkTheme,
             <Grid item xs>
               <Link href="/" color="inherit" className={classes.titleStyle}>
                 <img src={wmcIcon} alt="World Memory Challenge Icon" className={classes.wmcIcon} />
-                {isWidthDown('md', width) ? 'WMC' : 'World Memory Challenge'}
+                {isWidthDown('sm', width) ? 'WMC' : 'World Memory Challenge'}
               </Link>
             </Grid>
             <IconButton aria-label="Toggle light/dark theme" color="inherit" onClick={toggleDarkTheme}>

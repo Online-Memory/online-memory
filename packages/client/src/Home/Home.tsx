@@ -80,8 +80,8 @@ export const Home: React.FC = memo(() => {
               Spread the love, not the virus
             </Typography>
           </Grid>
-          <div className={classes.heroButtons}>
-            <Grid container direction="column" spacing={4}>
+          <Grid item container className={classes.heroButtons}>
+            <Grid item container direction="column" spacing={4}>
               <Grid item container direction="row" justify="space-around" alignItems="center">
                 <Grid item>
                   <LinkUI to="/new" className={classes.linkButton}>
@@ -124,7 +124,7 @@ export const Home: React.FC = memo(() => {
                 </Grid>
               )}
             </Grid>
-          </div>
+          </Grid>
         </Grid>
       </Container>
     </div>

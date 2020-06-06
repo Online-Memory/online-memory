@@ -1,6 +1,16 @@
 import React, { memo, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Container, Grid, Card, CardContent, Typography, CircularProgress } from '@material-ui/core';
+import {
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  CircularProgress,
+  withWidth,
+  WithWidth,
+  isWidthDown,
+} from '@material-ui/core';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Component } from './GameSetupComponent';
 import { CREATE_GAME, GET_TEMPLATES, INVITE_USER } from '../graphql';
@@ -8,7 +18,7 @@ import { Template } from './types';
 import { useStyles } from './styles';
 import { useAppState } from '../AppState';
 
-export const GameSetup = memo(() => {
+const GameSetupComponent: React.FC<WithWidth> = memo(({ width }) => {
   const classes = useStyles();
   const { playAgainData, clearPlayAgainData, user, userFriends } = useAppState();
   const { data: templatesData, loading: templatesLoading, error: templatesError } = useQuery<{ templates: Template[] }>(
@@ -115,6 +125,9 @@ export const GameSetup = memo(() => {
       playAgainData={playAgainData}
       onSubmit={handleSubmit}
       userFriends={userFriends}
+      isMobile={isWidthDown('sm', width)}
     />
   );
 });
+
+export const GameSetup = withWidth()(GameSetupComponent);

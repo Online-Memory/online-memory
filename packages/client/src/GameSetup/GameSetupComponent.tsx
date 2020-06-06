@@ -27,26 +27,36 @@ import { Tile, GameData } from '../Game/types';
 import { UserFriend } from '../AppState';
 import { Link as LinkUI } from 'react-router-dom';
 
-const sampleTiles: Tile[] = [
-  { id: 1, ref: '000', status: 'show' },
-  { id: 2, ref: '001', status: 'show' },
-  { id: 3, ref: '002', status: 'show' },
-  { id: 4, ref: '003', status: 'show' },
-  { id: 5, ref: '004', status: 'show' },
-  { id: 6, ref: '005', status: 'show' },
-  { id: 7, ref: '006', status: 'show' },
-];
+const getSampleTiles = (small: boolean): Tile[] => {
+  return small
+    ? [
+        { id: 1, ref: '000', status: 'show' },
+        { id: 2, ref: '001', status: 'show' },
+        { id: 3, ref: '002', status: 'show' },
+        { id: 4, ref: '003', status: 'show' },
+      ]
+    : [
+        { id: 1, ref: '000', status: 'show' },
+        { id: 2, ref: '001', status: 'show' },
+        { id: 3, ref: '002', status: 'show' },
+        { id: 4, ref: '003', status: 'show' },
+        { id: 5, ref: '004', status: 'show' },
+        { id: 6, ref: '005', status: 'show' },
+        { id: 7, ref: '006', status: 'show' },
+      ];
+};
 
 interface Props {
   templates: Template[];
   userFriends: UserFriend[];
+  isMobile: boolean;
   playAgainData?: GameData;
   onSubmit: any;
 }
 
 const GAME_TILES = [100, 72, 48, 36, 24, 16];
 
-export const Component: React.FC<Props> = memo(({ templates, playAgainData, onSubmit, userFriends }) => {
+export const Component: React.FC<Props> = memo(({ templates, playAgainData, onSubmit, userFriends, isMobile }) => {
   const classes = useStyles();
   const playAgainUsers =
     playAgainData?.users?.map(user => ({
@@ -151,7 +161,7 @@ export const Component: React.FC<Props> = memo(({ templates, playAgainData, onSu
                 </Grid>
 
                 <Grid item container className={classes.tileSamplesContainer}>
-                  {sampleTiles.map((tile, index) => (
+                  {getSampleTiles(isMobile).map((tile, index) => (
                     <TileComponent
                       key={`tile_${tile.id}`}
                       tile={{

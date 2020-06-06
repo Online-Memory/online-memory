@@ -15503,10 +15503,10 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-browser-notifications@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/use-browser-notifications/-/use-browser-notifications-0.3.0.tgz#576343dd0a83ad5f852f41ab975a947e8ec18de9"
-  integrity sha512-g4rMsI6rUInkZKlmy2lQ15YJ57d4wKirllWr1MPE1N3Bfx3JpgunyxCFMMrKDCvbyDpoB2larzV14SDZLGBhVQ==
+use-browser-notifications@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/use-browser-notifications/-/use-browser-notifications-0.3.2.tgz#0202f9c0ce853b341d4bb6a935d5cc3772b5007b"
+  integrity sha512-6mcurb5QxJ65mrhdJk2plYJ3461XkIfisY3j5MXUQ8JG9SKffve9gpx8fZzIGl0yp5JJPWD5plHd9Zz2KTT9KA==
 
 use-sound@^1.0.2:
   version "1.0.2"
