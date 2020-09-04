@@ -177,10 +177,6 @@
 
 - chore\(userAuth\): Redesign user authentication flow [\#65](https://github.com/Online-Memory/online-memory/pull/65) ([andreasonny83](https://github.com/andreasonny83))
 
-**Merged pull requests:**
-
-- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
-
 ## [v0.21.0](https://github.com/Online-Memory/online-memory/tree/v0.21.0) (2020-04-24)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.20.7...v0.21.0)
@@ -188,6 +184,10 @@
 **Implemented enhancements:**
 
 - Add users to new game [\#64](https://github.com/Online-Memory/online-memory/issues/64)
+
+**Merged pull requests:**
+
+- Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.20.7](https://github.com/Online-Memory/online-memory/tree/v0.20.7) (2020-04-22)
 
@@ -245,6 +245,7 @@
 
 **Merged pull requests:**
 
+- feat\(core\): Show online users [\#71](https://github.com/Online-Memory/online-memory/pull/71) ([andreasonny83](https://github.com/andreasonny83))
 - Update and New template [\#58](https://github.com/Online-Memory/online-memory/pull/58) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.18.1](https://github.com/Online-Memory/online-memory/tree/v0.18.1) (2020-04-19)
@@ -291,7 +292,6 @@
 
 **Merged pull requests:**
 
-- Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
 - refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/Online-Memory/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.15.0](https://github.com/Online-Memory/online-memory/tree/v0.15.0) (2020-04-12)
@@ -300,15 +300,10 @@
 
 **Implemented enhancements:**
 
-- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
 - feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
-
-**Fixed bugs:**
-
-- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
@@ -337,6 +332,10 @@
 ## [v0.12.0](https://github.com/Online-Memory/online-memory/tree/v0.12.0) (2020-04-10)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.11.2...v0.12.0)
+
+**Implemented enhancements:**
+
+- Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
 
 **Merged pull requests:**
 
@@ -413,6 +412,10 @@
 
 - Remove players from game setup [\#11](https://github.com/Online-Memory/online-memory/issues/11)
 - Service Workers [\#10](https://github.com/Online-Memory/online-memory/issues/10)
+
+**Fixed bugs:**
+
+- Buy me a coffee [\#9](https://github.com/Online-Memory/online-memory/issues/9)
 
 ## [v0.5.0](https://github.com/Online-Memory/online-memory/tree/v0.5.0) (2020-04-04)
 
