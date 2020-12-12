@@ -189,6 +189,10 @@
 
 - Add users to new game [\#64](https://github.com/Online-Memory/online-memory/issues/64)
 
+**Merged pull requests:**
+
+- Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
+
 ## [v0.20.7](https://github.com/Online-Memory/online-memory/tree/v0.20.7) (2020-04-22)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.20.6...v0.20.7)
@@ -279,7 +283,6 @@
 
 **Merged pull requests:**
 
-- Dark and Light Themes for Home page [\#63](https://github.com/Online-Memory/online-memory/pull/63) ([Thetawaves](https://github.com/Thetawaves))
 - Tile Updates [\#49](https://github.com/Online-Memory/online-memory/pull/49) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.16.0](https://github.com/Online-Memory/online-memory/tree/v0.16.0) (2020-04-15)
