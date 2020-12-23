@@ -84,6 +84,9 @@ Then make sure your AWS credentials are available to Severless. (Follow the offi
 
 Then just run the following Yarn script to make use of AWS Cloud Formation for creating all the required AWS services.
 
+Note: Make sure to use the correct Account ID. This is your AWS Account Id and can be found
+under the dropdown menu in the AWS toolbar.
+
 ```sh
 $ ACCOUNT_ID={YOUR_AWS_ACCOUNT_ID_HERE} yarn server:dev:deploy
 ```

@@ -8,9 +8,13 @@ import { GameData } from './types';
 import { GameComponent } from './GameComponent';
 import { useStyles } from './styles';
 
+interface ParamTypes {
+  id: string;
+}
+
 export const Game: React.FC = memo(() => {
   const classes = useStyles();
-  const { id } = useParams();
+  const { id } = useParams<ParamTypes>();
   const { user } = useAppState();
   const [skip, setSkip] = useState<boolean>(true);
   const [_loading, _setLoading] = useState<boolean>(false);
@@ -108,6 +112,9 @@ export const Game: React.FC = memo(() => {
 
   const error = dataError || subError;
   const loading = _loading || dataLoading || claimPlayerLoading || checkoutTileLoading || playTurnLoading || subLoading;
+
+  console.warn('loading', loading);
+  console.warn(_loading, dataLoading, claimPlayerLoading, checkoutTileLoading, playTurnLoading, subLoading);
 
   if (dataLoading || !user || !user.id) {
     return (
