@@ -1,5 +1,6 @@
 # Online Memory
 
+test
 ![Ruby](https://github.com/Online-Memory/online-memory/workflows/Ruby/badge.svg?branch=master)
 
 <p align="center">
