@@ -100,7 +100,6 @@
 
 - Search user [\#25](https://github.com/Online-Memory/online-memory/issues/25)
 - Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
-- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -117,6 +116,10 @@
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
+
+**Implemented enhancements:**
+
+- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -292,6 +295,7 @@
 **Implemented enhancements:**
 
 - Delete active games [\#46](https://github.com/Online-Memory/online-memory/issues/46)
+- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -306,7 +310,6 @@
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
-- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
