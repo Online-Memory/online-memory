@@ -52,10 +52,6 @@
 
 - feat\(client\): Add client side Browser notifications [\#83](https://github.com/Online-Memory/online-memory/pull/83) ([andreasonny83](https://github.com/andreasonny83))
 
-**Merged pull requests:**
-
-- style\(core\): Friends flow improved and minor UI fixes [\#82](https://github.com/Online-Memory/online-memory/pull/82) ([andreasonny83](https://github.com/andreasonny83))
-
 ## [v0.32.0](https://github.com/Online-Memory/online-memory/tree/v0.32.0) (2020-05-18)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.31.1...v0.32.0)
@@ -100,6 +96,7 @@
 
 - Search user [\#25](https://github.com/Online-Memory/online-memory/issues/25)
 - Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
+- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -117,12 +114,9 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
 
-**Implemented enhancements:**
-
-- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
-
 **Merged pull requests:**
 
+- style\(core\): Friends flow improved and minor UI fixes [\#82](https://github.com/Online-Memory/online-memory/pull/82) ([andreasonny83](https://github.com/andreasonny83))
 - New template: Frutta e verdure [\#76](https://github.com/Online-Memory/online-memory/pull/76) ([Thetawaves](https://github.com/Thetawaves))
 - style\(client\): Update template [\#75](https://github.com/Online-Memory/online-memory/pull/75) ([Thetawaves](https://github.com/Thetawaves))
 
@@ -179,10 +173,6 @@
 ## [v0.22.0](https://github.com/Online-Memory/online-memory/tree/v0.22.0) (2020-04-26)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.21.0...v0.22.0)
-
-**Implemented enhancements:**
-
-- chore\(userAuth\): Redesign user authentication flow [\#65](https://github.com/Online-Memory/online-memory/pull/65) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.21.0](https://github.com/Online-Memory/online-memory/tree/v0.21.0) (2020-04-24)
 
@@ -272,10 +262,6 @@
 - Game Statistics [\#21](https://github.com/Online-Memory/online-memory/issues/21)
 - Remove turn confirmation from solo mode [\#15](https://github.com/Online-Memory/online-memory/issues/15)
 
-**Merged pull requests:**
-
-- Updated Tile's back Image [\#53](https://github.com/Online-Memory/online-memory/pull/53) ([Thetawaves](https://github.com/Thetawaves))
-
 ## [v0.17.0](https://github.com/Online-Memory/online-memory/tree/v0.17.0) (2020-04-17)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.16.0...v0.17.0)
@@ -295,10 +281,10 @@
 **Implemented enhancements:**
 
 - Delete active games [\#46](https://github.com/Online-Memory/online-memory/issues/46)
-- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
+- Updated Tile's back Image [\#53](https://github.com/Online-Memory/online-memory/pull/53) ([Thetawaves](https://github.com/Thetawaves))
 - refactor\(appState and userGames\): Create AppState getUserGames query [\#48](https://github.com/Online-Memory/online-memory/pull/48) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.15.0](https://github.com/Online-Memory/online-memory/tree/v0.15.0) (2020-04-12)
@@ -310,6 +296,7 @@
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
+- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
