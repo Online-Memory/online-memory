@@ -147,10 +147,6 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.24.0...v0.25.0)
 
-**Implemented enhancements:**
-
-- Game status animations [\#69](https://github.com/Online-Memory/online-memory/issues/69)
-
 ## [v0.24.0](https://github.com/Online-Memory/online-memory/tree/v0.24.0) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.23.1...v0.24.0)
@@ -187,6 +183,7 @@
 
 **Implemented enhancements:**
 
+- Game status animations [\#69](https://github.com/Online-Memory/online-memory/issues/69)
 - Add users to new game [\#64](https://github.com/Online-Memory/online-memory/issues/64)
 
 **Merged pull requests:**
@@ -306,6 +303,7 @@
 - Redesign authentication views [\#33](https://github.com/Online-Memory/online-memory/issues/33)
 - Loading spinners everywhere [\#13](https://github.com/Online-Memory/online-memory/issues/13)
 - Play again [\#7](https://github.com/Online-Memory/online-memory/issues/7)
+- feat\(client\): Auto focus on Join game [\#45](https://github.com/Online-Memory/online-memory/pull/45) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.14.0](https://github.com/Online-Memory/online-memory/tree/v0.14.0) (2020-04-11)
 
