@@ -147,6 +147,10 @@
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.24.0...v0.25.0)
 
+**Implemented enhancements:**
+
+- Game status animations [\#69](https://github.com/Online-Memory/online-memory/issues/69)
+
 ## [v0.24.0](https://github.com/Online-Memory/online-memory/tree/v0.24.0) (2020-04-28)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.23.1...v0.24.0)
@@ -183,7 +187,6 @@
 
 **Implemented enhancements:**
 
-- Game status animations [\#69](https://github.com/Online-Memory/online-memory/issues/69)
 - Add users to new game [\#64](https://github.com/Online-Memory/online-memory/issues/64)
 
 **Merged pull requests:**
@@ -319,6 +322,7 @@
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
 - feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
+- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
 
@@ -336,10 +340,6 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
-
-**Merged pull requests:**
-
-- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/Online-Memory/online-memory/tree/v0.11.2) (2020-04-10)
 
