@@ -44,6 +44,10 @@
 
 - Legals and Cookie policy [\#26](https://github.com/Online-Memory/online-memory/issues/26)
 
+**Fixed bugs:**
+
+- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
+
 ## [v0.33.0](https://github.com/Online-Memory/online-memory/tree/v0.33.0) (2020-05-24)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.32.0...v0.33.0)
@@ -322,7 +326,6 @@
 - refactor\(server\): Update grid sized in templates [\#44](https://github.com/Online-Memory/online-memory/pull/44) ([andreasonny83](https://github.com/andreasonny83))
 - feat\(Dashboard\): Add user dashboard [\#43](https://github.com/Online-Memory/online-memory/pull/43) ([andreasonny83](https://github.com/andreasonny83))
 - Updated template: Kids [\#41](https://github.com/Online-Memory/online-memory/pull/41) ([Thetawaves](https://github.com/Thetawaves))
-- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.13.0](https://github.com/Online-Memory/online-memory/tree/v0.13.0) (2020-04-11)
 
@@ -340,6 +343,10 @@
 **Implemented enhancements:**
 
 - Add kids template [\#37](https://github.com/Online-Memory/online-memory/issues/37)
+
+**Merged pull requests:**
+
+- New template: Pixel Drawings [\#38](https://github.com/Online-Memory/online-memory/pull/38) ([Thetawaves](https://github.com/Thetawaves))
 
 ## [v0.11.2](https://github.com/Online-Memory/online-memory/tree/v0.11.2) (2020-04-10)
 
@@ -398,7 +405,6 @@
 **Fixed bugs:**
 
 - Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
-- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
 
