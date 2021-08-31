@@ -44,10 +44,6 @@
 
 - Legals and Cookie policy [\#26](https://github.com/Online-Memory/online-memory/issues/26)
 
-**Fixed bugs:**
-
-- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
-
 ## [v0.33.0](https://github.com/Online-Memory/online-memory/tree/v0.33.0) (2020-05-24)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.32.0...v0.33.0)
@@ -104,7 +100,6 @@
 
 - Search user [\#25](https://github.com/Online-Memory/online-memory/issues/25)
 - Redesign header [\#16](https://github.com/Online-Memory/online-memory/issues/16)
-- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -121,6 +116,10 @@
 ## [v0.27.0](https://github.com/Online-Memory/online-memory/tree/v0.27.0) (2020-05-04)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.26.1...v0.27.0)
+
+**Implemented enhancements:**
+
+- Star friends [\#78](https://github.com/Online-Memory/online-memory/pull/78) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -180,10 +179,6 @@
 ## [v0.22.0](https://github.com/Online-Memory/online-memory/tree/v0.22.0) (2020-04-26)
 
 [Full Changelog](https://github.com/Online-Memory/online-memory/compare/v0.21.0...v0.22.0)
-
-**Implemented enhancements:**
-
-- chore\(userAuth\): Redesign user authentication flow [\#65](https://github.com/Online-Memory/online-memory/pull/65) ([andreasonny83](https://github.com/andreasonny83))
 
 ## [v0.21.0](https://github.com/Online-Memory/online-memory/tree/v0.21.0) (2020-04-24)
 
@@ -284,6 +279,7 @@
 **Implemented enhancements:**
 
 - Solo mode [\#20](https://github.com/Online-Memory/online-memory/issues/20)
+- chore\(userAuth\): Redesign user authentication flow [\#65](https://github.com/Online-Memory/online-memory/pull/65) ([andreasonny83](https://github.com/andreasonny83))
 
 **Merged pull requests:**
 
@@ -405,6 +401,7 @@
 **Fixed bugs:**
 
 - Missing game id in new games [\#30](https://github.com/Online-Memory/online-memory/issues/30)
+- You are the game host showing for guests users [\#29](https://github.com/Online-Memory/online-memory/issues/29)
 
 ## [v0.7.0](https://github.com/Online-Memory/online-memory/tree/v0.7.0) (2020-04-07)
 
